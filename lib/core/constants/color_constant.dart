@@ -7,4 +7,5 @@ class AppColors {
   static Color darkBlue = HexColor("#5142AB");
   static Color lightOrange = HexColor("#FF8354");
   static Color white = Colors.white;
+  static Color black = Colors.black;
 }
