@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:health_tracking_app/core/constants/color_constant.dart';
 import 'package:health_tracking_app/core/constants/text_styles.dart';
+import 'package:health_tracking_app/core/helper/helper.dart';
+import 'package:health_tracking_app/core/widgets/const_size_box.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -9,78 +12,44 @@ class HomePage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 100,
-        ),
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "Hello World",
-                style: AppTextStyles.text12(
-                  bold: false,
-                  size: size,
+        padding: EdgeInsets.only(
+            left: size.width * 0.06,
+            right: size.width * 0.06,
+            top: size.height * 0.08,
+            bottom: size.height * 0.04),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "For today",
+                      style: AppTextStyles.text28(bold: true, size: size),
+                    ),
+                    AppConstSizeBox.constHightSizedBox(size.height * 0.01),
+                    Text(
+                      "${Helper.getGreeting()}, Jay!",
+                      style: AppTextStyles.text18(bold: false, size: size)
+                          .copyWith(
+                        color: AppColors.grey,
+                      ),
+                    )
+                  ],
                 ),
-              ),
-              Text(
-                "Hello World",
-                style: AppTextStyles.text14(
-                  bold: false,
-                  size: size,
-                ),
-              ),
-              Text(
-                "Hello World",
-                style: AppTextStyles.text16(
-                  bold: false,
-                  size: size,
-                ),
-              ),
-              Text(
-                "Hello World",
-                style: AppTextStyles.text18(
-                  bold: false,
-                  size: size,
-                ),
-              ),
-              Text(
-                "Hello World",
-                style: AppTextStyles.text20(
-                  bold: false,
-                  size: size,
-                ),
-              ),
-              Text(
-                "Hello World",
-                style: AppTextStyles.text22(
-                  bold: false,
-                  size: size,
-                ),
-              ),
-              Text(
-                "Hello World",
-                style: AppTextStyles.text24(
-                  bold: false,
-                  size: size,
-                ),
-              ),
-              Text(
-                "Hello World",
-                style: AppTextStyles.text26(
-                  bold: false,
-                  size: size,
-                ),
-              ),
-              Text(
-                "Hello World",
-                style: AppTextStyles.text28(
-                  bold: false,
-                  size: size,
-                ),
-              ),
-            ],
-          ),
+                Container(
+                  height: 80,
+                  width: 80,
+                  decoration: const BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.circle,
+                  ),
+                )
+              ],
+            )
+          ],
         ),
       ),
     );
