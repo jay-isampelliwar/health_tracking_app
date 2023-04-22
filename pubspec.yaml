@@ -82,10 +82,10 @@ flutter:
   fonts:
     - family: GilroyBold
       fonts:
-        - asset: lib/assets/fonts/Gilroy-Bold.otf
-    - family: GilroyLight
+        - asset: lib/assets/fonts/Gilroy-Bold.ttf
+    - family: GilroyRegular
       fonts:
-        - asset: lib/assets/fonts/Gilroy-Light.otf
+        - asset: lib/assets/fonts/Gilroy-Regular.ttf
 
   #
   # For details regarding fonts from package dependencies,
