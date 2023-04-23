@@ -6,6 +6,8 @@ import 'package:health_tracking_app/core/constants/text_styles.dart';
 import 'package:health_tracking_app/core/helper/helper.dart';
 import 'package:health_tracking_app/core/widgets/const_size_box.dart';
 
+import 'temp/app_custom_clipper.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -71,13 +73,14 @@ class HomePage extends StatelessWidget {
                         color: AppColors.darkBlue,
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: size.width * 0.03),
-                            child: ContainerRow(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: size.width * 0.03,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ContainerRow(
                               title: "Walk",
                               color: AppColors.white,
                               second: Image.asset(
@@ -87,43 +90,47 @@ class HomePage extends StatelessWidget {
                                 color: AppColors.white,
                               ),
                             ),
-                          ),
-                          AppConstSizeBox.constHightSizedBox(
-                              size.height * 0.08),
-                          SizedBox(
-                            child: CustomPaint(
-                              foregroundPainter: StepProgressIndicator(
-                                step: 7500,
-                              ),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    "7549",
-                                    style: AppTextStyles.text14(
-                                            bold: false, size: size)
-                                        .copyWith(
-                                      color: AppColors.white,
+                            AppConstSizeBox.constHightSizedBox(
+                                size.height * 0.08),
+                            SizedBox(
+                              child: CustomPaint(
+                                foregroundPainter: StepProgressIndicator(
+                                  step: 7500,
+                                ),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "7549",
+                                      style: AppTextStyles.text14(
+                                              bold: false, size: size)
+                                          .copyWith(
+                                        color: AppColors.white,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    "steps",
-                                    style: AppTextStyles.text14(
-                                            bold: false, size: size)
-                                        .copyWith(
-                                      color: AppColors.grey.withOpacity(0.5),
+                                    Text(
+                                      "steps",
+                                      style: AppTextStyles.text14(
+                                              bold: false, size: size)
+                                          .copyWith(
+                                        color: AppColors.grey.withOpacity(0.5),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
                   AppConstSizeBox.constWidthSizedBox(size.width * 0.04),
                   Expanded(
                     child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: size.width * 0.02,
+                        vertical: size.height * 0.02,
+                      ),
                       margin:
                           EdgeInsets.symmetric(horizontal: size.width * 0.01),
                       decoration: BoxDecoration(
@@ -132,8 +139,8 @@ class HomePage extends StatelessWidget {
                       ),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
-                            horizontal: size.width * 0.03,
-                            vertical: size.height * 0.02),
+                          horizontal: size.width * 0.03,
+                        ),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -180,6 +187,10 @@ class HomePage extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: size.width * 0.02,
+                              vertical: size.height * 0.02,
+                            ),
                             margin: EdgeInsets.symmetric(
                                 horizontal: size.width * 0.01),
                             decoration: BoxDecoration(
@@ -187,17 +198,93 @@ class HomePage extends StatelessWidget {
                                   Border.all(width: 1, color: AppColors.grey),
                               borderRadius: BorderRadius.circular(30),
                             ),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: size.width * 0.03,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ContainerRow(
+                                      title: "Calories",
+                                      second: Text(
+                                        "🔥",
+                                        style: AppTextStyles.text18(
+                                            bold: false, size: size),
+                                      ),
+                                      color: AppColors.black),
+                                  const Spacer(),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "1.55",
+                                        style: AppTextStyles.text18(
+                                            bold: true, size: size),
+                                      ),
+                                      Text(
+                                        "Liters",
+                                        style: AppTextStyles.text18(
+                                                bold: true, size: size)
+                                            .copyWith(color: AppColors.grey),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                         AppConstSizeBox.constHightSizedBox(size.height * 0.02),
                         Expanded(
                           child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: size.width * 0.02,
+                              vertical: size.height * 0.02,
+                            ),
                             margin: EdgeInsets.symmetric(
                                 horizontal: size.width * 0.01),
                             decoration: BoxDecoration(
                               border:
                                   Border.all(width: 1, color: AppColors.grey),
                               borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: size.width * 0.03,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ContainerRow(
+                                      title: "Calories",
+                                      second: Text(
+                                        "🛌🏿",
+                                        style: AppTextStyles.text18(
+                                            bold: false, size: size),
+                                      ),
+                                      color: AppColors.black),
+                                  const Spacer(),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "08:32",
+                                        style: AppTextStyles.text18(
+                                            bold: true, size: size),
+                                      ),
+                                      Text(
+                                        "Sleep",
+                                        style: AppTextStyles.text18(
+                                                bold: true, size: size)
+                                            .copyWith(color: AppColors.grey),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -206,13 +293,77 @@ class HomePage extends StatelessWidget {
                   ),
                   AppConstSizeBox.constWidthSizedBox(size.width * 0.048),
                   Expanded(
-                      child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: size.width * 0.01),
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: AppColors.grey),
-                      borderRadius: BorderRadius.circular(30),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        vertical: size.height * 0.02,
+                      ),
+                      margin:
+                          EdgeInsets.symmetric(horizontal: size.width * 0.01),
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: AppColors.grey),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: size.width * 0.05,
+                            ),
+                            child: ContainerRow(
+                                title: "Heart",
+                                second: Text(
+                                  "❤",
+                                  style: AppTextStyles.text18(
+                                      bold: false, size: size),
+                                ),
+                                color: AppColors.black),
+                          ),
+                          Expanded(
+                            child: ClipPath(
+                              clipBehavior: Clip.hardEdge,
+                              clipper: AppCustomClipper(),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      AppColors.heartBar.withOpacity(0.8),
+                                      Colors.grey.shade100,
+                                      AppColors.white
+                                    ],
+                                    stops: const [0.35, 0.6, 0.8],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: size.width * 0.05,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "105",
+                                  style: AppTextStyles.text18(
+                                      bold: true, size: size),
+                                ),
+                                Text(
+                                  "bpm",
+                                  style: AppTextStyles.text18(
+                                          bold: true, size: size)
+                                      .copyWith(color: AppColors.grey),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  ))
+                  )
                 ],
               ),
             ),
