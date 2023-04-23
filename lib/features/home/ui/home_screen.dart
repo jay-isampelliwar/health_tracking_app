@@ -6,6 +6,8 @@ import 'package:health_tracking_app/core/constants/text_styles.dart';
 import 'package:health_tracking_app/core/helper/helper.dart';
 import 'package:health_tracking_app/core/widgets/app_bottom_navbar.dart';
 import 'package:health_tracking_app/core/widgets/const_size_box.dart';
+import 'package:wave/config.dart';
+import 'package:wave/wave.dart';
 
 import 'temp/app_custom_clipper.dart';
 
@@ -129,38 +131,55 @@ class HomePage extends StatelessWidget {
                   AppConstSizeBox.constWidthSizedBox(size.width * 0.04),
                   Expanded(
                     child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: size.width * 0.02,
-                        vertical: size.height * 0.02,
-                      ),
+                      clipBehavior: Clip.hardEdge,
                       margin:
                           EdgeInsets.symmetric(horizontal: size.width * 0.01),
                       decoration: BoxDecoration(
                         border: Border.all(width: 1, color: AppColors.grey),
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: size.width * 0.03,
+                      child: Stack(children: [
+                        WaveWidget(
+                          config: CustomConfig(
+                            colors: [
+                              AppColors.waterColorShade1,
+                              AppColors.waterColorShade2,
+                            ],
+                            durations: [
+                              10000,
+                              12000,
+                            ],
+                            heightPercentages: [0.55, 0.60],
+                          ),
+                          backgroundColor: AppColors.white,
+                          size: const Size(double.infinity, double.infinity),
+                          waveAmplitude: 0,
                         ),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ContainerRow(
-                                  title: "Water",
-                                  color: AppColors.black,
-                                  second: Text(
-                                    "💧",
-                                    style: AppTextStyles.text18(
-                                        bold: false, size: size),
-                                  )),
-                              const Spacer(),
-                              const ContainerBottomColumn(
-                                title: "liters",
-                                value: "1.55",
-                              ),
-                            ]),
-                      ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: size.width * 0.05,
+                            vertical: size.height * 0.02,
+                          ),
+                          child: ContainerRow(
+                              title: "Water",
+                              color: AppColors.black,
+                              second: Text(
+                                "💧",
+                                style: AppTextStyles.text18(
+                                    bold: false, size: size),
+                              )),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: size.height * 0.175,
+                              left: size.width * 0.05),
+                          child: ContainerBottomColumn(
+                            title: "liters",
+                            value: "1.55",
+                            color: AppColors.white,
+                          ),
+                        ),
+                      ]),
                     ),
                   ),
                 ],
@@ -251,9 +270,10 @@ class HomePage extends StatelessWidget {
                             padding: EdgeInsets.symmetric(
                               horizontal: size.width * 0.05,
                             ),
-                            child: const ContainerBottomColumn(
+                            child: ContainerBottomColumn(
                               title: "bpm",
                               value: "105",
+                              color: AppColors.black,
                             ),
                           )
                         ],
@@ -310,7 +330,11 @@ class SquareContainer extends StatelessWidget {
                 color: AppColors.black,
               ),
               const Spacer(),
-              ContainerBottomColumn(value: value, title: subTitle),
+              ContainerBottomColumn(
+                value: value,
+                title: subTitle,
+                color: AppColors.black,
+              ),
             ],
           ),
         ),
@@ -320,14 +344,13 @@ class SquareContainer extends StatelessWidget {
 }
 
 class ContainerBottomColumn extends StatelessWidget {
-  const ContainerBottomColumn({
-    Key? key,
-    required this.value,
-    required this.title,
-  }) : super(key: key);
+  ContainerBottomColumn(
+      {Key? key, required this.value, required this.title, required this.color})
+      : super(key: key);
 
   final String value;
   final String title;
+  Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -337,7 +360,8 @@ class ContainerBottomColumn extends StatelessWidget {
       children: [
         Text(
           value,
-          style: AppTextStyles.text18(bold: true, size: size),
+          style: AppTextStyles.text18(bold: true, size: size)
+              .copyWith(color: color),
         ),
         Text(
           title,
