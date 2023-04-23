@@ -41,6 +41,7 @@ dependencies:
   # pedometer: ^3.0.0
   http: ^0.13.5
   hexcolor: ^2.0.7
+  curved_navigation_bar: ^1.0.3
 
 dev_dependencies:
   flutter_test:
