@@ -151,6 +151,7 @@ class _StatsState extends State<Stats> {
               child: Row(
                 children: [
                   const WaterContainer(),
+                  AppConstSizeBox.constWidthSizedBox(size.width * 0.04),
                   Expanded(
                     child: Container(
                       clipBehavior: Clip.hardEdge,

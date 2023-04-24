@@ -17,7 +17,7 @@ class WaterContainer extends StatelessWidget {
     return Expanded(
       child: Container(
         clipBehavior: Clip.hardEdge,
-        margin: EdgeInsets.symmetric(horizontal: size.width * 0.01),
+        // margin: EdgeInsets.symmetric(horizontal: size.width * 0.01),
         decoration: BoxDecoration(
           border: Border.all(width: 1, color: AppColors.grey),
           borderRadius: BorderRadius.circular(size.width * 0.07),
