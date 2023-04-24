@@ -4,6 +4,7 @@ import 'package:health_tracking_app/core/constants/text_styles.dart';
 import 'package:health_tracking_app/core/widgets/app_custom_app_bar.dart';
 import 'package:health_tracking_app/core/widgets/app_water_container.dart';
 import 'package:health_tracking_app/core/widgets/heart_container.dart';
+import 'package:health_tracking_app/features/home/ui/home_screen.dart';
 
 import '../../../core/widgets/const_size_box.dart';
 
@@ -151,16 +152,43 @@ class _StatsState extends State<Stats> {
                 children: [
                   const WaterContainer(),
                   Expanded(
-                      child: Container(
-                    clipBehavior: Clip.hardEdge,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: AppColors.grey,
-                        width: 1,
+                    child: Container(
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: AppColors.grey,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(size.width * 0.07),
                       ),
+                      child: Stack(children: [
+                        const HeartStats(),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: size.height * 0.02,
+                              horizontal: size.width * 0.05),
+                          child: ContainerRow(
+                            title: "Heart",
+                            second: Text(
+                              "❤",
+                              style:
+                                  AppTextStyles.text18(bold: false, size: size),
+                            ),
+                            color: AppColors.black,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: size.height * 0.175,
+                              left: size.width * 0.05),
+                          child: ContainerBottomColumn(
+                              value: "108",
+                              title: "bpm",
+                              color: AppColors.black),
+                        )
+                      ]),
                     ),
-                    child: Stack(children: const [HeartStats()]),
-                  ))
+                  )
                 ],
               ),
             ),
