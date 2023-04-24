@@ -5,6 +5,7 @@ import 'package:health_tracking_app/core/constants/color_constant.dart';
 import 'package:health_tracking_app/core/constants/text_styles.dart';
 import 'package:health_tracking_app/core/widgets/app_bottom_navbar.dart';
 import 'package:health_tracking_app/core/widgets/const_size_box.dart';
+import 'package:health_tracking_app/features/stats/ui/stats.dart';
 
 import '../../../core/helper/helper.dart';
 import '../../../core/widgets/app_custom_app_bar.dart';
@@ -29,9 +30,15 @@ class HomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomAppBar(
-              title: "For today",
-              subtitle: "${Helper.getGreeting()}, Jay!",
+            GestureDetector(
+              onDoubleTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Stats()));
+              },
+              child: CustomAppBar(
+                title: "For today",
+                subtitle: "${Helper.getGreeting()}, Jay!",
+              ),
             ),
             AppConstSizeBox.constHightSizedBox(size.height * 0.04),
             SizedBox(
@@ -266,7 +273,8 @@ class ContainerBottomColumn extends StatelessWidget {
       children: [
         Text(
           value,
-          style: AppTextStyles.text18(bold: true, size: size),
+          style: AppTextStyles.text18(bold: true, size: size)
+              .copyWith(color: color),
         ),
         Text(
           title,
