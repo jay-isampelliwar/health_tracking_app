@@ -10,7 +10,6 @@ import '../../../core/helper/helper.dart';
 import '../../../core/widgets/app_custom_app_bar.dart';
 import '../../../core/widgets/app_water_container.dart';
 import '../../../core/widgets/heart_container.dart';
-import 'temp/app_custom_clipper.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -174,9 +173,10 @@ class HomePage extends StatelessWidget {
                             padding: EdgeInsets.symmetric(
                               horizontal: size.width * 0.05,
                             ),
-                            child: const ContainerBottomColumn(
+                            child: ContainerBottomColumn(
                               title: "bpm",
                               value: "105",
+                              color: AppColors.black,
                             ),
                           )
                         ],
@@ -233,7 +233,11 @@ class SquareContainer extends StatelessWidget {
                 color: AppColors.black,
               ),
               const Spacer(),
-              ContainerBottomColumn(value: value, title: subTitle),
+              ContainerBottomColumn(
+                value: value,
+                title: subTitle,
+                color: AppColors.black,
+              ),
             ],
           ),
         ),
@@ -247,10 +251,12 @@ class ContainerBottomColumn extends StatelessWidget {
     Key? key,
     required this.value,
     required this.title,
+    required this.color,
   }) : super(key: key);
 
   final String value;
   final String title;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
