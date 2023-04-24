@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wave/config.dart';
+import 'package:wave/wave.dart';
 
 import '../../features/home/ui/home_screen.dart';
 import '../constants/color_constant.dart';
@@ -14,35 +16,52 @@ class WaterContainer extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Expanded(
       child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: size.width * 0.02,
-          vertical: size.height * 0.02,
-        ),
+        clipBehavior: Clip.hardEdge,
         margin: EdgeInsets.symmetric(horizontal: size.width * 0.01),
         decoration: BoxDecoration(
           border: Border.all(width: 1, color: AppColors.grey),
           borderRadius: BorderRadius.circular(30),
         ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: size.width * 0.03,
+        child: Stack(children: [
+          WaveWidget(
+            config: CustomConfig(
+              colors: [
+                // AppColors.waterColorShade1,
+                // AppColors.waterColorShade2,
+              ],
+              durations: [
+                10000,
+                12000,
+              ],
+              heightPercentages: [0.55, 0.60],
+            ),
+            backgroundColor: AppColors.white,
+            size: const Size(double.infinity, double.infinity),
+            waveAmplitude: 0,
           ),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            ContainerRow(
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: size.width * 0.05,
+              vertical: size.height * 0.02,
+            ),
+            child: ContainerRow(
                 title: "Water",
                 color: AppColors.black,
                 second: Text(
                   "💧",
                   style: AppTextStyles.text18(bold: false, size: size),
                 )),
-            const Spacer(),
-            const ContainerBottomColumn(
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+                top: size.height * 0.175, left: size.width * 0.05),
+            child: ContainerBottomColumn(
               title: "liters",
               value: "1.55",
+              color: AppColors.white,
             ),
-          ]),
-        ),
+          ),
+        ]),
       ),
     );
   }
