@@ -109,10 +109,10 @@ class _StatsState extends State<Stats> {
                     style: AppTextStyles.text18(bold: false, size: size)
                         .copyWith(color: AppColors.grey),
                   ),
-                  const Text(
+                  Text(
                     "7898",
                     style: TextStyle(
-                      fontSize: 88,
+                      fontSize: size.width * 0.2,
                       fontFamily: "GilroyBold",
                     ),
                   ),
