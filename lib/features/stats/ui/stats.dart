@@ -2,11 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:health_tracking_app/core/constants/color_constant.dart';
 import 'package:health_tracking_app/core/constants/text_styles.dart';
 import 'package:health_tracking_app/core/widgets/app_custom_app_bar.dart';
+import 'package:health_tracking_app/core/widgets/app_water_container.dart';
+import 'package:health_tracking_app/core/widgets/heart_container.dart';
 
 import '../../../core/widgets/const_size_box.dart';
 
-class Stats extends StatelessWidget {
+class Stats extends StatefulWidget {
   const Stats({Key? key}) : super(key: key);
+
+  @override
+  State<Stats> createState() => _StatsState();
+}
+
+class _StatsState extends State<Stats> {
+  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -21,21 +30,62 @@ class Stats extends StatelessWidget {
         ),
         child: Column(
           children: [
-            const CustomAppBar(),
+            CustomAppBar(
+              title: "Your Activity",
+              //!subtitle should change acc to the selected date
+              subtitle: "February 7",
+            ),
             AppConstSizeBox.constHightSizedBox(size.height * 0.03),
-            Expanded(
+            SizedBox(
+              height: size.height * 0.05,
               child: ListView.builder(
-                itemCount: 10,
+                itemCount: 27,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return Container(
-                    height: size.width * 0.05,
-                    width: size.width * 0.05,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.green,
-                    ),
-                  );
+                  return index == selectedIndex
+                      ? Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: size.width * 0.01),
+                          height: size.width * 0.15,
+                          width: size.width * 0.15,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border:
+                                Border.all(color: AppColors.darkBlue, width: 1),
+                            color: AppColors.grey,
+                          ),
+                          child: Align(
+                            child: Text(
+                              '${index + 3}',
+                              style:
+                                  AppTextStyles.text26(bold: true, size: size)
+                                      .copyWith(color: AppColors.darkBlue),
+                            ),
+                          ),
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedIndex = index;
+                            });
+                          },
+                          child: Container(
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: size.width * 0.01),
+                              height: size.width * 0.15,
+                              width: size.width * 0.15,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppColors.grey,
+                              ),
+                              child: Align(
+                                child: Text(
+                                  '${index + 3}',
+                                  style: AppTextStyles.text22(
+                                      bold: true, size: size),
+                                ),
+                              )),
+                        );
                 },
               ),
             ),
@@ -45,10 +95,10 @@ class Stats extends StatelessWidget {
                   horizontal: size.width * 0.05, vertical: size.height * 0.025),
               decoration: BoxDecoration(
                   border: Border.all(
-                    color: AppColors.darkBlue,
+                    color: AppColors.lightGrey,
                     width: 1,
                   ),
-                  borderRadius: BorderRadius.circular(16)),
+                  borderRadius: BorderRadius.circular(size.width * 0.05)),
               height: size.height * 0.28,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,20 +124,45 @@ class Stats extends StatelessWidget {
                         value: "7562",
                       ),
                       StatsRowColumn(
-                        title: "Distance",
-                        value: "7562",
+                        title: "Calories",
+                        value: "255",
                       ),
                       StatsRowColumn(
-                        title: "Distance",
-                        value: "7562",
+                        title: "Points",
+                        value: "246",
                       ),
                     ],
                   )
                 ],
               ),
             ),
+            AppConstSizeBox.constHightSizedBox(size.height * 0.03),
             Container(
               height: size.height * 0.3,
+              padding: EdgeInsets.symmetric(
+                  horizontal: size.width * 0.05, vertical: size.height * 0.025),
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    color: AppColors.lightGrey,
+                    width: 1,
+                  ),
+                  borderRadius: BorderRadius.circular(size.width * 0.05)),
+              child: Row(
+                children: [
+                  const WaterContainer(),
+                  Expanded(
+                      child: Container(
+                    clipBehavior: Clip.hardEdge,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: AppColors.grey,
+                        width: 1,
+                      ),
+                    ),
+                    child: Stack(children: const [HeartStats()]),
+                  ))
+                ],
+              ),
             ),
             AppConstSizeBox.constHightSizedBox(size.height * 0.03),
             Container(
@@ -112,7 +187,6 @@ class StatsRowColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           title,

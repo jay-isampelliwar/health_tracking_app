@@ -3,10 +3,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:health_tracking_app/core/constants/color_constant.dart';
 import 'package:health_tracking_app/core/constants/text_styles.dart';
-import 'package:health_tracking_app/core/helper/helper.dart';
 import 'package:health_tracking_app/core/widgets/app_bottom_navbar.dart';
 import 'package:health_tracking_app/core/widgets/const_size_box.dart';
 
+import '../../../core/helper/helper.dart';
+import '../../../core/widgets/app_custom_app_bar.dart';
+import '../../../core/widgets/app_water_container.dart';
+import '../../../core/widgets/heart_container.dart';
 import 'temp/app_custom_clipper.dart';
 
 class HomePage extends StatelessWidget {
@@ -27,35 +30,9 @@ class HomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "For today",
-                      style: AppTextStyles.text28(bold: true, size: size),
-                    ),
-                    AppConstSizeBox.constHightSizedBox(size.height * 0.005),
-                    Text(
-                      "${Helper.getGreeting()}, Jay!",
-                      style: AppTextStyles.text18(bold: false, size: size)
-                          .copyWith(
-                        color: AppColors.grey,
-                      ),
-                    )
-                  ],
-                ),
-                Container(
-                  height: 80,
-                  width: 80,
-                  decoration: const BoxDecoration(
-                    color: Colors.red,
-                    shape: BoxShape.circle,
-                  ),
-                )
-              ],
+            CustomAppBar(
+              title: "For today",
+              subtitle: "${Helper.getGreeting()}, Jay!",
             ),
             AppConstSizeBox.constHightSizedBox(size.height * 0.04),
             SizedBox(
@@ -127,42 +104,7 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   AppConstSizeBox.constWidthSizedBox(size.width * 0.04),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: size.width * 0.02,
-                        vertical: size.height * 0.02,
-                      ),
-                      margin:
-                          EdgeInsets.symmetric(horizontal: size.width * 0.01),
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 1, color: AppColors.grey),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: size.width * 0.03,
-                        ),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ContainerRow(
-                                  title: "Water",
-                                  color: AppColors.black,
-                                  second: Text(
-                                    "💧",
-                                    style: AppTextStyles.text18(
-                                        bold: false, size: size),
-                                  )),
-                              const Spacer(),
-                              const ContainerBottomColumn(
-                                title: "liters",
-                                value: "1.55",
-                              ),
-                            ]),
-                      ),
-                    ),
-                  ),
+                  const WaterContainer(),
                 ],
               ),
             ),
@@ -227,26 +169,7 @@ class HomePage extends StatelessWidget {
                                 ),
                                 color: AppColors.black),
                           ),
-                          Expanded(
-                            child: ClipPath(
-                              clipBehavior: Clip.hardEdge,
-                              clipper: AppCustomClipper(),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                    colors: [
-                                      AppColors.heartBar.withOpacity(0.8),
-                                      Colors.grey.shade100,
-                                      AppColors.white
-                                    ],
-                                    stops: const [0.35, 0.6, 0.8],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+                          const HeartStats(),
                           Padding(
                             padding: EdgeInsets.symmetric(
                               horizontal: size.width * 0.05,
