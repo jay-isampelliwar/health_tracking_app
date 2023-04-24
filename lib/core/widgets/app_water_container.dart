@@ -20,14 +20,14 @@ class WaterContainer extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: size.width * 0.01),
         decoration: BoxDecoration(
           border: Border.all(width: 1, color: AppColors.grey),
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(size.width * 0.07),
         ),
         child: Stack(children: [
           WaveWidget(
             config: CustomConfig(
               colors: [
-                // AppColors.waterColorShade1,
-                // AppColors.waterColorShade2,
+                AppColors.waterColorShade1,
+                AppColors.waterColorShade2,
               ],
               durations: [
                 10000,
