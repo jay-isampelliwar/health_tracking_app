@@ -175,7 +175,7 @@ class HomePage extends StatelessWidget {
                                 ),
                                 color: AppColors.black),
                           ),
-                          const HeartStats(),
+                          const Expanded(child: HeartStats()),
                           Padding(
                             padding: EdgeInsets.symmetric(
                               horizontal: size.width * 0.05,
