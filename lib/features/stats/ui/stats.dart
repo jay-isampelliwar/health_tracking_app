@@ -193,11 +193,6 @@ class _StatsState extends State<Stats> {
                 ],
               ),
             ),
-            AppConstSizeBox.constHightSizedBox(size.height * 0.03),
-            Container(
-              height: 5,
-              color: Colors.grey.shade200,
-            ),
           ],
         ),
       ),
