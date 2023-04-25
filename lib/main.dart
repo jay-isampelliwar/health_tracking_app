@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'features/auth/register/ui/register.dart';
 import 'features/home/ui/home_screen.dart';
 
 void main() {
@@ -14,11 +13,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      // home: HomePage(),
       // home: Goal(),
       // home: Registration(),
       // home: Login(),
-      // home: MainWidget(),
+      home: MainWidget(),
       // home: Stats(),
       // home: Profile(),
       // home: Achievement(),
