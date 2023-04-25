@@ -27,7 +27,7 @@ class AppTextField extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return TextFormField(
       obscureText: obscureText,
-      style: TextStyle(color: AppColors.darkBlue),
+      style: TextStyle(color: AppColors.black),
       controller: textEditingController,
       validator: validator,
       keyboardType: inputType,
