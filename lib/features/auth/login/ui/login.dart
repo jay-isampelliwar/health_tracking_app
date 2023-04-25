@@ -51,7 +51,7 @@ class _LoginState extends State<Login> {
               Text(
                 "Empower your wellness journey today, track, improve, and conquer your health with HealthTrack.",
                 style: AppTextStyles.text20(bold: true, size: size)
-                    .copyWith(color: AppColors.grey),
+                    .copyWith(color: AppColors.secondaryColor),
               ),
               AppConstSizeBox.constHightSizedBox(size.height * 0.04),
               Form(
@@ -86,7 +86,7 @@ class _LoginState extends State<Login> {
                 ),
               ),
               AppConstSizeBox.constHightSizedBox(size.height * 0.02),
-              Divider(color: AppColors.grey),
+              Divider(color: AppColors.secondaryColor),
               AppConstSizeBox.constHightSizedBox(size.height * 0.02),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -102,7 +102,7 @@ class _LoginState extends State<Login> {
                     },
                     child: Text("SignUp",
                         style: AppTextStyles.text20(bold: true, size: size)
-                            .copyWith(color: AppColors.darkBlue)),
+                            .copyWith(color: AppColors.primaryColor)),
                   ),
                 ],
               ),

@@ -29,7 +29,7 @@ class ContainerBottomColumn extends StatelessWidget {
         Text(
           title,
           style: AppTextStyles.text18(bold: true, size: size)
-              .copyWith(color: AppColors.grey),
+              .copyWith(color: AppColors.secondaryColor),
         )
       ],
     );

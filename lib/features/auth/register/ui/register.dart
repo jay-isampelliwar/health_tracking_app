@@ -70,7 +70,7 @@ class _RegistrationState extends State<Registration> {
               Text(
                 "Empower your wellness journey today, track, improve, and conquer your health with HealthTrack.",
                 style: AppTextStyles.text20(bold: true, size: size)
-                    .copyWith(color: AppColors.grey),
+                    .copyWith(color: AppColors.secondaryColor),
               ),
               AppConstSizeBox.constHightSizedBox(size.height * 0.01),
               Form(
@@ -89,7 +89,7 @@ class _RegistrationState extends State<Registration> {
                             border: image != null
                                 ? null
                                 : Border.all(
-                                    color: AppColors.darkBlue, width: 2),
+                                    color: AppColors.primaryColor, width: 2),
                             shape: BoxShape.circle,
                           ),
                           child: image == null
@@ -99,7 +99,7 @@ class _RegistrationState extends State<Registration> {
                                     Icon(
                                       Icons.upload,
                                       size: size.width * 0.08,
-                                      color: AppColors.darkBlue,
+                                      color: AppColors.primaryColor,
                                     ),
                                     Text(
                                       "Upload Profile",
@@ -151,7 +151,7 @@ class _RegistrationState extends State<Registration> {
                       },
                     ),
                     AppConstSizeBox.constHightSizedBox(size.height * 0.02),
-                    Divider(color: AppColors.grey),
+                    Divider(color: AppColors.secondaryColor),
                     AppConstSizeBox.constHightSizedBox(size.height * 0.02),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -169,7 +169,7 @@ class _RegistrationState extends State<Registration> {
                           child: Text("Login",
                               style:
                                   AppTextStyles.text20(bold: true, size: size)
-                                      .copyWith(color: AppColors.darkBlue)),
+                                      .copyWith(color: AppColors.primaryColor)),
                         ),
                       ],
                     ),

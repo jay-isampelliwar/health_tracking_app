@@ -28,7 +28,7 @@ class SquareContainer extends StatelessWidget {
         ),
         margin: EdgeInsets.symmetric(horizontal: size.width * 0.01),
         decoration: BoxDecoration(
-          border: Border.all(width: 1, color: AppColors.grey),
+          border: Border.all(width: 1, color: AppColors.secondaryColor),
           borderRadius: BorderRadius.circular(30),
         ),
         child: Padding(

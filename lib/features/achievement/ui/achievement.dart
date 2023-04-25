@@ -87,7 +87,7 @@ class AchievementContainer extends StatelessWidget {
         vertical: size.height * 0.025,
       ),
       decoration: BoxDecoration(
-        border: Border.all(color: AppColors.lightGrey, width: 1),
+        border: Border.all(color: AppColors.lightSecondaryColor, width: 1),
         borderRadius: BorderRadius.circular(size.width * 0.04),
       ),
       child: Row(

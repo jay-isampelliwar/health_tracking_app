@@ -36,21 +36,21 @@ class AppTextField extends StatelessWidget {
             horizontal: size.width * 0.06, vertical: size.height * 0.02),
         labelText: hintText,
         labelStyle: AppTextStyles.text20(bold: false, size: size)
-            .copyWith(color: AppColors.darkBlue),
-        focusColor: AppColors.darkBlue,
-        fillColor: AppColors.lightGrey,
+            .copyWith(color: AppColors.primaryColor),
+        focusColor: AppColors.primaryColor,
+        fillColor: AppColors.lightSecondaryColor,
         filled: true,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(size.width * 0.02),
           borderSide: BorderSide(
-            color: AppColors.darkBlue,
+            color: AppColors.primaryColor,
             width: 2,
           ),
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(size.width * 0.02),
           borderSide: BorderSide(
-            color: AppColors.darkBlue,
+            color: AppColors.primaryColor,
             width: 1,
           ),
         ),
@@ -58,9 +58,9 @@ class AppTextField extends StatelessWidget {
           onPressed: onSuffix,
           icon: suffixIcon,
         ),
-        suffixIconColor: AppColors.darkBlue,
+        suffixIconColor: AppColors.primaryColor,
       ),
-      cursorColor: AppColors.darkBlue,
+      cursorColor: AppColors.primaryColor,
     );
   }
 }

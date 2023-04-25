@@ -32,7 +32,7 @@ class CustomAppBar extends StatelessWidget {
             Text(
               subtitle,
               style: AppTextStyles.text18(bold: false, size: size).copyWith(
-                color: AppColors.grey,
+                color: AppColors.secondaryColor,
               ),
             )
           ],

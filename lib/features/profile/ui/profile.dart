@@ -94,7 +94,7 @@ class ProfileOptionContainer extends StatelessWidget {
             borderRadius: BorderRadius.circular(
               size.width * 0.02,
             ),
-            border: Border.all(color: AppColors.lightGrey, width: 1)),
+            border: Border.all(color: AppColors.lightSecondaryColor, width: 1)),
         child: Row(
           children: [
             Row(

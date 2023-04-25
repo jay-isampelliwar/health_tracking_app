@@ -38,12 +38,12 @@ class ChatBot extends StatelessWidget {
                                   ? null
                                   : Border.all(
                                       width: 1,
-                                      color: AppColors.lightGrey,
+                                      color: AppColors.lightSecondaryColor,
                                     ),
                               borderRadius:
                                   BorderRadius.circular(size.width * 0.03),
                               color: currentMessage.sender == "You"
-                                  ? AppColors.darkBlue
+                                  ? AppColors.primaryColor
                                   : AppColors.white),
                           child: Text(currentMessage.text),
                         ),
@@ -62,7 +62,7 @@ class ChatBot extends StatelessWidget {
               horizontal: size.width * 0.04, vertical: size.height * 0.01),
           height: size.height * 0.08,
           decoration: BoxDecoration(
-            color: AppColors.lightGrey,
+            color: AppColors.lightSecondaryColor,
             borderRadius: BorderRadius.circular(
               size.width * 0.1,
             ),
@@ -72,7 +72,7 @@ class ChatBot extends StatelessWidget {
             children: [
               Expanded(
                 child: TextFormField(
-                  cursorColor: AppColors.darkBlue,
+                  cursorColor: AppColors.primaryColor,
                   style: AppTextStyles.text18(bold: false, size: size),
                   maxLines: null,
                   decoration: InputDecoration(
@@ -87,7 +87,7 @@ class ChatBot extends StatelessWidget {
                   onPressed: () {},
                   icon: Icon(
                     Icons.send,
-                    color: AppColors.darkBlue,
+                    color: AppColors.primaryColor,
                   )),
             ],
           ),

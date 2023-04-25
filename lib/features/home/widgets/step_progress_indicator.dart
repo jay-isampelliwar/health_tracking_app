@@ -11,7 +11,7 @@ class StepProgressIndicator extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     Paint circle = Paint()
       ..strokeWidth = ((size.width + size.height) / 2) * 0.3
-      ..color = AppColors.grey.withOpacity(0.2)
+      ..color = AppColors.secondaryColor.withOpacity(0.2)
       ..style = PaintingStyle.stroke;
 
     Offset offset = Offset(size.width / 2, size.height / 2);

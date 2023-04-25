@@ -52,17 +52,16 @@ class _StatsState extends State<Stats> {
                             height: size.width * 0.15,
                             width: size.width * 0.15,
                             decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                  color: AppColors.darkBlue, width: 1),
-                              color: AppColors.grey,
-                            ),
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                    color: AppColors.primaryColor, width: 1),
+                                color: AppColors.lightSecondaryColor),
                             child: Align(
                               child: Text(
                                 '${index + 3}',
-                                style:
-                                    AppTextStyles.text26(bold: true, size: size)
-                                        .copyWith(color: AppColors.darkBlue),
+                                style: AppTextStyles.text26(
+                                        bold: true, size: size)
+                                    .copyWith(color: AppColors.primaryColor),
                               ),
                             ),
                           )
@@ -78,9 +77,8 @@ class _StatsState extends State<Stats> {
                                 height: size.width * 0.15,
                                 width: size.width * 0.15,
                                 decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: AppColors.grey,
-                                ),
+                                    shape: BoxShape.circle,
+                                    color: AppColors.lightSecondaryColor),
                                 child: Align(
                                   child: Text(
                                     '${index + 3}',
@@ -99,7 +97,7 @@ class _StatsState extends State<Stats> {
                     vertical: size.height * 0.025),
                 decoration: BoxDecoration(
                     border: Border.all(
-                      color: AppColors.lightGrey,
+                      color: AppColors.lightSecondaryColor,
                       width: 1,
                     ),
                     borderRadius: BorderRadius.circular(size.width * 0.05)),
@@ -110,7 +108,7 @@ class _StatsState extends State<Stats> {
                     Text(
                       "Steps",
                       style: AppTextStyles.text18(bold: false, size: size)
-                          .copyWith(color: AppColors.grey),
+                          .copyWith(color: AppColors.secondaryColor),
                     ),
                     Text(
                       "7898",
@@ -148,7 +146,7 @@ class _StatsState extends State<Stats> {
                     vertical: size.height * 0.025),
                 decoration: BoxDecoration(
                     border: Border.all(
-                      color: AppColors.lightGrey,
+                      color: AppColors.lightSecondaryColor,
                       width: 1,
                     ),
                     borderRadius: BorderRadius.circular(size.width * 0.05)),
@@ -161,7 +159,7 @@ class _StatsState extends State<Stats> {
                         clipBehavior: Clip.hardEdge,
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: AppColors.grey,
+                            color: AppColors.secondaryColor,
                             width: 1,
                           ),
                           borderRadius:
@@ -221,7 +219,7 @@ class StatsRowColumn extends StatelessWidget {
         Text(
           title,
           style: AppTextStyles.text18(bold: false, size: size)
-              .copyWith(color: AppColors.grey),
+              .copyWith(color: AppColors.secondaryColor),
         ),
         Text(
           value,

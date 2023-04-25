@@ -13,8 +13,8 @@ Container appNavigationBar(
         activeColor: AppColors.white,
         color: AppColors.black,
         duration: const Duration(milliseconds: 300),
-        tabBackgroundColor: AppColors.darkBlue,
-        tabActiveBorder: Border.all(color: AppColors.darkBlue, width: 1),
+        tabBackgroundColor: AppColors.primaryColor,
+        tabActiveBorder: Border.all(color: AppColors.primaryColor, width: 1),
         onTabChange: onTabChange,
         tabs: [
           GButton(
