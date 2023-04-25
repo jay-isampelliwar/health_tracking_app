@@ -8,11 +8,13 @@ class CustomAppBar extends StatelessWidget {
   CustomAppBar({
     required this.title,
     required this.subtitle,
+    this.profile = true,
     Key? key,
   }) : super(key: key);
 
   String title;
   String subtitle;
+  bool profile;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -35,14 +37,16 @@ class CustomAppBar extends StatelessWidget {
             )
           ],
         ),
-        Container(
-          height: 80,
-          width: 80,
-          decoration: const BoxDecoration(
-            color: Colors.red,
-            shape: BoxShape.circle,
-          ),
-        )
+        profile
+            ? Container(
+                height: 80,
+                width: 80,
+                decoration: const BoxDecoration(
+                  color: Colors.red,
+                  shape: BoxShape.circle,
+                ),
+              )
+            : const SizedBox()
       ],
     );
   }

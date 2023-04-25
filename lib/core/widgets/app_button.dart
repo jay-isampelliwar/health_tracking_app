@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:health_tracking_app/core/constants/text_styles.dart';
 
-import '../constants/app_alignement.dart';
 import '../constants/color_constant.dart';
 
 class AppButton extends StatelessWidget {
@@ -20,22 +20,16 @@ class AppButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 80,
-        margin: const EdgeInsets.symmetric(horizontal: 20),
+        height: size.height * 0.07,
         decoration: BoxDecoration(
           color: AppColors.darkBlue,
-          borderRadius: BorderRadius.circular(
-            AppAlignment.borderRadius(size),
-          ),
+          borderRadius: BorderRadius.circular(size.width * 0.02),
         ),
         child: Align(
           child: Text(
             title,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 28,
-              color: Colors.white,
-            ),
+            style: AppTextStyles.text28(bold: true, size: size)
+                .copyWith(color: AppColors.white),
           ),
         ),
       ),

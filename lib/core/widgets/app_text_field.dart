@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:health_tracking_app/core/constants/text_styles.dart';
 import '../constants/color_constant.dart';
 
 class AppTextField extends StatelessWidget {
@@ -9,6 +10,7 @@ class AppTextField extends StatelessWidget {
   bool obscureText;
   TextEditingController? textEditingController;
   TextInputType inputType;
+
   AppTextField({
     required this.hintText,
     this.suffixIcon = const SizedBox(),
@@ -22,6 +24,7 @@ class AppTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return TextFormField(
       obscureText: obscureText,
       style: TextStyle(color: AppColors.darkBlue),
@@ -29,29 +32,26 @@ class AppTextField extends StatelessWidget {
       validator: validator,
       keyboardType: inputType,
       decoration: InputDecoration(
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+        contentPadding: EdgeInsets.symmetric(
+            horizontal: size.width * 0.06, vertical: size.height * 0.02),
         labelText: hintText,
-        labelStyle: TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 20,
-          color: Colors.grey.shade500,
-        ),
+        labelStyle: AppTextStyles.text20(bold: false, size: size)
+            .copyWith(color: AppColors.darkBlue),
         focusColor: AppColors.darkBlue,
-        fillColor: Colors.grey.shade100,
+        fillColor: AppColors.lightGrey,
         filled: true,
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(
-            color: Colors.black,
+          borderRadius: BorderRadius.circular(size.width * 0.02),
+          borderSide: BorderSide(
+            color: AppColors.darkBlue,
             width: 2,
           ),
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(
-            color: Colors.black,
-            width: 2,
+          borderRadius: BorderRadius.circular(size.width * 0.02),
+          borderSide: BorderSide(
+            color: AppColors.darkBlue,
+            width: 1,
           ),
         ),
         suffixIcon: IconButton(
