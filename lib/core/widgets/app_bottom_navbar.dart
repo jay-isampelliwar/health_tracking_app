@@ -33,10 +33,6 @@ Container appNavigationBar(
             icon: Icons.person_outline,
             padding: EdgeInsets.all(size.width * 0.03),
           ),
-          GButton(
-            icon: Icons.chat_outlined,
-            padding: EdgeInsets.all(size.width * 0.03),
-          ),
         ],
       ),
     ),
