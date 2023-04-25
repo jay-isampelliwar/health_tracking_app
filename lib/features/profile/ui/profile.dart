@@ -20,38 +20,40 @@ class Profile extends StatelessWidget {
           top: size.height * 0.06,
           bottom: size.height * 0.04,
         ),
-        child: Column(
-          children: [
-            CustomAppBar(
-              title: "Your Profile",
-              subtitle: "",
-            ),
-            AppConstSizeBox.constHightSizedBox(size.height * 0.04),
-            Column(
-              children: [
-                ProfileOptionContainer(
-                  title: "Edit Profile",
-                  icon: const Icon(Icons.edit),
-                  onTap: () {},
-                ),
-                ProfileOptionContainer(
-                  title: "Edit Goals",
-                  icon: const Icon(Icons.edit),
-                  onTap: () {},
-                ),
-                ProfileOptionContainer(
-                  title: "Share Data",
-                  icon: const Icon(Icons.share),
-                  onTap: () {},
-                ),
-                ProfileOptionContainer(
-                  title: "Theme",
-                  icon: const Icon(Icons.color_lens),
-                  onTap: () {},
-                ),
-              ],
-            )
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              CustomAppBar(
+                title: "Your Profile",
+                subtitle: "",
+              ),
+              AppConstSizeBox.constHightSizedBox(size.height * 0.04),
+              Column(
+                children: [
+                  ProfileOptionContainer(
+                    title: "Edit Profile",
+                    icon: const Icon(Icons.edit),
+                    onTap: () {},
+                  ),
+                  ProfileOptionContainer(
+                    title: "Edit Goals",
+                    icon: const Icon(Icons.edit),
+                    onTap: () {},
+                  ),
+                  ProfileOptionContainer(
+                    title: "Share Data",
+                    icon: const Icon(Icons.share),
+                    onTap: () {},
+                  ),
+                  ProfileOptionContainer(
+                    title: "Theme",
+                    icon: const Icon(Icons.color_lens),
+                    onTap: () {},
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

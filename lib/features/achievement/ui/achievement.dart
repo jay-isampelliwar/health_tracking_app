@@ -18,12 +18,12 @@ class Achievement extends StatelessWidget {
           top: size.height * 0.06,
           bottom: size.height * 0.04,
         ),
-        child: Column(
-          children: [
-            CustomAppBar(title: "Your Achievements", subtitle: ""),
-            AppConstSizeBox.constHightSizedBox(size.height * 0.01),
-            Flexible(
-              child: Container(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              CustomAppBar(title: "Your Achievements", subtitle: ""),
+              AppConstSizeBox.constHightSizedBox(size.height * 0.02),
+              SizedBox(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: const [
@@ -54,9 +54,9 @@ class Achievement extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );

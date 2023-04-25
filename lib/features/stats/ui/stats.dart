@@ -4,9 +4,10 @@ import 'package:health_tracking_app/core/constants/text_styles.dart';
 import 'package:health_tracking_app/core/widgets/app_custom_app_bar.dart';
 import 'package:health_tracking_app/core/widgets/app_water_container.dart';
 import 'package:health_tracking_app/core/widgets/heart_container.dart';
-import 'package:health_tracking_app/features/home/ui/home_screen.dart';
 
 import '../../../core/widgets/const_size_box.dart';
+import '../../home/widgets/container_bottom_column.dart';
+import '../../home/widgets/container_row.dart';
 
 class Stats extends StatefulWidget {
   const Stats({Key? key}) : super(key: key);
@@ -29,171 +30,176 @@ class _StatsState extends State<Stats> {
           top: size.height * 0.06,
           bottom: size.height * 0.04,
         ),
-        child: Column(
-          children: [
-            CustomAppBar(
-              title: "Your Activity",
-              //!subtitle should change acc to the selected date
-              subtitle: "February 7",
-            ),
-            AppConstSizeBox.constHightSizedBox(size.height * 0.03),
-            SizedBox(
-              height: size.height * 0.05,
-              child: ListView.builder(
-                itemCount: 27,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return index == selectedIndex
-                      ? Container(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: size.width * 0.01),
-                          height: size.width * 0.15,
-                          width: size.width * 0.15,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border:
-                                Border.all(color: AppColors.darkBlue, width: 1),
-                            color: AppColors.grey,
-                          ),
-                          child: Align(
-                            child: Text(
-                              '${index + 3}',
-                              style:
-                                  AppTextStyles.text26(bold: true, size: size)
-                                      .copyWith(color: AppColors.darkBlue),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              CustomAppBar(
+                title: "Your Activity",
+                //!subtitle should change acc to the selected date
+                subtitle: "February 7",
+              ),
+              AppConstSizeBox.constHightSizedBox(size.height * 0.02),
+              SizedBox(
+                height: size.height * 0.05,
+                child: ListView.builder(
+                  itemCount: 27,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return index == selectedIndex
+                        ? Container(
+                            margin: EdgeInsets.symmetric(
+                                horizontal: size.width * 0.01),
+                            height: size.width * 0.15,
+                            width: size.width * 0.15,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                  color: AppColors.darkBlue, width: 1),
+                              color: AppColors.grey,
                             ),
-                          ),
-                        )
-                      : GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              selectedIndex = index;
-                            });
-                          },
-                          child: Container(
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: size.width * 0.01),
-                              height: size.width * 0.15,
-                              width: size.width * 0.15,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: AppColors.grey,
+                            child: Align(
+                              child: Text(
+                                '${index + 3}',
+                                style:
+                                    AppTextStyles.text26(bold: true, size: size)
+                                        .copyWith(color: AppColors.darkBlue),
                               ),
-                              child: Align(
-                                child: Text(
-                                  '${index + 3}',
-                                  style: AppTextStyles.text22(
-                                      bold: true, size: size),
-                                ),
-                              )),
-                        );
-                },
-              ),
-            ),
-            AppConstSizeBox.constHightSizedBox(size.height * 0.03),
-            Container(
-              padding: EdgeInsets.symmetric(
-                  horizontal: size.width * 0.05, vertical: size.height * 0.025),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    color: AppColors.lightGrey,
-                    width: 1,
-                  ),
-                  borderRadius: BorderRadius.circular(size.width * 0.05)),
-              height: size.height * 0.28,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Steps",
-                    style: AppTextStyles.text18(bold: false, size: size)
-                        .copyWith(color: AppColors.grey),
-                  ),
-                  Text(
-                    "7898",
-                    style: TextStyle(
-                      fontSize: size.width * 0.2,
-                      fontFamily: "GilroyBold",
-                    ),
-                  ),
-                  AppConstSizeBox.constHightSizedBox(size.height * 0.01),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      StatsRowColumn(
-                        title: "Distance",
-                        value: "7562",
-                      ),
-                      StatsRowColumn(
-                        title: "Calories",
-                        value: "255",
-                      ),
-                      StatsRowColumn(
-                        title: "Points",
-                        value: "246",
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-            AppConstSizeBox.constHightSizedBox(size.height * 0.03),
-            Container(
-              height: size.height * 0.3,
-              padding: EdgeInsets.symmetric(
-                  horizontal: size.width * 0.05, vertical: size.height * 0.025),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    color: AppColors.lightGrey,
-                    width: 1,
-                  ),
-                  borderRadius: BorderRadius.circular(size.width * 0.05)),
-              child: Row(
-                children: [
-                  const WaterContainer(),
-                  AppConstSizeBox.constWidthSizedBox(size.width * 0.04),
-                  Expanded(
-                    child: Container(
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: AppColors.grey,
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(size.width * 0.07),
-                      ),
-                      child: Stack(children: [
-                        const HeartStats(),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: size.height * 0.02,
-                              horizontal: size.width * 0.05),
-                          child: ContainerRow(
-                            title: "Heart",
-                            second: Text(
-                              "❤",
-                              style:
-                                  AppTextStyles.text18(bold: false, size: size),
                             ),
-                            color: AppColors.black,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: size.height * 0.175,
-                              left: size.width * 0.05),
-                          child: ContainerBottomColumn(
-                              value: "108",
-                              title: "bpm",
-                              color: AppColors.black),
-                        )
-                      ]),
-                    ),
-                  )
-                ],
+                          )
+                        : GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                selectedIndex = index;
+                              });
+                            },
+                            child: Container(
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: size.width * 0.01),
+                                height: size.width * 0.15,
+                                width: size.width * 0.15,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: AppColors.grey,
+                                ),
+                                child: Align(
+                                  child: Text(
+                                    '${index + 3}',
+                                    style: AppTextStyles.text22(
+                                        bold: true, size: size),
+                                  ),
+                                )),
+                          );
+                  },
+                ),
               ),
-            ),
-          ],
+              AppConstSizeBox.constHightSizedBox(size.height * 0.02),
+              Container(
+                padding: EdgeInsets.symmetric(
+                    horizontal: size.width * 0.05,
+                    vertical: size.height * 0.025),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: AppColors.lightGrey,
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(size.width * 0.05)),
+                height: size.height * 0.27,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Steps",
+                      style: AppTextStyles.text18(bold: false, size: size)
+                          .copyWith(color: AppColors.grey),
+                    ),
+                    Text(
+                      "7898",
+                      style: TextStyle(
+                        fontSize: size.width * 0.2,
+                        fontFamily: "GilroyBold",
+                      ),
+                    ),
+                    AppConstSizeBox.constHightSizedBox(size.height * 0.002),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        StatsRowColumn(
+                          title: "Distance",
+                          value: "7562",
+                        ),
+                        StatsRowColumn(
+                          title: "Calories",
+                          value: "255",
+                        ),
+                        StatsRowColumn(
+                          title: "Points",
+                          value: "246",
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              AppConstSizeBox.constHightSizedBox(size.height * 0.02),
+              Container(
+                height: size.height * 0.3,
+                padding: EdgeInsets.symmetric(
+                    horizontal: size.width * 0.05,
+                    vertical: size.height * 0.025),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: AppColors.lightGrey,
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(size.width * 0.05)),
+                child: Row(
+                  children: [
+                    const WaterContainer(),
+                    AppConstSizeBox.constWidthSizedBox(size.width * 0.04),
+                    Expanded(
+                      child: Container(
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: AppColors.grey,
+                            width: 1,
+                          ),
+                          borderRadius:
+                              BorderRadius.circular(size.width * 0.07),
+                        ),
+                        child: Stack(children: [
+                          const HeartStats(),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: size.height * 0.02,
+                                horizontal: size.width * 0.05),
+                            child: ContainerRow(
+                              title: "Heart",
+                              second: Text(
+                                "❤",
+                                style: AppTextStyles.text18(
+                                    bold: false, size: size),
+                              ),
+                              color: AppColors.black,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: size.height * 0.175,
+                                left: size.width * 0.05),
+                            child: ContainerBottomColumn(
+                                value: "108",
+                                title: "bpm",
+                                color: AppColors.black),
+                          )
+                        ]),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

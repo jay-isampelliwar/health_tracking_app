@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
-import '../../features/home/ui/home_screen.dart';
+import '../../features/home/widgets/container_bottom_column.dart';
+import '../../features/home/widgets/container_row.dart';
 import '../constants/color_constant.dart';
 import '../constants/text_styles.dart';
 
