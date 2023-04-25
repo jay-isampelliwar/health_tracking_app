@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:health_tracking_app/core/constants/color_constant.dart';
 import 'package:health_tracking_app/core/constants/text_styles.dart';
+import 'package:health_tracking_app/features/chat_bot/ui/chat_bot.dart';
 
 import '../../../core/widgets/app_custom_app_bar.dart';
 import '../../../core/widgets/const_size_box.dart';
@@ -49,6 +50,15 @@ class Profile extends StatelessWidget {
                     title: "Theme",
                     icon: const Icon(Icons.color_lens),
                     onTap: () {},
+                  ),
+                  ProfileOptionContainer(
+                    title: "Chat Bot",
+                    icon: const Icon(Icons.chat_outlined),
+                    onTap: () {
+                      //! Navigate to Chat Screen
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => ChatBot()));
+                    },
                   ),
                 ],
               )
