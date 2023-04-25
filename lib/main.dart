@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'features/home/ui/home_screen.dart';
+import 'features/auth/register/ui/register.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,9 +15,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // home: HomePage(),
       // home: Goal(),
-      // home: Registration(),
+      home: Registration(),
       // home: Login(),
-      home: MainWidget(),
+      // home: MainWidget(),
       // home: Stats(),
       // home: Profile(),
       // home: Achievement(),
