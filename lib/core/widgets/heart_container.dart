@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../features/home/ui/temp/app_custom_clipper.dart';
+import '../../features/home/widgets/app_custom_clipper.dart';
 import '../constants/color_constant.dart';
 
 class HeartStats extends StatelessWidget {
