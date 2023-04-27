@@ -15,6 +15,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // home: Goal(),
       // home: Registration(),
+      // home: OTPScreen(
+      //   email: 'Jay@gmail.com',
+      // ),
       // home: Login(),
       home: MainWidget(),
       // home: Stats(),
