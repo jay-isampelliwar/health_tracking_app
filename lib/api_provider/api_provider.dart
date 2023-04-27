@@ -1,6 +1,8 @@
 import 'package:health_tracking_app/core/constants/app_url.dart';
+import 'package:health_tracking_app/core/constants/token.dart';
 import 'package:health_tracking_app/features/auth/model/auth_model.dart';
 import 'package:health_tracking_app/features/auth/model/user_model.dart';
+import 'package:health_tracking_app/features/home/model/user.dart';
 import 'package:health_tracking_app/features/home/model/user_data.dart';
 import 'package:http/http.dart' as http;
 
@@ -49,9 +51,17 @@ class ApiProvider {
     }
   }
 
-  Future<User> userDetails() async {
-    try {} catch (err) {}
-    return User(email: "");
+  Future<UserModel> userDetails() async {
+    try {
+      var uri = Uri.parse(BASE_URL);
+      var header = {"Authorization": "Bearer $token_value"};
+
+      var response = await client.get(uri, headers: header);
+
+      return userModelFromJson(response.body);
+    } catch (err) {
+      return UserModel(status: false, message: err.toString(), data: null);
+    }
   }
 
   Future<void> getData() async {
