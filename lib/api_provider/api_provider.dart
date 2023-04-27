@@ -1,7 +1,8 @@
-import 'package:health_tracking_app/features/achievement/model/achievement_model.dart';
 import 'package:health_tracking_app/features/auth/model/user_model.dart';
 import 'package:health_tracking_app/features/home/model/user_data.dart';
 import 'package:http/http.dart' as http;
+
+import '../features/home/model/achievement.dart';
 
 class ApiProvider {
   static final _client = http.Client();

@@ -1,8 +1,8 @@
 import 'package:health_tracking_app/api_provider/api_provider.dart';
 import 'package:health_tracking_app/features/home/model/user_data.dart';
 
-import '../../achievement/model/achievement_model.dart';
 import '../../auth/model/user_model.dart';
+import '../model/achievement.dart';
 
 class HomeRepo {
   final ApiProvider _apiProvider = ApiProvider();
