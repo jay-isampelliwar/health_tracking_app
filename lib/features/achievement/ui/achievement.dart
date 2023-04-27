@@ -105,7 +105,7 @@ class AchievementContainer extends StatelessWidget {
             value,
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: size.width * 0.1,
+              fontSize: ((size.width + size.height) / 2) * 0.06,
             ),
           ),
         ],

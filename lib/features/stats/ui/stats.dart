@@ -113,7 +113,7 @@ class _StatsState extends State<Stats> {
                     Text(
                       "7898",
                       style: TextStyle(
-                        fontSize: size.width * 0.2,
+                        fontSize: ((size.width + size.height) / 2) * 0.12,
                         fontFamily: "GilroyBold",
                       ),
                     ),
