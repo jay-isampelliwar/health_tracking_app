@@ -4,6 +4,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:health_tracking_app/core/widgets/app_custom_app_bar.dart';
 import 'package:health_tracking_app/features/auth/login/ui/login.dart';
+import 'package:health_tracking_app/features/auth/model/user_model.dart';
+import 'package:health_tracking_app/features/auth/register/bloc/sign_up_bloc.dart';
+import 'package:health_tracking_app/features/home/bloc/home_bloc.dart';
+import 'package:health_tracking_app/locator.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/constants/color_constant.dart';
@@ -49,6 +53,7 @@ class _RegistrationState extends State<Registration> {
 
   @override
   Widget build(BuildContext context) {
+    final SignUpBloc signUpBloc = SignUpBloc();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Padding(
@@ -142,7 +147,15 @@ class _RegistrationState extends State<Registration> {
                       onTap: () {
                         FocusScope.of(context).unfocus();
                         if (formKey.currentState!.validate()) {
-                          //! Navigate to homepage
+                          signUpBloc.add(
+                            SignUpButtonClickedActionEvent(
+                              model: User(
+                                email: emailTextEditingController.text,
+                                name: nameTextEditingController.text,
+                                password: passwordTextEditingController.text,
+                              ),
+                            ),
+                          );
                         }
 
                         nameTextEditingController.clear();
