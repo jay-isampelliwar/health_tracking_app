@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:health_tracking_app/core/constants/text_styles.dart';
 
 import '../constants/color_constant.dart';
 
 class AppButton extends StatelessWidget {
   AppButton({
-    required this.title,
+    required this.child,
     required this.onTap,
     Key? key,
   }) : super(key: key);
 
-  String title;
+  Widget child;
   Function()? onTap;
 
   @override
@@ -26,11 +25,7 @@ class AppButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(size.width * 0.02),
         ),
         child: Align(
-          child: Text(
-            title,
-            style: AppTextStyles.text28(bold: true, size: size)
-                .copyWith(color: AppColors.white),
-          ),
+          child: child,
         ),
       ),
     );
