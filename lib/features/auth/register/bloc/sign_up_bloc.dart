@@ -23,6 +23,15 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       SignUpButtonClickedActionEvent event, Emitter<SignUpState> emit) async {
     emit(SignUpButtonLoadingState());
     AuthModel authModel = await _apiProvider.registration(event.model);
+
+    if (authModel.status) {
+      emit(SignUpInitial());
+
+      emit(SignUpSuccessActionState(message: authModel.message));
+    } else {
+      emit(SignUpInitial());
+      emit(SignUpErrorActionState(message: authModel.message));
+    }
   }
 
   FutureOr<void> signUpLoginActionEvent(

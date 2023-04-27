@@ -6,3 +6,11 @@ abstract class OtpEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class OtpButtonClickedEvent extends OtpEvent {
+  User model;
+  OtpButtonClickedEvent({required this.model});
+
+  @override
+  List<Object> get props => [model];
+}

@@ -14,21 +14,21 @@ class SignUpInitial extends SignUpState {}
 class SignUpButtonLoadingState extends SignUpState {}
 
 class SignUpErrorActionState extends SignUpActionState {
-  AuthModel model;
+  String message;
   SignUpErrorActionState({
-    required this.model,
+    required this.message,
   });
 
   @override
-  List<Object> get props => [model];
+  List<Object> get props => [message];
 }
 
 class SignUpSuccessActionState extends SignUpActionState {
-  AuthModel model;
+  String message;
   SignUpSuccessActionState({
-    required this.model,
+    required this.message,
   });
 
   @override
-  List<Object> get props => [model];
+  List<Object> get props => [message];
 }
