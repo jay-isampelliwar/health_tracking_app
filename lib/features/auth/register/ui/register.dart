@@ -74,11 +74,11 @@ class _RegistrationState extends State<Registration> {
               if (state is SignUpSuccessActionState) {
                 routeWithPushReplacement(
                     OTPScreen(email: emailTextEditingController.text), context);
-                appSnackBar(
-                    size: size, message: state.message, color: Colors.green);
+                ScaffoldMessenger.of(context).showSnackBar(appSnackBar(
+                    size: size, message: state.message, color: Colors.green));
               } else if (state is SignUpErrorActionState) {
-                appSnackBar(
-                    size: size, message: state.message, color: Colors.red);
+                ScaffoldMessenger.of(context).showSnackBar(appSnackBar(
+                    size: size, message: state.message, color: Colors.red));
               }
             },
             builder: (context, state) {

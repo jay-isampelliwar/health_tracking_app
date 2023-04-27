@@ -8,8 +8,10 @@ import 'package:health_tracking_app/core/widgets/app_custom_app_bar.dart';
 import 'package:health_tracking_app/core/widgets/app_snackbar.dart';
 import 'package:health_tracking_app/core/widgets/app_text_field.dart';
 import 'package:health_tracking_app/core/widgets/const_size_box.dart';
+import 'package:health_tracking_app/features/auth/model/user_model.dart';
 import 'package:health_tracking_app/features/auth/register/ui/register.dart';
 import 'package:health_tracking_app/features/home/ui/home_screen.dart';
+import 'package:health_tracking_app/locator.dart';
 
 import '../../../../core/widgets/app_button.dart';
 import '../bloc/login_bloc.dart';
@@ -46,16 +48,17 @@ class _LoginState extends State<Login> {
             bottom: size.height * 0.04,
           ),
           child: BlocConsumer<LoginBloc, LoginState>(
+            bloc: locator.get<LoginBloc>(),
             listenWhen: (previous, current) => current is LoginActionState,
             buildWhen: (previous, current) => current is! LoginActionState,
             listener: (context, state) {
               if (state is LoginErrorState) {
-                appSnackBar(
-                    size: size, message: state.message, color: Colors.red);
+                ScaffoldMessenger.of(context).showSnackBar(appSnackBar(
+                    size: size, message: state.message, color: Colors.red));
               } else if (state is LoginSuccessState) {
                 routeWithPushReplacement(const MainWidget(), context);
-                appSnackBar(
-                    size: size, message: state.message, color: Colors.green);
+                ScaffoldMessenger.of(context).showSnackBar(appSnackBar(
+                    size: size, message: state.message, color: Colors.green));
               }
             },
             builder: (context, state) {
@@ -94,11 +97,11 @@ class _LoginState extends State<Login> {
                         AppConstSizeBox.constHightSizedBox(size.height * 0.04),
                         AppButton(
                           child: Visibility(
-                            visible: false,
+                            visible: state is! LoginLoadingState,
                             replacement: CircularProgressIndicator(
                                 color: AppColors.white),
                             child: Text(
-                              "SignUp",
+                              "Login",
                               style:
                                   AppTextStyles.text28(bold: true, size: size)
                                       .copyWith(color: AppColors.white),
@@ -106,9 +109,15 @@ class _LoginState extends State<Login> {
                           ),
                           onTap: () {
                             FocusScope.of(context).unfocus();
-                            // if (formKey.currentState!.validate()) {
-                            //! Navigate to homepage
-                            // }
+                            if (formKey.currentState!.validate()) {
+                              locator.get<LoginBloc>().add(LoginHomeActionEvent(
+                                    model: User(
+                                      email: emailTextEditingController.text,
+                                      password:
+                                          passwordTextEditingController.text,
+                                    ),
+                                  ));
+                            }
                           },
                         ),
                       ],

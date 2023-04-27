@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:health_tracking_app/core/constants/token.dart';
 import 'package:health_tracking_app/features/auth/model/auth_model.dart';
 import 'package:health_tracking_app/features/auth/model/user_model.dart';
 import 'package:health_tracking_app/features/auth/repo/repo.dart';
@@ -19,14 +21,20 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   FutureOr<void> loginHomeActionEvent(
       LoginHomeActionEvent event, Emitter<LoginState> emit) async {
-    emit(LoginLoadingState());
-    AuthModel authModel = await locator.get<AuthRepo>().login(event.model);
+    try {
+      emit(LoginLoadingState());
+      AuthModel authModel = await locator.get<AuthRepo>().login(event.model);
 
-    emit(LoginInitial());
-    if (authModel.status) {
-      emit(LoginSuccessState(message: authModel.message));
-    } else {
-      emit(LoginErrorState(message: authModel.message));
+      emit(LoginInitial());
+      if (authModel.status) {
+        emit(LoginSuccessState(message: authModel.message));
+        token_value = authModel.data!.token;
+        log(token_value!);
+      } else {
+        emit(LoginErrorState(message: authModel.message));
+      }
+    } catch (err) {
+      emit(LoginInitial());
     }
   }
 

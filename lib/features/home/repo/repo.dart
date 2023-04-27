@@ -1,7 +1,7 @@
 import 'package:health_tracking_app/api_provider/api_provider.dart';
+import 'package:health_tracking_app/features/home/model/user.dart';
 import 'package:health_tracking_app/features/home/model/user_data.dart';
 
-import '../../auth/model/user_model.dart';
 import '../model/achievement.dart';
 
 class HomeRepo {
@@ -15,7 +15,7 @@ class HomeRepo {
     await _apiProvider.postAchievement(model: model);
   }
 
-  void userDetail() async {
-    User user = await _apiProvider.userDetails();
+  Future<UserModel> userDetail() {
+    return _apiProvider.userDetails();
   }
 }
