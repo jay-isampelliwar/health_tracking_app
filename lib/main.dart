@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:health_tracking_app/locator.dart';
 
-import 'features/home/ui/home_screen.dart';
+import 'features/auth/register/ui/register.dart';
 
 void main() {
+  setup();
   runApp(const MyApp());
 }
 
@@ -14,12 +16,12 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: Goal(),
-      // home: Registration(),
+      home: Registration(),
       // home: OTPScreen(
       //   email: 'Jay@gmail.com',
       // ),
       // home: Login(),
-      home: MainWidget(),
+      // home: MainWidget(),
       // home: Stats(),
       // home: Profile(),
       // home: Achievement(),
