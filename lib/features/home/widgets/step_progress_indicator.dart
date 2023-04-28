@@ -27,7 +27,7 @@ class StepProgressIndicator extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
 
-    double angle = 2 * pi * (3344 / steps);
+    double angle = 2 * pi * (todaysSteps / steps);
     canvas.drawArc(
         Rect.fromCircle(
             center: offset, radius: ((size.width + size.height) / 2) * 1.3),
