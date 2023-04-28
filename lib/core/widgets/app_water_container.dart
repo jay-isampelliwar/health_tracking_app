@@ -8,10 +8,14 @@ import '../constants/color_constant.dart';
 import '../constants/text_styles.dart';
 
 class WaterContainer extends StatelessWidget {
-  const WaterContainer({
+  WaterContainer({
+    required this.val1,
+    required this.val2,
     Key? key,
   }) : super(key: key);
 
+  double val1;
+  double val2;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -34,7 +38,7 @@ class WaterContainer extends StatelessWidget {
                 10000,
                 12000,
               ],
-              heightPercentages: [0.55, 0.60],
+              heightPercentages: [val1, val2],
             ),
             backgroundColor: AppColors.white,
             size: const Size(double.infinity, double.infinity),
