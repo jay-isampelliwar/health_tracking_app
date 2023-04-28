@@ -152,7 +152,10 @@ class _StatsState extends State<Stats> {
                     borderRadius: BorderRadius.circular(size.width * 0.05)),
                 child: Row(
                   children: [
-                    const WaterContainer(),
+                    WaterContainer(
+                      val1: 0.55,
+                      val2: 0.65,
+                    ),
                     AppConstSizeBox.constWidthSizedBox(size.width * 0.04),
                     Expanded(
                       child: Container(
