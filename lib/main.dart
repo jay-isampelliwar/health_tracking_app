@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:health_tracking_app/features/home/ui/home_screen.dart';
 import 'package:health_tracking_app/locator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -8,17 +9,23 @@ void main() async {
   setup();
   await Hive.initFlutter();
   await Hive.openBox("goals");
-  runApp(const MyApp());
+  await Hive.openBox("stepCounter");
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
+  final box = Hive.box("goals");
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Goal(),
+      home: box.get("steps") != null &&
+              box.get("calories") != null &&
+              box.get("water")
+          ? const MainWidget()
+          : Goal(),
       // home: Registration(),
       // home: OTPScreen(
       //   email: 'Jay@gmail.com',
