@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: box.get("steps") != null &&
               box.get("calories") != null &&
-              box.get("water")
+              box.get("water") != null
           ? const MainWidget()
           : Goal(),
       // home: Registration(),
