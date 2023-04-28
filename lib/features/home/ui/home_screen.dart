@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:health_tracking_app/core/constants/color_constant.dart';
 import 'package:health_tracking_app/core/constants/text_styles.dart';
 import 'package:health_tracking_app/core/widgets/const_size_box.dart';
-import 'package:health_tracking_app/features/home/bloc/home_bloc.dart';
-import 'package:health_tracking_app/locator.dart';
 
 import '../../../core/helper/helper.dart';
 import '../../../core/widgets/app_bottom_navbar.dart';
@@ -36,7 +34,7 @@ class _MainWidgetState extends State<MainWidget> {
 
   @override
   void initState() {
-    locator.get<HomeBloc>().add(HomeInitialEvent());
+    // locator.get<HomeBloc>().add(HomeInitialEvent());
     super.initState();
   }
 
@@ -118,13 +116,11 @@ class HomePage extends StatelessWidget {
                                   size.height * 0.08),
                               SizedBox(
                                 child: CustomPaint(
-                                  foregroundPainter: StepProgressIndicator(
-                                    step: 7500,
-                                  ),
+                                  foregroundPainter: StepProgressIndicator(),
                                   child: Column(
                                     children: [
                                       Text(
-                                        "7549",
+                                        "3344",
                                         style: AppTextStyles.text14(
                                                 bold: false, size: size)
                                             .copyWith(
@@ -132,7 +128,7 @@ class HomePage extends StatelessWidget {
                                         ),
                                       ),
                                       Text(
-                                        "steps",
+                                        "Steps",
                                         style: AppTextStyles.text14(
                                                 bold: false, size: size)
                                             .copyWith(
