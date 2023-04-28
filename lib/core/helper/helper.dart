@@ -75,4 +75,12 @@ class Helper {
     }
     return null;
   }
+
+  static calcCaloriesBurned(int steps) {
+    double caloriesPerStep = 0.05 *
+        62 /
+        2000; // assuming 0.05 calories per step per pound of body weight
+    double caloriesBurned = steps * caloriesPerStep;
+    return caloriesBurned.toStringAsFixed(3);
+  }
 }
