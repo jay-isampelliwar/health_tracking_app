@@ -1,7 +1,13 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:health_tracking_app/core/constants/color_constant.dart';
 import 'package:health_tracking_app/core/constants/text_styles.dart';
 import 'package:health_tracking_app/core/widgets/const_size_box.dart';
+import 'package:hive/hive.dart';
+import 'package:pedometer/pedometer.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../core/helper/helper.dart';
 import '../../../core/widgets/app_bottom_navbar.dart';
@@ -34,7 +40,6 @@ class _MainWidgetState extends State<MainWidget> {
 
   @override
   void initState() {
-    // locator.get<HomeBloc>().add(HomeInitialEvent());
     super.initState();
   }
 
@@ -55,8 +60,57 @@ class _MainWidgetState extends State<MainWidget> {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  late StreamSubscription<StepCount> _stepCountStreamSubscription;
+
+  int _stepCount = 1;
+  int stepCounter = 1;
+  final box = Hive.box("stepCounter");
+  int temp = 0;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void _setupPedometer() async {
+    var status = await Permission.activityRecognition.request();
+    if (status != PermissionStatus.granted) return;
+
+    _stepCountStreamSubscription =
+        Pedometer.stepCountStream.listen((stepCount) {
+      temp = stepCount.steps;
+      log(temp.toString());
+      setState(() {
+        _stepCount = stepCount.steps;
+      });
+    });
+
+    await Future.delayed(const Duration(milliseconds: 300));
+    config();
+  }
+
+  void config() {
+    log("Congi");
+    try {
+      if (box.get("stepValue") == null || box.get("stepValue") == -1) {
+        box.put("stepValue", temp);
+        stepCounter = temp;
+      } else {
+        stepCounter = box.get("stepValue");
+      }
+    } catch (err) {}
+    log(stepCounter.toString());
+    log(temp.toString());
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,11 +170,12 @@ class HomePage extends StatelessWidget {
                                   size.height * 0.08),
                               SizedBox(
                                 child: CustomPaint(
-                                  foregroundPainter: StepProgressIndicator(),
+                                  foregroundPainter: StepProgressIndicator(
+                                      todaysSteps: _stepCount % stepCounter),
                                   child: Column(
                                     children: [
                                       Text(
-                                        "3344",
+                                        "${_stepCount % stepCounter}",
                                         style: AppTextStyles.text14(
                                                 bold: false, size: size)
                                             .copyWith(
