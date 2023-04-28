@@ -1,14 +1,15 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 import '../../../core/constants/color_constant.dart';
 
 class StepProgressIndicator extends CustomPainter {
-  int step;
-  StepProgressIndicator({required this.step});
+  final box = Hive.box("goals");
   @override
   void paint(Canvas canvas, Size size) {
+    int steps = int.parse(box.get("steps"));
     Paint circle = Paint()
       ..strokeWidth = ((size.width + size.height) / 2) * 0.3
       ..color = AppColors.secondaryColor.withOpacity(0.2)
@@ -23,7 +24,7 @@ class StepProgressIndicator extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
 
-    double angle = 2 * pi * (step / 10000);
+    double angle = 2 * pi * (3344 / steps);
     canvas.drawArc(
         Rect.fromCircle(
             center: offset, radius: ((size.width + size.height) / 2) * 1.3),
