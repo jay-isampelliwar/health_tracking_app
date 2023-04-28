@@ -20,7 +20,6 @@ class Goal extends StatelessWidget {
   // TextEditingController EditingController= TextEditingController();
 
   final box = Hive.box("goals");
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
