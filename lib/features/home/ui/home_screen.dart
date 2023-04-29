@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +19,6 @@ import '../../achievement/ui/achievement.dart';
 import '../../profile/ui/profile.dart';
 import '../../stats/ui/stats.dart';
 import '../bloc/home_bloc.dart';
-import '../widgets/container_bottom_column.dart';
 import '../widgets/container_row.dart';
 import '../widgets/square_container.dart';
 import '../widgets/step_progress_indicator.dart';
@@ -76,7 +74,6 @@ class _HomePageState extends State<HomePage> {
   int stepCounter = 1;
   final box = Hive.box("stepCounter");
   final localDatabase = Hive.box("localData");
-  final goal = Hive.box("goals");
   int temp = 0;
 
   @override
@@ -111,15 +108,6 @@ class _HomePageState extends State<HomePage> {
       stepCounter = box.get("stepValue");
     }
     setState(() {}); //! Find solution for this
-  }
-
-  double getWaterValue() {
-    int liters = int.parse(goal.get("water") ?? 0);
-    double val = 0.99 / (liters / 0.25);
-    int numberOfGlasses = localDatabase.get("glassWater") * -1 ?? 0;
-
-    log("$val---val");
-    return numberOfGlasses * val;
   }
 
   @override
@@ -230,8 +218,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                       AppConstSizeBox.constWidthSizedBox(size.width * 0.04),
                       WaterContainer(
-                        val1: getWaterValue() - 0.05,
-                        val2: getWaterValue() - 0.0,
+                        val1: (1 - Helper.getWaterValue()) - 0.05,
+                        val2: (1 - Helper.getWaterValue()) - 0.0,
+                        water: localDatabase.get("glassWater"),
                         onTap: () {
                           locator
                               .get<HomeBloc>()
@@ -260,64 +249,57 @@ class _HomePageState extends State<HomePage> {
                               subTitle: "kcal",
                               value: Helper.calcCaloriesBurned(
                                   steps % stepCounter),
+                              borderColor: AppColors.secondaryColor,
                             ),
                             AppConstSizeBox.constHightSizedBox(
                                 size.height * 0.02),
                             SquareContainer(
-                              title: "Sleep",
-                              second: Text(
-                                "🛌🏿",
-                                style: AppTextStyles.text18(
-                                    bold: false, size: size),
+                              title: "BMI",
+                              second: Image.asset(
+                                "lib/assets/images/bmi.png",
+                                width: size.width * 0.06,
+                                height: size.width * 0.06,
+                                color: AppColors.black,
                               ),
-                              subTitle: "hours",
-                              value: "08:47",
+                              subTitle: "metric",
+                              value: "21.02",
+                              borderColor: AppColors.secondaryColor,
                             ),
                           ],
                         ),
                       ),
-                      AppConstSizeBox.constWidthSizedBox(size.width * 0.048),
-                      Expanded(
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            vertical: size.height * 0.02,
-                          ),
-                          margin: EdgeInsets.symmetric(
-                              horizontal: size.width * 0.01),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                width: 1, color: AppColors.secondaryColor),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: size.width * 0.05,
-                                ),
-                                child: ContainerRow(
-                                    title: "Heart",
-                                    second: Text(
-                                      "❤",
-                                      style: AppTextStyles.text18(
-                                          bold: false, size: size),
-                                    ),
-                                    color: AppColors.black),
+                      AppConstSizeBox.constWidthSizedBox(size.width * 0.045),
+                      SizedBox(
+                        width: size.width * 0.413,
+                        child: Column(
+                          children: [
+                            SquareContainer(
+                              title: "Distance",
+                              second: Image.asset(
+                                "lib/assets/images/distance.png",
+                                width: size.width * 0.06,
+                                height: size.width * 0.06,
+                                color: AppColors.black,
                               ),
-                              // const Expanded(child: HeartStats()),
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: size.width * 0.05,
-                                ),
-                                child: ContainerBottomColumn(
-                                  title: "bpm",
-                                  value: "105",
-                                  color: AppColors.black,
-                                ),
-                              )
-                            ],
-                          ),
+                              subTitle: "km",
+                              value: "1.2",
+                              borderColor: AppColors.secondaryColor,
+                            ),
+                            AppConstSizeBox.constHightSizedBox(
+                                size.height * 0.02),
+                            SquareContainer(
+                              title: "BMI",
+                              second: Image.asset(
+                                "lib/assets/images/bmi.png",
+                                width: size.width * 0.06,
+                                height: size.width * 0.06,
+                                color: AppColors.black,
+                              ),
+                              subTitle: "metric",
+                              value: "21.02",
+                              borderColor: AppColors.secondaryColor,
+                            ),
+                          ],
                         ),
                       )
                     ],

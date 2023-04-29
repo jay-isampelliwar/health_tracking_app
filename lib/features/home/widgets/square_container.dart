@@ -10,6 +10,7 @@ class SquareContainer extends StatelessWidget {
     required this.title,
     required this.subTitle,
     required this.value,
+    required this.borderColor,
     Key? key,
   }) : super(key: key);
 
@@ -17,6 +18,7 @@ class SquareContainer extends StatelessWidget {
   Widget second;
   String subTitle;
   String value;
+  Color borderColor;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -28,7 +30,7 @@ class SquareContainer extends StatelessWidget {
         ),
         margin: EdgeInsets.symmetric(horizontal: size.width * 0.01),
         decoration: BoxDecoration(
-          border: Border.all(width: 1, color: AppColors.secondaryColor),
+          border: Border.all(width: 1, color: borderColor),
           borderRadius: BorderRadius.circular(30),
         ),
         child: Padding(
