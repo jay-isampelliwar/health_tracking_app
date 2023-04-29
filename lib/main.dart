@@ -10,6 +10,7 @@ void main() async {
   await Hive.initFlutter();
   await Hive.openBox("goals");
   await Hive.openBox("stepCounter");
+  await Hive.openBox("localData");
   runApp(MyApp());
 }
 
