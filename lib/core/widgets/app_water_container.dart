@@ -6,17 +6,20 @@ import '../../features/home/widgets/container_bottom_column.dart';
 import '../../features/home/widgets/container_row.dart';
 import '../constants/color_constant.dart';
 import '../constants/text_styles.dart';
+import '../helper/helper.dart';
 
 class WaterContainer extends StatelessWidget {
   WaterContainer({
     required this.val1,
     required this.val2,
+    required this.water,
     this.onTap,
     Key? key,
   }) : super(key: key);
 
   double val1;
   double val2;
+  int water;
   Function()? onTap;
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,6 @@ class WaterContainer extends StatelessWidget {
         onTap: onTap,
         child: Container(
           clipBehavior: Clip.hardEdge,
-          // margin: EdgeInsets.symmetric(horizontal: size.width * 0.01),
           decoration: BoxDecoration(
             border: Border.all(width: 1, color: AppColors.secondaryColor),
             borderRadius: BorderRadius.circular(size.width * 0.07),
@@ -66,7 +68,7 @@ class WaterContainer extends StatelessWidget {
                   top: size.height * 0.175, left: size.width * 0.05),
               child: ContainerBottomColumn(
                 title: "liters",
-                value: "1.55",
+                value: Helper.getWaterLiter(water),
                 color: AppColors.white,
               ),
             ),

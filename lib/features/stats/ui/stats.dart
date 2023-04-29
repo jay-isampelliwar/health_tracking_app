@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:health_tracking_app/core/constants/color_constant.dart';
 import 'package:health_tracking_app/core/constants/text_styles.dart';
+import 'package:health_tracking_app/core/helper/helper.dart';
 import 'package:health_tracking_app/core/widgets/app_custom_app_bar.dart';
 import 'package:health_tracking_app/core/widgets/app_water_container.dart';
-import 'package:health_tracking_app/core/widgets/heart_container.dart';
 
 import '../../../core/widgets/const_size_box.dart';
-import '../../home/widgets/container_bottom_column.dart';
-import '../../home/widgets/container_row.dart';
+import '../../home/widgets/square_container.dart';
 
 class Stats extends StatefulWidget {
   const Stats({Key? key}) : super(key: key);
@@ -153,9 +152,12 @@ class _StatsState extends State<Stats> {
                 child: Row(
                   children: [
                     WaterContainer(
-                      val1: 0.55,
-                      val2: 0.65,
-                    ),
+                        val1: (1 -
+                            Helper.getWaterValue() -
+                            0.05), //!Helper.getWaterValue()
+                        val2: (1 - Helper.getWaterValue() - 0.05),
+                        water: 16 //! number of glasses,
+                        ),
                     AppConstSizeBox.constWidthSizedBox(size.width * 0.04),
                     Expanded(
                       child: Container(
@@ -168,32 +170,18 @@ class _StatsState extends State<Stats> {
                           borderRadius:
                               BorderRadius.circular(size.width * 0.07),
                         ),
-                        child: Stack(children: [
-                          const HeartStats(),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: size.height * 0.02,
-                                horizontal: size.width * 0.05),
-                            child: ContainerRow(
-                              title: "Heart",
-                              second: Text(
-                                "❤",
-                                style: AppTextStyles.text18(
-                                    bold: false, size: size),
-                              ),
-                              color: AppColors.black,
-                            ),
+                        child: SquareContainer(
+                          title: "BMI",
+                          second: Image.asset(
+                            "lib/assets/images/bmi.png",
+                            width: size.width * 0.06,
+                            height: size.width * 0.06,
+                            color: AppColors.black,
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: size.height * 0.175,
-                                left: size.width * 0.05),
-                            child: ContainerBottomColumn(
-                                value: "108",
-                                title: "bpm",
-                                color: AppColors.black),
-                          )
-                        ]),
+                          subTitle: "metric",
+                          value: "21.02",
+                          borderColor: Colors.transparent,
+                        ),
                       ),
                     )
                   ],
