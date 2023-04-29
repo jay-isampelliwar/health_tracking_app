@@ -1,4 +1,8 @@
+import 'package:hive/hive.dart';
+
 class Helper {
+  static final localDatabase = Hive.box("localData");
+  static final goal = Hive.box("goals");
   static String getGreeting() {
     int hour = DateTime.now().hour;
 
@@ -82,5 +86,17 @@ class Helper {
         2000; // assuming 0.05 calories per step per pound of body weight
     double caloriesBurned = steps * caloriesPerStep;
     return caloriesBurned.toStringAsFixed(3);
+  }
+
+  static getWaterLiter(int water) {
+    double calculate = water * 0.25;
+    return calculate.toStringAsFixed(2);
+  }
+
+  static double getWaterValue() {
+    int liters = int.parse(goal.get("water") ?? 0);
+    double val = 0.99 / (liters / 0.25);
+    int numberOfGlasses = localDatabase.get("glassWater") ?? 0;
+    return numberOfGlasses * val;
   }
 }
