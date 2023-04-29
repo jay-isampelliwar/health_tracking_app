@@ -17,3 +17,23 @@ class HomeInitialStepCountEvent extends HomeEvent {
   @override
   List<Object> get props => [steps];
 }
+
+class WaterContainerClickedEvent extends HomeEvent {}
+
+class HomeWaterDecreaseEvent extends HomeEvent {
+  int water;
+  HomeWaterDecreaseEvent({
+    required this.water,
+  });
+  @override
+  List<Object> get props => [water];
+}
+
+class HomeWaterIncreaseEvent extends HomeEvent {
+  int water;
+  HomeWaterIncreaseEvent({
+    required this.water,
+  });
+  @override
+  List<Object> get props => [water];
+}
