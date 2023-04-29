@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_tracking_app/core/constants/color_constant.dart';
 import 'package:health_tracking_app/core/constants/text_styles.dart';
 import 'package:health_tracking_app/core/widgets/const_size_box.dart';
+import 'package:health_tracking_app/features/home/widgets/app_dialogBox.dart';
 import 'package:health_tracking_app/locator.dart';
 import 'package:hive/hive.dart';
 import 'package:pedometer/pedometer.dart';
@@ -14,7 +16,6 @@ import '../../../core/helper/helper.dart';
 import '../../../core/widgets/app_bottom_navbar.dart';
 import '../../../core/widgets/app_custom_app_bar.dart';
 import '../../../core/widgets/app_water_container.dart';
-import '../../../core/widgets/heart_container.dart';
 import '../../achievement/ui/achievement.dart';
 import '../../profile/ui/profile.dart';
 import '../../stats/ui/stats.dart';
@@ -74,12 +75,15 @@ class _HomePageState extends State<HomePage> {
 
   int stepCounter = 1;
   final box = Hive.box("stepCounter");
+  final localDatabase = Hive.box("localData");
+  final goal = Hive.box("goals");
   int temp = 0;
 
   @override
   void initState() {
     super.initState();
     _setupPedometer();
+
     locator.get<HomeBloc>().add(HomeInitialEvent());
   }
 
@@ -109,9 +113,19 @@ class _HomePageState extends State<HomePage> {
     setState(() {}); //! Find solution for this
   }
 
+  double getWaterValue() {
+    int liters = int.parse(goal.get("water") ?? 0);
+    double val = 0.99 / (liters / 0.25);
+    int numberOfGlasses = localDatabase.get("glassWater") * -1 ?? 0;
+
+    log("$val---val");
+    return numberOfGlasses * val;
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Scaffold(
         body: Padding(
       padding: EdgeInsets.only(
@@ -121,61 +135,76 @@ class _HomePageState extends State<HomePage> {
         bottom: size.height * 0.04,
       ),
       child: SingleChildScrollView(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CustomAppBar(
-            title: "For today",
-            subtitle: "${Helper.getGreeting()}, Jay!",
-          ),
-          AppConstSizeBox.constHightSizedBox(size.height * 0.03),
-          SizedBox(
-            height: size.height * 0.25,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: BlocConsumer<HomeBloc, HomeState>(
+          bloc: locator.get<HomeBloc>(),
+          listenWhen: (previous, current) => current is HomeActionState,
+          buildWhen: (previous, current) => current is! HomeActionState,
+          listener: (context, state) {
+            if (state is HomeShowWaterDialogBoxState) {
+              showDialog(
+                  context: context,
+                  builder: (context) =>
+                      dialogBox(size: size, context: context));
+            }
+          },
+          builder: (context, state) {
+            int steps = 0;
+            if (state is HomeUpdateCounterState) {
+              steps = state.steps;
+            }
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: size.width * 0.02,
-                      vertical: size.height * 0.02,
-                    ),
-                    margin: EdgeInsets.symmetric(horizontal: size.width * 0.01),
-                    decoration: BoxDecoration(
-                      color: AppColors.primaryColor,
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: size.width * 0.03,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ContainerRow(
-                            title: "Walk",
-                            color: AppColors.white,
-                            second: Image.asset(
-                              "lib/assets/images/shoe.png",
-                              width: size.width * 0.06,
-                              height: size.width * 0.06,
-                              color: AppColors.white,
-                            ),
+                CustomAppBar(
+                  title: "For today",
+                  subtitle: "${Helper.getGreeting()}, Jay!",
+                ),
+                AppConstSizeBox.constHightSizedBox(size.height * 0.03),
+                SizedBox(
+                  height: size.height * 0.25,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: size.width * 0.02,
+                            vertical: size.height * 0.02,
                           ),
-                          AppConstSizeBox.constHightSizedBox(
-                              size.height * 0.08),
-                          BlocBuilder<HomeBloc, HomeState>(
-                            bloc: locator.get<HomeBloc>(),
-                            builder: (context, state) {
-                              if (state is HomeUpdateCounterState) {
-                                return SizedBox(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: size.width * 0.01),
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryColor,
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: size.width * 0.03,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                ContainerRow(
+                                  title: "Walk",
+                                  color: AppColors.white,
+                                  second: Image.asset(
+                                    "lib/assets/images/shoe.png",
+                                    width: size.width * 0.06,
+                                    height: size.width * 0.06,
+                                    color: AppColors.white,
+                                  ),
+                                ),
+                                AppConstSizeBox.constHightSizedBox(
+                                    size.height * 0.08),
+                                SizedBox(
                                   child: CustomPaint(
                                     foregroundPainter: StepProgressIndicator(
-                                        todaysSteps: state.steps % stepCounter),
+                                        todaysSteps: steps % stepCounter),
                                     child: Column(
                                       children: [
                                         Text(
-                                          "${state.steps % stepCounter}",
+                                          "${steps % stepCounter}",
                                           style: AppTextStyles.text14(
                                                   bold: false, size: size)
                                               .copyWith(
@@ -193,44 +222,35 @@ class _HomePageState extends State<HomePage> {
                                       ],
                                     ),
                                   ),
-                                );
-                              } else {
-                                return const SizedBox();
-                              }
-                            },
+                                )
+                              ],
+                            ),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                      AppConstSizeBox.constWidthSizedBox(size.width * 0.04),
+                      WaterContainer(
+                        val1: getWaterValue() - 0.05,
+                        val2: getWaterValue() - 0.0,
+                        onTap: () {
+                          locator
+                              .get<HomeBloc>()
+                              .add(WaterContainerClickedEvent());
+                        },
+                      )
+                    ],
                   ),
                 ),
-                AppConstSizeBox.constWidthSizedBox(size.width * 0.04),
-                BlocBuilder<HomeBloc, HomeState>(
-                  bloc: locator.get<HomeBloc>(),
-                  builder: (context, state) {
-                    return WaterContainer(
-                      val1: 0.60,
-                      val2: 0.65,
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-          AppConstSizeBox.constHightSizedBox(size.height * 0.02),
-          SizedBox(
-            height: size.height * 0.4,
-            child: Row(
-              children: [
+                AppConstSizeBox.constHightSizedBox(size.height * 0.02),
                 SizedBox(
-                  width: size.width * 0.413,
-                  child: Column(
+                  height: size.height * 0.4,
+                  child: Row(
                     children: [
-                      BlocBuilder<HomeBloc, HomeState>(
-                        bloc: locator.get<HomeBloc>(),
-                        builder: (context, state) {
-                          if (state is HomeUpdateCounterState) {
-                            return SquareContainer(
+                      SizedBox(
+                        width: size.width * 0.413,
+                        child: Column(
+                          children: [
+                            SquareContainer(
                               title: "Calories",
                               second: Text(
                                 "🔥",
@@ -239,74 +259,75 @@ class _HomePageState extends State<HomePage> {
                               ),
                               subTitle: "kcal",
                               value: Helper.calcCaloriesBurned(
-                                  state.steps % stepCounter),
-                            );
-                          } else {
-                            return const SizedBox();
-                          }
-                        },
-                      ),
-                      AppConstSizeBox.constHightSizedBox(size.height * 0.02),
-                      SquareContainer(
-                        title: "Sleep",
-                        second: Text(
-                          "🛌🏿",
-                          style: AppTextStyles.text18(bold: false, size: size),
-                        ),
-                        subTitle: "hours",
-                        value: "08:47",
-                      ),
-                    ],
-                  ),
-                ),
-                AppConstSizeBox.constWidthSizedBox(size.width * 0.048),
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: size.height * 0.02,
-                    ),
-                    margin: EdgeInsets.symmetric(horizontal: size.width * 0.01),
-                    decoration: BoxDecoration(
-                      border:
-                          Border.all(width: 1, color: AppColors.secondaryColor),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: size.width * 0.05,
-                          ),
-                          child: ContainerRow(
-                              title: "Heart",
+                                  steps % stepCounter),
+                            ),
+                            AppConstSizeBox.constHightSizedBox(
+                                size.height * 0.02),
+                            SquareContainer(
+                              title: "Sleep",
                               second: Text(
-                                "❤",
+                                "🛌🏿",
                                 style: AppTextStyles.text18(
                                     bold: false, size: size),
                               ),
-                              color: AppColors.black),
+                              subTitle: "hours",
+                              value: "08:47",
+                            ),
+                          ],
                         ),
-                        const Expanded(child: HeartStats()),
-                        Padding(
+                      ),
+                      AppConstSizeBox.constWidthSizedBox(size.width * 0.048),
+                      Expanded(
+                        child: Container(
                           padding: EdgeInsets.symmetric(
-                            horizontal: size.width * 0.05,
+                            vertical: size.height * 0.02,
                           ),
-                          child: ContainerBottomColumn(
-                            title: "bpm",
-                            value: "105",
-                            color: AppColors.black,
+                          margin: EdgeInsets.symmetric(
+                              horizontal: size.width * 0.01),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                width: 1, color: AppColors.secondaryColor),
+                            borderRadius: BorderRadius.circular(30),
                           ),
-                        )
-                      ],
-                    ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: size.width * 0.05,
+                                ),
+                                child: ContainerRow(
+                                    title: "Heart",
+                                    second: Text(
+                                      "❤",
+                                      style: AppTextStyles.text18(
+                                          bold: false, size: size),
+                                    ),
+                                    color: AppColors.black),
+                              ),
+                              // const Expanded(child: HeartStats()),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: size.width * 0.05,
+                                ),
+                                child: ContainerBottomColumn(
+                                  title: "bpm",
+                                  value: "105",
+                                  color: AppColors.black,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                )
+                ),
               ],
-            ),
-          ),
-        ],
-      )),
+            );
+          },
+        ),
+      ),
     ));
   }
 }
