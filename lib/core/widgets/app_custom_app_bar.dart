@@ -37,16 +37,7 @@ class CustomAppBar extends StatelessWidget {
             )
           ],
         ),
-        profile
-            ? Container(
-                height: 80,
-                width: 80,
-                decoration: const BoxDecoration(
-                  color: Colors.red,
-                  shape: BoxShape.circle,
-                ),
-              )
-            : const SizedBox()
+        profile ? Container() : const SizedBox()
       ],
     );
   }
