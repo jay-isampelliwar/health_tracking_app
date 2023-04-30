@@ -183,7 +183,7 @@ class _HomePageState extends State<HomePage> {
                                             child: Column(
                                               children: [
                                                 Text(
-                                                  "${snapshot.data!.steps}",
+                                                  "${Helper.getSteps(snapshot.data!.steps % stepCounter)}",
                                                   style: AppTextStyles.text14(
                                                           bold: false,
                                                           size: size)
@@ -264,9 +264,9 @@ class _HomePageState extends State<HomePage> {
                                 height: size.width * 0.06,
                                 color: AppColors.black,
                               ),
-                              subTitle: Helper.getBMIValue(
+                              subTitle: "matric",
+                              value: Helper.getBMIValue(
                                   goal.get("height"), goal.get("weight")),
-                              value: "21.02",
                               borderColor: AppColors.secondaryColor,
                             ),
                           ],
