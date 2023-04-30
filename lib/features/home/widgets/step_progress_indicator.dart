@@ -7,7 +7,7 @@ import '../../../core/constants/color_constant.dart';
 
 class StepProgressIndicator extends CustomPainter {
   StepProgressIndicator({required this.todaysSteps});
-  int todaysSteps;
+  double todaysSteps;
 
   final box = Hive.box("goals");
   @override

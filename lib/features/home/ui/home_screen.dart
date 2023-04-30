@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -71,44 +72,21 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late StreamSubscription<StepCount> _stepCountStreamSubscription;
 
-  int stepCounter = 1;
+  double stepCounter = 0;
   final box = Hive.box("stepCounter");
   final localDatabase = Hive.box("localData");
   final goal = Hive.box("goals");
-  int temp = 0;
 
   @override
   void initState() {
     super.initState();
     _setupPedometer();
-
     locator.get<HomeBloc>().add(HomeInitialEvent());
   }
 
   void _setupPedometer() async {
     var status = await Permission.activityRecognition.request();
     if (status != PermissionStatus.granted) return;
-
-    _stepCountStreamSubscription =
-        Pedometer.stepCountStream.listen((stepCount) {
-      temp = stepCount.steps;
-      locator
-          .get<HomeBloc>()
-          .add(HomeInitialStepCountEvent(steps: stepCount.steps));
-    });
-
-    await Future.delayed(const Duration(milliseconds: 300));
-    config();
-  }
-
-  void config() {
-    if (box.get("stepValue") == null || box.get("stepValue") == -1) {
-      box.put("stepValue", temp);
-      stepCounter = temp;
-    } else {
-      stepCounter = box.get("stepValue");
-    }
-    setState(() {}); //! Find solution for this
   }
 
   @override
@@ -137,11 +115,6 @@ class _HomePageState extends State<HomePage> {
             }
           },
           builder: (context, state) {
-            int steps = 0;
-            if (state is HomeUpdateCounterState) {
-              steps = state.steps;
-            }
-
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -186,32 +159,62 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 AppConstSizeBox.constHightSizedBox(
                                     size.height * 0.08),
-                                SizedBox(
-                                  child: CustomPaint(
-                                    foregroundPainter: StepProgressIndicator(
-                                        todaysSteps: steps % stepCounter),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          "${steps % stepCounter}",
-                                          style: AppTextStyles.text14(
-                                                  bold: false, size: size)
-                                              .copyWith(
-                                            color: AppColors.white,
+                                StreamBuilder<StepCount>(
+                                    stream: Pedometer.stepCountStream,
+                                    builder: (context, snapshot) {
+                                      if (box.get("stepValue") == null ||
+                                          box.get("stepValue") == -1) {
+                                        box.put(
+                                            "stepValue", snapshot.data!.steps);
+                                        print(snapshot.data!.steps);
+                                      } else {
+                                        stepCounter = box.get("stepValue");
+                                      }
+
+                                      log(stepCounter.toString());
+                                      if (snapshot.hasData) {
+                                        return SizedBox(
+                                          child: CustomPaint(
+                                            foregroundPainter:
+                                                StepProgressIndicator(
+                                                    todaysSteps:
+                                                        snapshot.data!.steps %
+                                                            stepCounter),
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  "${snapshot.data!.steps}",
+                                                  style: AppTextStyles.text14(
+                                                          bold: false,
+                                                          size: size)
+                                                      .copyWith(
+                                                    color: AppColors.white,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "Steps",
+                                                  style: AppTextStyles.text14(
+                                                          bold: false,
+                                                          size: size)
+                                                      .copyWith(
+                                                          color: AppColors
+                                                              .secondaryColor),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        Text(
-                                          "Steps",
-                                          style: AppTextStyles.text14(
-                                                  bold: false, size: size)
-                                              .copyWith(
-                                                  color:
-                                                      AppColors.secondaryColor),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )
+                                        );
+                                      } else {
+                                        return SizedBox(
+                                          child: CustomPaint(
+                                            foregroundPainter:
+                                                StepProgressIndicator(
+                                              todaysSteps: 0,
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    })
                               ],
                             ),
                           ),
@@ -221,7 +224,7 @@ class _HomePageState extends State<HomePage> {
                       WaterContainer(
                         val1: (1 - Helper.getWaterValue()) - 0.05,
                         val2: (1 - Helper.getWaterValue()) - 0.0,
-                        water: localDatabase.get("glassWater"),
+                        water: localDatabase.get("glassWater") ?? 1,
                         onTap: () {
                           locator
                               .get<HomeBloc>()
@@ -248,8 +251,7 @@ class _HomePageState extends State<HomePage> {
                                     bold: false, size: size),
                               ),
                               subTitle: "kcal",
-                              value: Helper.calcCaloriesBurned(
-                                  steps % stepCounter),
+                              value: Helper.calcCaloriesBurned(1000),
                               borderColor: AppColors.secondaryColor,
                             ),
                             AppConstSizeBox.constHightSizedBox(
