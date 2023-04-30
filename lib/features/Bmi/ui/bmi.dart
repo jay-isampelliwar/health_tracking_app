@@ -4,19 +4,20 @@ import 'package:health_tracking_app/core/helper/router.dart';
 import 'package:health_tracking_app/core/widgets/app_button.dart';
 import 'package:health_tracking_app/core/widgets/app_custom_app_bar.dart';
 import 'package:health_tracking_app/core/widgets/app_text_field.dart';
+import 'package:health_tracking_app/features/goal/ui/goal.dart';
 import 'package:hive/hive.dart';
 
 import '../../../core/constants/color_constant.dart';
 import '../../../core/widgets/const_size_box.dart';
 
-class Goal extends StatefulWidget {
-  const Goal({super.key});
+class BmiPage extends StatefulWidget {
+  const BmiPage({super.key});
 
   @override
-  State<Goal> createState() => _GoalState();
+  State<BmiPage> createState() => _BmiPageState();
 }
 
-class _GoalState extends State<Goal> {
+class _BmiPageState extends State<BmiPage> {
   TextEditingController hightTextEditingController = TextEditingController();
 
   TextEditingController weightTextEditingController = TextEditingController();
@@ -69,8 +70,8 @@ class _GoalState extends State<Goal> {
                       .copyWith(color: AppColors.white),
                 ),
                 onTap: () {
-                  box.put("height", hightTextEditingController);
-                  box.put("weight", weightTextEditingController);
+                  box.put("height", hightTextEditingController.text);
+                  box.put("weight", weightTextEditingController.text);
 
                   routeWithPushReplacement(const Goal(), context);
                 },

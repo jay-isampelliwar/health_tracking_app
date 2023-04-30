@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:hive/hive.dart';
 
 class Helper {
@@ -104,5 +106,10 @@ class Helper {
     double inMeter = double.parse(height) / 100;
     double bmi = double.parse(weight) / (inMeter * inMeter);
     return bmi.toStringAsFixed(2);
+  }
+
+  static getSteps(double d) {
+    log(d.toString());
+    return d.toStringAsFixed(0);
   }
 }
