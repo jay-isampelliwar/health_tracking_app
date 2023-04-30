@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -73,6 +72,7 @@ class _HomePageState extends State<HomePage> {
   late StreamSubscription<StepCount> _stepCountStreamSubscription;
 
   double stepCounter = 0;
+  int temp = 0;
   final box = Hive.box("stepCounter");
   final localDatabase = Hive.box("localData");
   final goal = Hive.box("goals");
@@ -87,6 +87,14 @@ class _HomePageState extends State<HomePage> {
   void _setupPedometer() async {
     var status = await Permission.activityRecognition.request();
     if (status != PermissionStatus.granted) return;
+
+    _stepCountStreamSubscription =
+        Pedometer.stepCountStream.listen((stepCount) {
+      temp = stepCount.steps;
+    });
+
+    await Future.delayed(const Duration(milliseconds: 300));
+    _stepCountStreamSubscription.cancel();
   }
 
   @override
@@ -162,28 +170,28 @@ class _HomePageState extends State<HomePage> {
                                 StreamBuilder<StepCount>(
                                     stream: Pedometer.stepCountStream,
                                     builder: (context, snapshot) {
-                                      if (box.get("stepValue") == null ||
-                                          box.get("stepValue") == -1) {
-                                        box.put(
-                                            "stepValue", snapshot.data!.steps);
-                                        print(snapshot.data!.steps);
-                                      } else {
-                                        stepCounter = box.get("stepValue");
-                                      }
-
-                                      log(stepCounter.toString());
                                       if (snapshot.hasData) {
+                                        if (box.get("stepValue") == null ||
+                                            box.get("stepValue") == -1) {
+                                          box.put("stepValue", temp);
+                                          stepCounter = temp + 0.0;
+                                        } else {
+                                          stepCounter =
+                                              box.get("stepValue") + 0.0;
+                                        }
+
                                         return SizedBox(
                                           child: CustomPaint(
                                             foregroundPainter:
                                                 StepProgressIndicator(
-                                                    todaysSteps:
-                                                        snapshot.data!.steps %
-                                                            stepCounter),
+                                              todaysSteps:
+                                                  snapshot.data!.steps %
+                                                      stepCounter,
+                                            ),
                                             child: Column(
                                               children: [
                                                 Text(
-                                                  "${snapshot.data!.steps}",
+                                                  "${Helper.getSteps(snapshot.data!.steps % stepCounter)}",
                                                   style: AppTextStyles.text14(
                                                           bold: false,
                                                           size: size)
@@ -210,6 +218,28 @@ class _HomePageState extends State<HomePage> {
                                             foregroundPainter:
                                                 StepProgressIndicator(
                                               todaysSteps: 0,
+                                            ),
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  "0",
+                                                  style: AppTextStyles.text14(
+                                                          bold: false,
+                                                          size: size)
+                                                      .copyWith(
+                                                    color: AppColors.white,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "Steps",
+                                                  style: AppTextStyles.text14(
+                                                          bold: false,
+                                                          size: size)
+                                                      .copyWith(
+                                                          color: AppColors
+                                                              .secondaryColor),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         );
@@ -251,7 +281,10 @@ class _HomePageState extends State<HomePage> {
                                     bold: false, size: size),
                               ),
                               subTitle: "kcal",
-                              value: Helper.calcCaloriesBurned(1000),
+                              value: temp == 0
+                                  ? "0.0"
+                                  : Helper.calcCaloriesBurned(
+                                      temp % stepCounter),
                               borderColor: AppColors.secondaryColor,
                             ),
                             AppConstSizeBox.constHightSizedBox(
@@ -264,9 +297,9 @@ class _HomePageState extends State<HomePage> {
                                 height: size.width * 0.06,
                                 color: AppColors.black,
                               ),
-                              subTitle: Helper.getBMIValue(
+                              subTitle: "metric",
+                              value: Helper.getBMIValue(
                                   goal.get("height"), goal.get("weight")),
-                              value: "21.02",
                               borderColor: AppColors.secondaryColor,
                             ),
                           ],
@@ -286,7 +319,7 @@ class _HomePageState extends State<HomePage> {
                                 color: AppColors.black,
                               ),
                               subTitle: "km",
-                              value: "1.2",
+                              value: Helper.getDistance(temp % stepCounter),
                               borderColor: AppColors.secondaryColor,
                             ),
                             AppConstSizeBox.constHightSizedBox(
