@@ -80,7 +80,7 @@ class Helper {
     return null;
   }
 
-  static calcCaloriesBurned(int steps) {
+  static String calcCaloriesBurned(int steps) {
     double caloriesPerStep = 0.05 *
         62 /
         2000; // assuming 0.05 calories per step per pound of body weight
@@ -88,7 +88,7 @@ class Helper {
     return caloriesBurned.toStringAsFixed(3);
   }
 
-  static getWaterLiter(int water) {
+  static String getWaterLiter(int water) {
     double calculate = water * 0.25;
     return calculate.toStringAsFixed(2);
   }
@@ -98,5 +98,11 @@ class Helper {
     double val = 0.99 / (liters / 0.25);
     int numberOfGlasses = localDatabase.get("glassWater") ?? 0;
     return numberOfGlasses * val;
+  }
+
+  static String getBMIValue(String height, String weight) {
+    double inMeter = double.parse(height) / 100;
+    double bmi = double.parse(weight) / (inMeter * inMeter);
+    return bmi.toStringAsFixed(2);
   }
 }
