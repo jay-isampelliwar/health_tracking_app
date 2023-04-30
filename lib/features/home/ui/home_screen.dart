@@ -74,6 +74,7 @@ class _HomePageState extends State<HomePage> {
   int stepCounter = 1;
   final box = Hive.box("stepCounter");
   final localDatabase = Hive.box("localData");
+  final goal = Hive.box("goals");
   int temp = 0;
 
   @override
@@ -261,7 +262,8 @@ class _HomePageState extends State<HomePage> {
                                 height: size.width * 0.06,
                                 color: AppColors.black,
                               ),
-                              subTitle: "metric",
+                              subTitle: Helper.getBMIValue(
+                                  goal.get("height"), goal.get("weight")),
                               value: "21.02",
                               borderColor: AppColors.secondaryColor,
                             ),
