@@ -13,6 +13,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeInitialStepCountEvent>(homeInitialStepCountEvent);
     on<HomeWaterIncreaseEvent>(homeWaterIncreaseEvent);
     on<HomeWaterDecreaseEvent>(homeWaterDecreaseEvent);
+    on<HomeUpdateEvent>(homeUpdateEvent);
   }
 
   FutureOr<void> homeInitialEvent(
@@ -37,5 +38,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   FutureOr<void> homeWaterIncreaseEvent(
       HomeWaterIncreaseEvent event, Emitter<HomeState> emit) {
     emit(HomeWaterIncreaseState(water: event.water + 1));
+  }
+
+  FutureOr<void> homeUpdateEvent(
+      HomeUpdateEvent event, Emitter<HomeState> emit) {
+    emit(HomeInitial());
   }
 }

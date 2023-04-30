@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_tracking_app/core/constants/color_constant.dart';
 import 'package:health_tracking_app/core/constants/text_styles.dart';
 import 'package:health_tracking_app/core/widgets/const_size_box.dart';
-import 'package:health_tracking_app/features/home/widgets/app_dialogBox.dart';
 import 'package:health_tracking_app/locator.dart';
 import 'package:hive/hive.dart';
 import 'package:pedometer/pedometer.dart';
@@ -93,9 +92,7 @@ class _HomePageState extends State<HomePage> {
       temp = stepCount.steps;
     });
 
-    await Future.delayed(const Duration(milliseconds: 300));
     setState(() {});
-    _stepCountStreamSubscription.cancel();
   }
 
   @override
@@ -103,255 +100,251 @@ class _HomePageState extends State<HomePage> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-        body: Padding(
-      padding: EdgeInsets.only(
-        left: size.width * 0.06,
-        right: size.width * 0.06,
-        top: size.height * 0.06,
-        bottom: size.height * 0.04,
-      ),
-      child: SingleChildScrollView(
-        child: BlocConsumer<HomeBloc, HomeState>(
-          bloc: locator.get<HomeBloc>(),
-          listenWhen: (previous, current) => current is HomeActionState,
-          buildWhen: (previous, current) => current is! HomeActionState,
-          listener: (context, state) {
-            if (state is HomeShowWaterDialogBoxState) {
-              showDialog(
-                  context: context,
-                  builder: (context) =>
-                      dialogBox(size: size, context: context));
-            }
-          },
-          builder: (context, state) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomAppBar(
-                  title: "For today",
-                  subtitle: "${Helper.getGreeting()}, Jay!",
-                ),
-                AppConstSizeBox.constHightSizedBox(size.height * 0.03),
-                SizedBox(
-                  height: size.height * 0.25,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Container(
+      body: Padding(
+        padding: EdgeInsets.only(
+          left: size.width * 0.06,
+          right: size.width * 0.06,
+          top: size.height * 0.06,
+          bottom: size.height * 0.04,
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomAppBar(
+                title: "For today",
+                subtitle: "${Helper.getGreeting()}, Jay!",
+              ),
+              AppConstSizeBox.constHightSizedBox(size.height * 0.03),
+              SizedBox(
+                height: size.height * 0.25,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: size.width * 0.02,
+                          vertical: size.height * 0.02,
+                        ),
+                        margin:
+                            EdgeInsets.symmetric(horizontal: size.width * 0.01),
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryColor,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Padding(
                           padding: EdgeInsets.symmetric(
-                            horizontal: size.width * 0.02,
-                            vertical: size.height * 0.02,
+                            horizontal: size.width * 0.03,
                           ),
-                          margin: EdgeInsets.symmetric(
-                              horizontal: size.width * 0.01),
-                          decoration: BoxDecoration(
-                            color: AppColors.primaryColor,
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: size.width * 0.03,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                ContainerRow(
-                                  title: "Walk",
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              ContainerRow(
+                                title: "Walk",
+                                color: AppColors.white,
+                                second: Image.asset(
+                                  "lib/assets/images/shoe.png",
+                                  width: size.width * 0.06,
+                                  height: size.width * 0.06,
                                   color: AppColors.white,
-                                  second: Image.asset(
-                                    "lib/assets/images/shoe.png",
-                                    width: size.width * 0.06,
-                                    height: size.width * 0.06,
-                                    color: AppColors.white,
-                                  ),
                                 ),
-                                AppConstSizeBox.constHightSizedBox(
-                                    size.height * 0.08),
-                                StreamBuilder<StepCount>(
-                                    stream: Pedometer.stepCountStream,
-                                    builder: (context, snapshot) {
-                                      if (snapshot.hasData) {
-                                        if (box.get("stepValue") == null ||
-                                            box.get("stepValue") == -1) {
-                                          box.put("stepValue", temp);
-                                          stepCounter = temp + 0.0;
-                                        } else {
-                                          stepCounter =
-                                              box.get("stepValue") + 0.0;
-                                        }
-                                        locator
-                                            .get<HomeBloc>()
-                                            .add(HomeInitialEvent());
-                                        return SizedBox(
-                                          child: CustomPaint(
-                                            foregroundPainter:
-                                                StepProgressIndicator(
-                                              todaysSteps:
-                                                  snapshot.data!.steps %
-                                                      stepCounter,
-                                            ),
-                                            child: Column(
-                                              children: [
-                                                Text(
-                                                  "${Helper.getSteps(snapshot.data!.steps % stepCounter)}",
-                                                  style: AppTextStyles.text14(
-                                                          bold: false,
-                                                          size: size)
-                                                      .copyWith(
-                                                    color: AppColors.white,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  "Steps",
-                                                  style: AppTextStyles.text14(
-                                                          bold: false,
-                                                          size: size)
-                                                      .copyWith(
-                                                          color: AppColors
-                                                              .secondaryColor),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        );
+                              ),
+                              AppConstSizeBox.constHightSizedBox(
+                                  size.height * 0.08),
+                              StreamBuilder<StepCount>(
+                                  stream: Pedometer.stepCountStream,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      if (box.get("stepValue") == null ||
+                                          box.get("stepValue") == -1) {
+                                        box.put("stepValue", temp);
+                                        stepCounter = temp + 0.0;
                                       } else {
-                                        return SizedBox(
-                                          child: CustomPaint(
-                                            foregroundPainter:
-                                                StepProgressIndicator(
-                                              todaysSteps: 0,
-                                            ),
-                                            child: Column(
-                                              children: [
-                                                Text(
-                                                  "0",
-                                                  style: AppTextStyles.text14(
-                                                          bold: false,
-                                                          size: size)
-                                                      .copyWith(
-                                                    color: AppColors.white,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  "Steps",
-                                                  style: AppTextStyles.text14(
-                                                          bold: false,
-                                                          size: size)
-                                                      .copyWith(
-                                                          color: AppColors
-                                                              .secondaryColor),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        );
+                                        stepCounter =
+                                            box.get("stepValue") + 0.0;
                                       }
-                                    })
-                              ],
-                            ),
+                                      locator
+                                          .get<HomeBloc>()
+                                          .add(HomeUpdateEvent());
+                                      return SizedBox(
+                                        child: CustomPaint(
+                                          foregroundPainter:
+                                              StepProgressIndicator(
+                                            todaysSteps: snapshot.data!.steps %
+                                                stepCounter,
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                "${Helper.getSteps(snapshot.data!.steps % stepCounter)}",
+                                                style: AppTextStyles.text14(
+                                                        bold: false, size: size)
+                                                    .copyWith(
+                                                  color: AppColors.white,
+                                                ),
+                                              ),
+                                              Text(
+                                                "Steps",
+                                                style: AppTextStyles.text14(
+                                                        bold: false, size: size)
+                                                    .copyWith(
+                                                        color: AppColors
+                                                            .secondaryColor),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      return SizedBox(
+                                        child: CustomPaint(
+                                          foregroundPainter:
+                                              StepProgressIndicator(
+                                            todaysSteps: 0,
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                "0",
+                                                style: AppTextStyles.text14(
+                                                        bold: false, size: size)
+                                                    .copyWith(
+                                                  color: AppColors.white,
+                                                ),
+                                              ),
+                                              Text(
+                                                "Steps",
+                                                style: AppTextStyles.text14(
+                                                        bold: false, size: size)
+                                                    .copyWith(
+                                                        color: AppColors
+                                                            .secondaryColor),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  })
+                            ],
                           ),
                         ),
                       ),
-                      AppConstSizeBox.constWidthSizedBox(size.width * 0.04),
-                      WaterContainer(
-                        val1: (1 - Helper.getWaterValue()) - 0.05,
-                        val2: (1 - Helper.getWaterValue()) - 0.0,
-                        water: localDatabase.get("glassWater") ?? 1,
-                        onTap: () {
-                          locator
-                              .get<HomeBloc>()
-                              .add(WaterContainerClickedEvent());
-                        },
-                      )
-                    ],
-                  ),
+                    ),
+                    AppConstSizeBox.constWidthSizedBox(size.width * 0.04),
+                    BlocBuilder<HomeBloc, HomeState>(
+                      bloc: locator.get<HomeBloc>(),
+                      builder: (context, state) {
+                        return WaterContainer(
+                          val1: (1 - Helper.getWaterValue()) - 0.05,
+                          val2: (1 - Helper.getWaterValue()) - 0.0,
+                          water: localDatabase.get("glassWater") ?? 1,
+                          onTap: () {
+                            locator
+                                .get<HomeBloc>()
+                                .add(WaterContainerClickedEvent());
+                          },
+                        );
+                      },
+                    )
+                  ],
                 ),
-                AppConstSizeBox.constHightSizedBox(size.height * 0.02),
-                SizedBox(
-                  height: size.height * 0.4,
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: size.width * 0.413,
-                        child: Column(
-                          children: [
-                            SquareContainer(
-                              title: "Calories",
-                              second: Text(
-                                "🔥",
-                                style: AppTextStyles.text18(
-                                    bold: false, size: size),
-                              ),
-                              subTitle: "kcal",
-                              value: temp == 0
-                                  ? "0.0"
-                                  : Helper.calcCaloriesBurned(
-                                      temp % stepCounter),
-                              borderColor: AppColors.secondaryColor,
+              ),
+              AppConstSizeBox.constHightSizedBox(size.height * 0.02),
+              SizedBox(
+                height: size.height * 0.4,
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: size.width * 0.413,
+                      child: Column(
+                        children: [
+                          BlocBuilder<HomeBloc, HomeState>(
+                            bloc: locator.get<HomeBloc>(),
+                            builder: (context, state) {
+                              return SquareContainer(
+                                title: "Calories",
+                                second: Text(
+                                  "🔥",
+                                  style: AppTextStyles.text18(
+                                      bold: false, size: size),
+                                ),
+                                subTitle: "kcal",
+                                value: state is HomeUpdateCounterState
+                                    ? Helper.calcCaloriesBurned(
+                                        temp % stepCounter)
+                                    : "0.0",
+                                borderColor: AppColors.secondaryColor,
+                              );
+                            },
+                          ),
+                          AppConstSizeBox.constHightSizedBox(
+                              size.height * 0.02),
+                          SquareContainer(
+                            title: "BMI",
+                            second: Image.asset(
+                              "lib/assets/images/bmi.png",
+                              width: size.width * 0.06,
+                              height: size.width * 0.06,
+                              color: AppColors.black,
                             ),
-                            AppConstSizeBox.constHightSizedBox(
-                                size.height * 0.02),
-                            SquareContainer(
-                              title: "BMI",
-                              second: Image.asset(
-                                "lib/assets/images/bmi.png",
-                                width: size.width * 0.06,
-                                height: size.width * 0.06,
-                                color: AppColors.black,
-                              ),
-                              subTitle: "metric",
-                              value: Helper.getBMIValue(
-                                  goal.get("height"), goal.get("weight")),
-                              borderColor: AppColors.secondaryColor,
-                            ),
-                          ],
-                        ),
+                            subTitle: "metric",
+                            value: Helper.getBMIValue(
+                                goal.get("height"), goal.get("weight")),
+                            borderColor: AppColors.secondaryColor,
+                          ),
+                        ],
                       ),
-                      AppConstSizeBox.constWidthSizedBox(size.width * 0.045),
-                      SizedBox(
-                        width: size.width * 0.413,
-                        child: Column(
-                          children: [
-                            SquareContainer(
-                              title: "Distance",
-                              second: Image.asset(
-                                "lib/assets/images/distance.png",
-                                width: size.width * 0.06,
-                                height: size.width * 0.06,
-                                color: AppColors.black,
-                              ),
-                              subTitle: "km",
-                              value: temp == 0
-                                  ? "0.0"
-                                  : Helper.getDistance(temp % stepCounter),
-                              borderColor: AppColors.secondaryColor,
+                    ),
+                    AppConstSizeBox.constWidthSizedBox(size.width * 0.045),
+                    SizedBox(
+                      width: size.width * 0.413,
+                      child: Column(
+                        children: [
+                          BlocBuilder<HomeBloc, HomeState>(
+                            bloc: locator.get<HomeBloc>(),
+                            builder: (context, state) {
+                              return SquareContainer(
+                                title: "Distance",
+                                second: Image.asset(
+                                  "lib/assets/images/distance.png",
+                                  width: size.width * 0.06,
+                                  height: size.width * 0.06,
+                                  color: AppColors.black,
+                                ),
+                                subTitle: "km",
+                                value: state is HomeUpdateCounterState
+                                    ? Helper.getDistance(temp % stepCounter)
+                                    : "0.0",
+                                borderColor: AppColors.secondaryColor,
+                              );
+                            },
+                          ),
+                          AppConstSizeBox.constHightSizedBox(
+                              size.height * 0.02),
+                          SquareContainer(
+                            title: "BMI",
+                            second: Image.asset(
+                              "lib/assets/images/bmi.png",
+                              width: size.width * 0.06,
+                              height: size.width * 0.06,
+                              color: AppColors.black,
                             ),
-                            AppConstSizeBox.constHightSizedBox(
-                                size.height * 0.02),
-                            SquareContainer(
-                              title: "BMI",
-                              second: Image.asset(
-                                "lib/assets/images/bmi.png",
-                                width: size.width * 0.06,
-                                height: size.width * 0.06,
-                                color: AppColors.black,
-                              ),
-                              subTitle: "metric",
-                              value: "21.02",
-                              borderColor: AppColors.secondaryColor,
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
+                            subTitle: "metric",
+                            value: "21.02",
+                            borderColor: AppColors.secondaryColor,
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
                 ),
-              ],
-            );
-          },
+              ),
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
 }

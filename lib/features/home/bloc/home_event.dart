@@ -9,6 +9,8 @@ abstract class HomeEvent extends Equatable {
 
 class HomeInitialEvent extends HomeEvent {}
 
+class HomeUpdateEvent extends HomeEvent {}
+
 class HomeInitialStepCountEvent extends HomeEvent {
   int steps;
 
