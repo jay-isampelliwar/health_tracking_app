@@ -94,6 +94,7 @@ class _HomePageState extends State<HomePage> {
     });
 
     await Future.delayed(const Duration(milliseconds: 300));
+    setState(() {});
     _stepCountStreamSubscription.cancel();
   }
 
@@ -179,7 +180,9 @@ class _HomePageState extends State<HomePage> {
                                           stepCounter =
                                               box.get("stepValue") + 0.0;
                                         }
-
+                                        locator
+                                            .get<HomeBloc>()
+                                            .add(HomeInitialEvent());
                                         return SizedBox(
                                           child: CustomPaint(
                                             foregroundPainter:
