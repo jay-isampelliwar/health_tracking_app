@@ -49,7 +49,7 @@ class _GoalState extends State<Goal> {
             children: [
               CustomAppBar(
                 title: "Add Goals",
-                subtitle: "",
+                subtitle: "Add the details",
                 profile: false,
               ),
               AppConstSizeBox.constHightSizedBox(size.height * 0.02),

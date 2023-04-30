@@ -60,7 +60,7 @@ class _BmiPageState extends State<BmiPage> {
               BMIBlock(
                 stepCountTextEditingController: hightTextEditingController,
                 title: "Height",
-                hindText: "CM",
+                hindText: "In CM",
               ),
               AppConstSizeBox.constHightSizedBox(size.height * 0.04),
               AppButton(

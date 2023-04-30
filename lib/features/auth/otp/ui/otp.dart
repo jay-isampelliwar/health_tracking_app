@@ -5,11 +5,11 @@ import 'package:health_tracking_app/core/helper/helper.dart';
 import 'package:health_tracking_app/core/helper/router.dart';
 import 'package:health_tracking_app/core/widgets/app_snackbar.dart';
 import 'package:health_tracking_app/core/widgets/const_size_box.dart';
+import 'package:health_tracking_app/features/Bmi/ui/bmi.dart';
 import 'package:health_tracking_app/locator.dart';
 
 import '../../../../core/constants/color_constant.dart';
 import '../../../../core/widgets/app_text_field.dart';
-import '../../login/ui/login.dart';
 import '../bloc/otp_bloc.dart';
 
 class OTPScreen extends StatelessWidget {
@@ -37,7 +37,7 @@ class OTPScreen extends StatelessWidget {
                     appSnackBar(
                         size: size, message: state.message, color: Colors.red);
                   } else if (state is OtpSuccessState) {
-                    routeWithPushReplacement(const Login(), context);
+                    routeWithPushReplacement(const BmiPage(), context);
                     appSnackBar(
                         size: size,
                         message: state.message,
