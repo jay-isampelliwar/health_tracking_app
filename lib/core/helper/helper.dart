@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:hive/hive.dart';
 
 class Helper {
@@ -82,10 +80,8 @@ class Helper {
     return null;
   }
 
-  static String calcCaloriesBurned(int steps) {
-    double caloriesPerStep = 0.05 *
-        62 /
-        2000; // assuming 0.05 calories per step per pound of body weight
+  static String calcCaloriesBurned(double steps) {
+    double caloriesPerStep = 0.05 * double.parse(goal.get("weight")) / 2000;
     double caloriesBurned = steps * caloriesPerStep;
     return caloriesBurned.toStringAsFixed(3);
   }
@@ -109,7 +105,12 @@ class Helper {
   }
 
   static getSteps(double d) {
-    log(d.toString());
     return d.toStringAsFixed(0);
+  }
+
+  static getDistance(double steps) {
+    double stepLength = 0.762;
+    double distance = steps * stepLength / 1000;
+    return distance.toStringAsFixed(2);
   }
 }
