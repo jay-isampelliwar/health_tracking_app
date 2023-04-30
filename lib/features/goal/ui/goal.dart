@@ -10,16 +10,29 @@ import 'package:hive/hive.dart';
 import '../../../core/constants/color_constant.dart';
 import '../../../core/widgets/const_size_box.dart';
 
-class Goal extends StatelessWidget {
-  Goal({super.key});
+class Goal extends StatefulWidget {
+  const Goal({super.key});
 
+  @override
+  State<Goal> createState() => _GoalState();
+}
+
+class _GoalState extends State<Goal> {
   TextEditingController stepCountTextEditingController =
       TextEditingController();
   TextEditingController calTextEditingController = TextEditingController();
   TextEditingController waterEditingController = TextEditingController();
   // TextEditingController EditingController= TextEditingController();
-
   final box = Hive.box("goals");
+
+  @override
+  void dispose() {
+    stepCountTextEditingController.dispose();
+    calTextEditingController.dispose();
+    waterEditingController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
