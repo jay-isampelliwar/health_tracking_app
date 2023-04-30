@@ -319,7 +319,9 @@ class _HomePageState extends State<HomePage> {
                                 color: AppColors.black,
                               ),
                               subTitle: "km",
-                              value: Helper.getDistance(temp % stepCounter),
+                              value: temp == 0
+                                  ? "0.0"
+                                  : Helper.getDistance(temp % stepCounter),
                               borderColor: AppColors.secondaryColor,
                             ),
                             AppConstSizeBox.constHightSizedBox(
