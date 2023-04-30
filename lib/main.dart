@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:health_tracking_app/features/Bmi/ui/bmi.dart';
 import 'package:health_tracking_app/features/home/ui/home_screen.dart';
 import 'package:health_tracking_app/locator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
               box.get("calories") != null &&
               box.get("water") != null
           ? const MainWidget()
-          : Goal(),
+          : const BmiPage(),
       // home: Registration(),
       // home: OTPScreen(
       //   email: 'Jay@gmail.com',
