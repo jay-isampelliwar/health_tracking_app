@@ -11,12 +11,13 @@ class HomeActionState extends HomeState {}
 
 class HomeInitial extends HomeState {}
 
-class HomeUpdateCounterState extends HomeState {
-  int steps;
-  HomeUpdateCounterState({required this.steps});
+class HomeUpdateState extends HomeState {
+  String distance;
+  String calories;
+  HomeUpdateState({required this.calories, required this.distance});
 
   @override
-  List<Object> get props => [steps];
+  List<Object> get props => [distance, calories];
 }
 
 class HomeShowWaterDialogBoxState extends HomeActionState {}
@@ -30,15 +31,7 @@ class HomeWaterDecreaseState extends HomeState {
   List<Object> get props => [water];
 }
 
-class HomeWaterIncreaseState extends HomeState {
-  int water;
-  HomeWaterIncreaseState({
-    required this.water,
-  });
-  @override
-  List<Object> get props => [water];
-}
-
+//
 class HomeWaterLevelDecreaseState extends HomeState {
   double val;
   HomeWaterLevelDecreaseState({
@@ -55,4 +48,14 @@ class HomeWaterLevelIncreaseState extends HomeState {
   });
   @override
   List<Object> get props => [val];
+}
+
+class HomeWaterLevelUpdate extends HomeState {
+  String numberOfGlasses;
+  HomeWaterLevelUpdate({
+    required this.numberOfGlasses,
+  });
+
+  @override
+  List<Object> get props => [numberOfGlasses];
 }
