@@ -7,15 +7,13 @@ abstract class HomeEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class HomeInitialEvent extends HomeEvent {}
-
-class HomeUpdateEvent extends HomeEvent {}
-
-class HomeInitialStepCountEvent extends HomeEvent {
+class HomeUpdateEvent extends HomeEvent {
   int steps;
-
-  HomeInitialStepCountEvent({required this.steps});
-
+  double divider;
+  HomeUpdateEvent({
+    required this.divider,
+    required this.steps,
+  });
   @override
   List<Object> get props => [steps];
 }
@@ -39,3 +37,15 @@ class HomeWaterIncreaseEvent extends HomeEvent {
   @override
   List<Object> get props => [water];
 }
+
+class HomeWaterLevelUpdateEvent extends HomeEvent {
+  bool add;
+  HomeWaterLevelUpdateEvent({
+    required this.add,
+  });
+
+  @override
+  List<Object> get props => [add];
+}
+
+class HomeDialogBoxCloseButtonActionEvent extends HomeEvent {}

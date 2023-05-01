@@ -2,46 +2,70 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:health_tracking_app/core/helper/helper.dart';
+import 'package:hive/hive.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
+  final localDatabase = Hive.box("localData");
+
   HomeBloc() : super(HomeInitial()) {
-    on<HomeInitialEvent>(homeInitialEvent);
     on<WaterContainerClickedEvent>(waterContainerClickedEvent);
-    on<HomeInitialStepCountEvent>(homeInitialStepCountEvent);
-    on<HomeWaterIncreaseEvent>(homeWaterIncreaseEvent);
-    on<HomeWaterDecreaseEvent>(homeWaterDecreaseEvent);
     on<HomeUpdateEvent>(homeUpdateEvent);
-  }
-
-  FutureOr<void> homeInitialEvent(
-      HomeInitialEvent event, Emitter<HomeState> emit) {}
-
-  FutureOr<void> homeInitialStepCountEvent(
-      HomeInitialStepCountEvent event, Emitter<HomeState> emit) {
-    emit(HomeUpdateCounterState(steps: event.steps));
+    on<HomeWaterLevelUpdateEvent>(homeWaterLevelUpdateEvent);
+    on<HomeDialogBoxCloseButtonActionEvent>(
+        homeDialogBoxCloseButtonActionEvent);
   }
 
   FutureOr<void> waterContainerClickedEvent(
       WaterContainerClickedEvent event, Emitter<HomeState> emit) {
     emit(HomeShowWaterDialogBoxState());
-    emit(HomeInitial());
+    emit(HomeUpdateState(
+        calories: localDatabase.get("calories"),
+        distance: localDatabase.get("distance")));
   }
 
   FutureOr<void> homeWaterDecreaseEvent(
       HomeWaterDecreaseEvent event, Emitter<HomeState> emit) {
     emit(HomeWaterDecreaseState(water: event.water - 1));
+    emit(HomeUpdateState(
+        calories: localDatabase.get("calories"),
+        distance: localDatabase.get("distance")));
   }
 
   FutureOr<void> homeWaterIncreaseEvent(
       HomeWaterIncreaseEvent event, Emitter<HomeState> emit) {
-    emit(HomeWaterIncreaseState(water: event.water + 1));
+    emit(HomeUpdateState(
+        calories: localDatabase.get("calories"),
+        distance: localDatabase.get("distance")));
   }
 
   FutureOr<void> homeUpdateEvent(
       HomeUpdateEvent event, Emitter<HomeState> emit) {
-    emit(HomeInitial());
+    String calories = Helper.calcCaloriesBurned(event.steps % event.divider);
+    String distance = Helper.getDistance(event.steps % event.divider);
+    localDatabase.put("calories", calories);
+    localDatabase.put("distance", distance);
+    emit(HomeUpdateState(calories: calories, distance: distance));
+  }
+
+  FutureOr<void> homeWaterLevelUpdateEvent(
+      HomeWaterLevelUpdateEvent event, Emitter<HomeState> emit) {
+    if (event.add) {
+      localDatabase.put("glassWater", localDatabase.get("glassWater") + 1);
+    } else {
+      localDatabase.put("glassWater", localDatabase.get("glassWater") - 1);
+    }
+    emit(HomeWaterLevelUpdate(
+        numberOfGlasses: localDatabase.get("glassWater").toString()));
+  }
+
+  FutureOr<void> homeDialogBoxCloseButtonActionEvent(
+      HomeDialogBoxCloseButtonActionEvent event, Emitter<HomeState> emit) {
+    emit(HomeUpdateState(
+        calories: localDatabase.get("calories"),
+        distance: localDatabase.get("distance")));
   }
 }

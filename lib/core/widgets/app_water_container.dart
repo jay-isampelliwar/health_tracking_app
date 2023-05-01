@@ -56,12 +56,13 @@ class WaterContainer extends StatelessWidget {
                 vertical: size.height * 0.02,
               ),
               child: ContainerRow(
-                  title: "Water",
-                  color: AppColors.black,
-                  second: Text(
-                    "💧",
-                    style: AppTextStyles.text18(bold: false, size: size),
-                  )),
+                title: "Water",
+                color: AppColors.black,
+                second: Text(
+                  "💧",
+                  style: AppTextStyles.text18(bold: false, size: size),
+                ),
+              ),
             ),
             Padding(
               padding: EdgeInsets.only(
