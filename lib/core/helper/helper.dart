@@ -108,7 +108,7 @@ class Helper {
     return d.toStringAsFixed(0);
   }
 
-  static getDistance(double steps) {
+  static String getDistance(double steps) {
     double stepLength = 0.762;
     double distance = steps * stepLength / 1000;
     return distance.toStringAsFixed(2);
