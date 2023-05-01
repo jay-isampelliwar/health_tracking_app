@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -53,15 +54,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   FutureOr<void> homeWaterLevelUpdateEvent(
       HomeWaterLevelUpdateEvent event, Emitter<HomeState> emit) {
-    int get = localDatabase.get("event.divider") ?? 0;
+    int get = localDatabase.get("glassWater");
     if (event.add) {
       localDatabase.put("glassWater", get + 1);
-      get += 1;
     } else {
       localDatabase.put("glassWater", get - 1);
-      get -= 1;
     }
-    emit(HomeWaterLevelUpdate(numberOfGlasses: get.toString()));
+    log(localDatabase.get("glassWater").toString());
+    emit(HomeWaterLevelUpdate(
+        numberOfGlasses: localDatabase.get("glassWater").toString()));
   }
 
   FutureOr<void> homeDialogBoxCloseButtonActionEvent(

@@ -24,6 +24,7 @@ class _GoalState extends State<Goal> {
   TextEditingController waterEditingController = TextEditingController();
   // TextEditingController EditingController= TextEditingController();
   final box = Hive.box("goals");
+  final localDatabase = Hive.box("localData");
 
   @override
   void dispose() {
@@ -81,7 +82,7 @@ class _GoalState extends State<Goal> {
                   box.put("steps", stepCountTextEditingController.text);
                   box.put("calories", calTextEditingController.text);
                   box.put("water", waterEditingController.text);
-
+                  localDatabase.put("glassWater", 0);
                   routeWithPushReplacement(const MainWidget(), context);
                 },
               )

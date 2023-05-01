@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_tracking_app/core/constants/color_constant.dart';
 import 'package:health_tracking_app/core/constants/text_styles.dart';
 import 'package:health_tracking_app/core/widgets/const_size_box.dart';
 import 'package:health_tracking_app/locator.dart';
-import 'package:hive/hive.dart';
 
 import '../bloc/home_bloc.dart';
 
@@ -12,8 +10,6 @@ Dialog dialogBox({
   required Size size,
   required BuildContext context,
 }) {
-  final box = Hive.box("localData");
-
   return Dialog(
     backgroundColor: Colors.transparent,
     child: Container(
@@ -52,22 +48,23 @@ Dialog dialogBox({
                       ),
                     ),
                   ),
-                  BlocBuilder<HomeBloc, HomeState>(
-                    bloc: locator.get<HomeBloc>(),
-                    builder: (context, state) {
-                      if (state is HomeWaterLevelUpdate) {
-                        return Text(
-                          state.numberOfGlasses,
-                          style: AppTextStyles.text20(bold: true, size: size),
-                        );
-                      } else {
-                        return Text(
-                          "0",
-                          style: AppTextStyles.text28(bold: true, size: size),
-                        );
-                      }
-                    },
-                  ),
+                  // BlocBuilder<HomeBloc, HomeState>(
+                  //   bloc: locator.get<HomeBloc>(),
+                  //   builder: (context, state) {
+                  //     log(state.runtimeType.toString());
+                  //     if (state is HomeWaterLevelUpdate) {
+                  //       return Text(
+                  //         state.numberOfGlasses,
+                  //         style: AppTextStyles.text20(bold: true, size: size),
+                  //       );
+                  //     } else {
+                  //       return Text(
+                  //         "0",
+                  //         style: AppTextStyles.text28(bold: true, size: size),
+                  //       );
+                  //     }
+                  //   },
+                  // ),
                   GestureDetector(
                     onTap: () {
                       locator
