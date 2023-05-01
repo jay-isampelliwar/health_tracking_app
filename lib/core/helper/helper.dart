@@ -80,10 +80,10 @@ class Helper {
     return null;
   }
 
-  static String calcCaloriesBurned(double steps) {
+  static double calcCaloriesBurned(double steps) {
     double caloriesPerStep = 0.05 * double.parse(goal.get("weight")) / 2000;
     double caloriesBurned = steps * caloriesPerStep;
-    return caloriesBurned.toStringAsFixed(3);
+    return caloriesBurned;
   }
 
   static String getWaterLiter(int water) {
@@ -108,9 +108,9 @@ class Helper {
     return d.toStringAsFixed(0);
   }
 
-  static String getDistance(double steps) {
+  static double getDistance(double steps) {
     double stepLength = 0.762;
     double distance = steps * stepLength / 1000;
-    return distance.toStringAsFixed(2);
+    return distance;
   }
 }

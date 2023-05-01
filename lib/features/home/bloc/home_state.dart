@@ -14,10 +14,12 @@ class HomeInitial extends HomeState {}
 class HomeUpdateState extends HomeState {
   String distance;
   String calories;
-  HomeUpdateState({required this.calories, required this.distance});
+  String points;
+  HomeUpdateState(
+      {required this.calories, required this.distance, required this.points});
 
   @override
-  List<Object> get props => [distance, calories];
+  List<Object> get props => [distance, calories, points];
 }
 
 class HomeShowWaterDialogBoxState extends HomeActionState {}
