@@ -8,9 +8,9 @@ import 'package:health_tracking_app/core/widgets/app_custom_app_bar.dart';
 import 'package:health_tracking_app/core/widgets/app_snackbar.dart';
 import 'package:health_tracking_app/core/widgets/app_text_field.dart';
 import 'package:health_tracking_app/core/widgets/const_size_box.dart';
+import 'package:health_tracking_app/features/Bmi/ui/bmi.dart';
 import 'package:health_tracking_app/features/auth/model/user_model.dart';
 import 'package:health_tracking_app/features/auth/register/ui/register.dart';
-import 'package:health_tracking_app/features/home/ui/home_screen.dart';
 import 'package:health_tracking_app/locator.dart';
 
 import '../../../../core/widgets/app_button.dart';
@@ -56,7 +56,7 @@ class _LoginState extends State<Login> {
                 ScaffoldMessenger.of(context).showSnackBar(appSnackBar(
                     size: size, message: state.message, color: Colors.red));
               } else if (state is LoginSuccessState) {
-                routeWithPushReplacement(const MainWidget(), context);
+                routeWithPushReplacement(const BmiPage(), context);
                 ScaffoldMessenger.of(context).showSnackBar(appSnackBar(
                     size: size, message: state.message, color: Colors.green));
               }

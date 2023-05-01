@@ -1,12 +1,9 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_tracking_app/core/constants/color_constant.dart';
 import 'package:health_tracking_app/core/constants/text_styles.dart';
 import 'package:health_tracking_app/core/widgets/const_size_box.dart';
-import 'package:health_tracking_app/features/home/widgets/app_dialogBox.dart';
 import 'package:health_tracking_app/locator.dart';
 import 'package:hive/hive.dart';
 import 'package:pedometer/pedometer.dart';
@@ -73,6 +70,7 @@ class _HomePageState extends State<HomePage> {
   late StreamSubscription<StepCount> _stepCountStreamSubscription;
 
   double stepCounter = 0;
+  int temp = 0;
   final box = Hive.box("stepCounter");
   final localDatabase = Hive.box("localData");
   final goal = Hive.box("goals");
@@ -87,6 +85,13 @@ class _HomePageState extends State<HomePage> {
   void _setupPedometer() async {
     var status = await Permission.activityRecognition.request();
     if (status != PermissionStatus.granted) return;
+
+    _stepCountStreamSubscription =
+        Pedometer.stepCountStream.listen((stepCount) {
+      temp = stepCount.steps;
+    });
+
+    setState(() {});
   }
 
   @override
@@ -94,81 +99,69 @@ class _HomePageState extends State<HomePage> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-        body: Padding(
-      padding: EdgeInsets.only(
-        left: size.width * 0.06,
-        right: size.width * 0.06,
-        top: size.height * 0.06,
-        bottom: size.height * 0.04,
-      ),
-      child: SingleChildScrollView(
-        child: BlocConsumer<HomeBloc, HomeState>(
-          bloc: locator.get<HomeBloc>(),
-          listenWhen: (previous, current) => current is HomeActionState,
-          buildWhen: (previous, current) => current is! HomeActionState,
-          listener: (context, state) {
-            if (state is HomeShowWaterDialogBoxState) {
-              showDialog(
-                  context: context,
-                  builder: (context) =>
-                      dialogBox(size: size, context: context));
-            }
-          },
-          builder: (context, state) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomAppBar(
-                  title: "For today",
-                  subtitle: "${Helper.getGreeting()}, Jay!",
-                ),
-                AppConstSizeBox.constHightSizedBox(size.height * 0.03),
-                SizedBox(
-                  height: size.height * 0.25,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Container(
+      body: Padding(
+        padding: EdgeInsets.only(
+          left: size.width * 0.06,
+          right: size.width * 0.06,
+          top: size.height * 0.06,
+          bottom: size.height * 0.04,
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomAppBar(
+                title: "For today",
+                subtitle: "${Helper.getGreeting()}, Jay!",
+              ),
+              AppConstSizeBox.constHightSizedBox(size.height * 0.03),
+              SizedBox(
+                height: size.height * 0.25,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: size.width * 0.02,
+                          vertical: size.height * 0.02,
+                        ),
+                        margin:
+                            EdgeInsets.symmetric(horizontal: size.width * 0.01),
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryColor,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Padding(
                           padding: EdgeInsets.symmetric(
-                            horizontal: size.width * 0.02,
-                            vertical: size.height * 0.02,
+                            horizontal: size.width * 0.03,
                           ),
-                          margin: EdgeInsets.symmetric(
-                              horizontal: size.width * 0.01),
-                          decoration: BoxDecoration(
-                            color: AppColors.primaryColor,
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: size.width * 0.03,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                ContainerRow(
-                                  title: "Walk",
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              ContainerRow(
+                                title: "Walk",
+                                color: AppColors.white,
+                                second: Image.asset(
+                                  "lib/assets/images/shoe.png",
+                                  width: size.width * 0.06,
+                                  height: size.width * 0.06,
                                   color: AppColors.white,
-                                  second: Image.asset(
-                                    "lib/assets/images/shoe.png",
-                                    width: size.width * 0.06,
-                                    height: size.width * 0.06,
-                                    color: AppColors.white,
-                                  ),
                                 ),
-                                AppConstSizeBox.constHightSizedBox(
-                                    size.height * 0.08),
-                                StreamBuilder<StepCount>(
-                                    stream: Pedometer.stepCountStream,
-                                    builder: (context, snapshot) {
+                              ),
+                              AppConstSizeBox.constHightSizedBox(
+                                  size.height * 0.08),
+                              StreamBuilder<StepCount>(
+                                  stream: Pedometer.stepCountStream,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
                                       if (box.get("stepValue") == null ||
                                           box.get("stepValue") == -1) {
-                                        box.put(
-                                            "stepValue", snapshot.data!.steps);
-                                        print(snapshot.data!.steps);
+                                        box.put("stepValue", temp);
+                                        stepCounter = temp + 0.0;
                                       } else {
-                                        stepCounter = box.get("stepValue");
+                                        stepCounter =
+                                            box.get("stepValue") + 0.0;
                                       }
 
                                       log(stepCounter.toString());
@@ -183,7 +176,7 @@ class _HomePageState extends State<HomePage> {
                                             child: Column(
                                               children: [
                                                 Text(
-                                                  "${Helper.getSteps(snapshot.data!.steps % stepCounter)}",
+                                                  "${snapshot.data!.steps}",
                                                   style: AppTextStyles.text14(
                                                           bold: false,
                                                           size: size)
@@ -264,9 +257,9 @@ class _HomePageState extends State<HomePage> {
                                 height: size.width * 0.06,
                                 color: AppColors.black,
                               ),
-                              subTitle: "matric",
-                              value: Helper.getBMIValue(
+                              subTitle: Helper.getBMIValue(
                                   goal.get("height"), goal.get("weight")),
+                              value: "21.02",
                               borderColor: AppColors.secondaryColor,
                             ),
                           ],
@@ -314,6 +307,6 @@ class _HomePageState extends State<HomePage> {
           },
         ),
       ),
-    ));
+    );
   }
 }

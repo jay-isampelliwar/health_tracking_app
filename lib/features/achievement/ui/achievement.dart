@@ -4,8 +4,18 @@ import 'package:health_tracking_app/core/constants/text_styles.dart';
 import 'package:health_tracking_app/core/widgets/app_custom_app_bar.dart';
 import 'package:health_tracking_app/core/widgets/const_size_box.dart';
 
-class Achievement extends StatelessWidget {
+class Achievement extends StatefulWidget {
   const Achievement({Key? key}) : super(key: key);
+
+  @override
+  State<Achievement> createState() => _AchievementState();
+}
+
+class _AchievementState extends State<Achievement> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
