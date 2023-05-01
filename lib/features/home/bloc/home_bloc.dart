@@ -53,13 +53,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   FutureOr<void> homeWaterLevelUpdateEvent(
       HomeWaterLevelUpdateEvent event, Emitter<HomeState> emit) {
+    int get = localDatabase.get("event.divider") ?? 0;
     if (event.add) {
-      localDatabase.put("glassWater", localDatabase.get("glassWater") + 1);
+      localDatabase.put("glassWater", get + 1);
+      get += 1;
     } else {
-      localDatabase.put("glassWater", localDatabase.get("glassWater") - 1);
+      localDatabase.put("glassWater", get - 1);
+      get -= 1;
     }
-    emit(HomeWaterLevelUpdate(
-        numberOfGlasses: localDatabase.get("glassWater").toString()));
+    emit(HomeWaterLevelUpdate(numberOfGlasses: get.toString()));
   }
 
   FutureOr<void> homeDialogBoxCloseButtonActionEvent(
