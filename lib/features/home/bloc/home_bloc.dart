@@ -23,33 +23,25 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   FutureOr<void> waterContainerClickedEvent(
       WaterContainerClickedEvent event, Emitter<HomeState> emit) {
     emit(HomeShowWaterDialogBoxState());
-    emit(HomeUpdateState(
-        calories: localDatabase.get("calories"),
-        distance: localDatabase.get("distance")));
-  }
-
-  FutureOr<void> homeWaterDecreaseEvent(
-      HomeWaterDecreaseEvent event, Emitter<HomeState> emit) {
-    emit(HomeWaterDecreaseState(water: event.water - 1));
-    emit(HomeUpdateState(
-        calories: localDatabase.get("calories"),
-        distance: localDatabase.get("distance")));
-  }
-
-  FutureOr<void> homeWaterIncreaseEvent(
-      HomeWaterIncreaseEvent event, Emitter<HomeState> emit) {
-    emit(HomeUpdateState(
-        calories: localDatabase.get("calories"),
-        distance: localDatabase.get("distance")));
   }
 
   FutureOr<void> homeUpdateEvent(
       HomeUpdateEvent event, Emitter<HomeState> emit) {
-    String calories = Helper.calcCaloriesBurned(event.steps % event.divider);
-    String distance = Helper.getDistance(event.steps % event.divider);
+    double calories = Helper.calcCaloriesBurned(event.steps % event.divider);
+    double distance = Helper.getDistance(event.steps % event.divider);
+    String points =
+        Helper.calculatePoints(event.steps % event.divider, calories);
+
+    double steps = event.steps % event.divider;
     localDatabase.put("calories", calories);
     localDatabase.put("distance", distance);
-    emit(HomeUpdateState(calories: calories, distance: distance));
+    localDatabase.put("points", points);
+    localDatabase.put("steps", steps);
+    emit(HomeUpdateState(
+      calories: calories.toStringAsFixed(3),
+      distance: distance.toStringAsFixed(3),
+      points: points,
+    ));
   }
 
   FutureOr<void> homeWaterLevelUpdateEvent(
@@ -66,9 +58,5 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> homeDialogBoxCloseButtonActionEvent(
-      HomeDialogBoxCloseButtonActionEvent event, Emitter<HomeState> emit) {
-    emit(HomeUpdateState(
-        calories: localDatabase.get("calories"),
-        distance: localDatabase.get("distance")));
-  }
+      HomeDialogBoxCloseButtonActionEvent event, Emitter<HomeState> emit) {}
 }

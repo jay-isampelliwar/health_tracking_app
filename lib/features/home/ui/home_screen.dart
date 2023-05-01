@@ -42,6 +42,8 @@ class _MainWidgetState extends State<MainWidget> {
   @override
   void initState() {
     super.initState();
+
+    //!call all API here || Achievement || Profile || Stats ||
   }
 
   @override
@@ -330,17 +332,19 @@ class _HomePageState extends State<HomePage> {
                           ),
                           AppConstSizeBox.constHightSizedBox(
                               size.height * 0.02),
-                          SquareContainer(
-                            title: "BMI",
-                            second: Image.asset(
-                              "lib/assets/images/bmi.png",
-                              width: size.width * 0.06,
-                              height: size.width * 0.06,
-                              color: AppColors.black,
-                            ),
-                            subTitle: "metric",
-                            value: "21.02",
-                            borderColor: AppColors.secondaryColor,
+                          BlocBuilder<HomeBloc, HomeState>(
+                            bloc: locator.get<HomeBloc>(),
+                            builder: (context, state) {
+                              return SquareContainer(
+                                title: "Point",
+                                second: const Icon(Icons.score),
+                                subTitle: "points",
+                                value: state is HomeUpdateState
+                                    ? state.points
+                                    : "0.0",
+                                borderColor: AppColors.secondaryColor,
+                              );
+                            },
                           ),
                         ],
                       ),

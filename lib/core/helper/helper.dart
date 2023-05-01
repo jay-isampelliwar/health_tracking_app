@@ -113,4 +113,11 @@ class Helper {
     double distance = steps * stepLength / 1000;
     return distance;
   }
+
+  static String calculatePoints(double steps, double caloriesBurned) {
+    int stepPoints = (steps / 500).floor();
+    int caloriePoints = (caloriesBurned / 10).floor();
+    int totalPoints = stepPoints + caloriePoints;
+    return totalPoints.toStringAsFixed(2);
+  }
 }
