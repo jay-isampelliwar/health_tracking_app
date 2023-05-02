@@ -57,8 +57,6 @@ class _LoginState extends State<Login> {
                     size: size, message: state.message, color: Colors.red));
               } else if (state is LoginSuccessState) {
                 routeWithPushReplacement(const BmiPage(), context);
-                ScaffoldMessenger.of(context).showSnackBar(appSnackBar(
-                    size: size, message: state.message, color: Colors.green));
               }
             },
             builder: (context, state) {
