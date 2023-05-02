@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_tracking_app/core/constants/color_constant.dart';
 import 'package:health_tracking_app/core/constants/text_styles.dart';
+import 'package:health_tracking_app/core/widgets/app_snackbar.dart';
+import 'package:health_tracking_app/features/auth/login/ui/login.dart';
 import 'package:health_tracking_app/features/chat_bot/ui/chat_bot.dart';
 import 'package:health_tracking_app/features/goal/ui/goal.dart';
+import 'package:health_tracking_app/locator.dart';
+import 'package:hive/hive.dart';
 
 import '../../../core/widgets/app_custom_app_bar.dart';
 import '../../../core/widgets/const_size_box.dart';
+import '../bloc/profile_bloc.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
@@ -13,7 +19,7 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
+    final box = Hive.box("user");
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.only(
@@ -23,47 +29,88 @@ class Profile extends StatelessWidget {
           bottom: size.height * 0.04,
         ),
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              CustomAppBar(
-                title: "Your Profile",
-                subtitle: "",
-              ),
-              AppConstSizeBox.constHightSizedBox(size.height * 0.04),
-              Column(
-                children: [
-                  ProfileOptionContainer(
-                    title: "Edit Goals",
-                    icon: const Icon(Icons.edit),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Goal()),
-                      );
-                    },
-                  ),
-                  ProfileOptionContainer(
-                    title: "Post Data",
-                    icon: const Icon(Icons.share),
-                    onTap: () {},
-                  ),
-                  ProfileOptionContainer(
-                    title: "Theme",
-                    icon: const Icon(Icons.color_lens),
-                    onTap: () {},
-                  ),
-                  ProfileOptionContainer(
-                    title: "Chat Bot",
-                    icon: const Icon(Icons.chat_outlined),
-                    onTap: () {
-                      //! Navigate to Chat Screen
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => ChatBot()));
-                    },
-                  ),
-                ],
-              )
-            ],
+          child: BlocConsumer<ProfileBloc, ProfileState>(
+            bloc: locator.get<ProfileBloc>(),
+            listenWhen: (previous, current) => current is ProfileActionState,
+            buildWhen: (previous, current) => current is! ProfileActionState,
+            listener: (context, state) {
+              if (state is ProfileSuccessState) {
+                ScaffoldMessenger.of(context).showSnackBar(appSnackBar(
+                    size: size, message: state.message, color: Colors.green));
+              } else if (state is ProfileErrorState) {
+                ScaffoldMessenger.of(context).showSnackBar(appSnackBar(
+                    size: size, message: state.message, color: Colors.red));
+              }
+            },
+            builder: (context, state) {
+              if (state is ProfilePostLoadingState) {
+                return Center(
+                  child:
+                      CircularProgressIndicator(color: AppColors.primaryColor),
+                );
+              } else {
+                return Column(
+                  children: [
+                    CustomAppBar(
+                      title: "Your Profile",
+                      subtitle: "",
+                    ),
+                    AppConstSizeBox.constHightSizedBox(size.height * 0.04),
+                    Column(
+                      children: [
+                        ProfileOptionContainer(
+                          title: "Edit Goals",
+                          icon: const Icon(Icons.edit),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Goal()),
+                            );
+                          },
+                        ),
+                        ProfileOptionContainer(
+                          title: "Post Data",
+                          icon: const Icon(Icons.share),
+                          onTap: () {},
+                        ),
+                        ProfileOptionContainer(
+                          title: "Theme",
+                          icon: const Icon(Icons.color_lens),
+                          onTap: () {},
+                        ),
+                        ProfileOptionContainer(
+                          title: "Chat Bot",
+                          icon: const Icon(Icons.chat_outlined),
+                          onTap: () {
+                            //! Navigate to Chat Screen
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChatBot()));
+                          },
+                        ),
+                        const Spacer(),
+                        ProfileOptionContainer(
+                          title: "Chat Bot",
+                          icon: const Icon(Icons.chat_outlined),
+                          onTap: () {
+                            box.delete("token");
+                            box.delete("email");
+                            box.delete("password");
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Login()),
+                                (route) => false);
+                          },
+                        ),
+                      ],
+                    )
+                  ],
+                );
+              }
+            },
           ),
         ),
       ),
