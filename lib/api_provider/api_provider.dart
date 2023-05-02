@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:health_tracking_app/core/constants/app_url.dart';
 import 'package:health_tracking_app/features/achievement/model/achievement_model.dart';
 import 'package:health_tracking_app/features/auth/model/auth_model.dart';
@@ -96,7 +94,6 @@ class ApiProvider {
   }
 
   Future<UserModel> postData({UserDataModel? model}) async {
-    log("Cllaed");
     try {
       var url = Uri.parse(BASE_URL + USER_DATA_POST);
       var body = {
