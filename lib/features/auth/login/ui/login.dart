@@ -11,7 +11,9 @@ import 'package:health_tracking_app/core/widgets/const_size_box.dart';
 import 'package:health_tracking_app/features/Bmi/ui/bmi.dart';
 import 'package:health_tracking_app/features/auth/model/user_model.dart';
 import 'package:health_tracking_app/features/auth/register/ui/register.dart';
+import 'package:health_tracking_app/features/home/ui/home_screen.dart';
 import 'package:health_tracking_app/locator.dart';
+import 'package:hive/hive.dart';
 
 import '../../../../core/widgets/app_button.dart';
 import '../bloc/login_bloc.dart';
@@ -27,6 +29,8 @@ class _LoginState extends State<Login> {
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController passwordTextEditingController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  final box = Hive.box("localData");
 
   @override
   void dispose() {
@@ -56,7 +60,11 @@ class _LoginState extends State<Login> {
                 ScaffoldMessenger.of(context).showSnackBar(appSnackBar(
                     size: size, message: state.message, color: Colors.red));
               } else if (state is LoginSuccessState) {
-                routeWithPushReplacement(const BmiPage(), context);
+                if (box.get("height") != null && box.get("weight") != null) {
+                  routeWithPushReplacement(const MainWidget(), context);
+                } else {
+                  routeWithPushReplacement(const BmiPage(), context);
+                }
               }
             },
             builder: (context, state) {
