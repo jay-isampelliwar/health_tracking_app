@@ -11,7 +11,7 @@ String userModelToJson(UserModel data) => json.encode(data.toJson());
 class UserModel {
   bool status;
   String message;
-  Data? data;
+  PostDataModel? data;
 
   UserModel({
     required this.status,
@@ -22,7 +22,7 @@ class UserModel {
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         status: json["status"],
         message: json["message"],
-        data: Data.fromJson(json["data"]),
+        data: PostDataModel.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -32,16 +32,16 @@ class UserModel {
       };
 }
 
-class Data {
+class PostDataModel {
   String name;
   String email;
 
-  Data({
+  PostDataModel({
     required this.name,
     required this.email,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory PostDataModel.fromJson(Map<String, dynamic> json) => PostDataModel(
         name: json["name"],
         email: json["email"],
       );
