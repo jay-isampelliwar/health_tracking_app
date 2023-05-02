@@ -56,7 +56,7 @@ class Stats extends StatelessWidget {
                             itemCount: model.data.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
-                              StatsData currentModel = model.data[index];
+                              StatsData currentModel = model.data[index]!;
                               return index == currentIndex
                                   ? Container(
                                       margin: EdgeInsets.symmetric(
@@ -128,7 +128,7 @@ class Stats extends StatelessWidget {
                                     .copyWith(color: AppColors.secondaryColor),
                               ),
                               Text(
-                                model.data[currentIndex].stepCount.toString(),
+                                model.data[currentIndex]!.stepCount.toString(),
                                 style: TextStyle(
                                   fontSize:
                                       ((size.width + size.height) / 2) * 0.12,
@@ -143,18 +143,19 @@ class Stats extends StatelessWidget {
                                 children: [
                                   StatsRowColumn(
                                     title: "Distance",
-                                    value: model.data[currentIndex].walkDistance
+                                    value: model
+                                        .data[currentIndex]!.walkDistance
                                         .toString(),
                                   ),
                                   StatsRowColumn(
                                     title: "Calories",
                                     value: model
-                                        .data[currentIndex].caloriesBurned
+                                        .data[currentIndex]!.caloriesBurned
                                         .toString(),
                                   ),
                                   StatsRowColumn(
                                     title: "Points",
-                                    value: model.data[currentIndex].points
+                                    value: model.data[currentIndex]!.points
                                         .toString(),
                                   ),
                                 ],
@@ -180,11 +181,11 @@ class Stats extends StatelessWidget {
                               WaterContainer(
                                   val1: (1 -
                                       Helper.getWaterValueOnStats(
-                                          model.data[currentIndex].water!) -
+                                          model.data[currentIndex]!.water!) -
                                       0.05), //!Helper.getWaterValue()
                                   val2: (1 -
                                       Helper.getWaterValueOnStats(
-                                          model.data[currentIndex].water!) -
+                                          model.data[currentIndex]!.water!) -
                                       0.05),
                                   water: 16 //! number of glasses,
                                   ),
