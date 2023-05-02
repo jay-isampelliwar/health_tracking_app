@@ -1,9 +1,11 @@
 import 'package:health_tracking_app/core/constants/app_url.dart';
 import 'package:health_tracking_app/core/constants/token.dart';
+import 'package:health_tracking_app/features/achievement/model/achievement_model.dart';
 import 'package:health_tracking_app/features/auth/model/auth_model.dart';
 import 'package:health_tracking_app/features/auth/model/user_model.dart';
 import 'package:health_tracking_app/features/home/model/user.dart';
 import 'package:health_tracking_app/features/home/model/user_data.dart';
+import 'package:health_tracking_app/features/stats/model/stats_data.dart';
 import 'package:http/http.dart' as http;
 
 import '../features/home/model/achievement.dart';
@@ -64,12 +66,21 @@ class ApiProvider {
     }
   }
 
-  Future<void> getData() async {
+  Future<DataModel> getData() async {
     try {} catch (err) {}
+    return DataModel(status: false, message: "Something went wrong", data: []);
   }
 
-  Future<void> getAchievement() async {
-    try {} catch (err) {}
+  Future<AchievementDataModel> getAchievement() async {
+    try {
+      var uri = Uri.parse(BASE_URL + USER_ACHIEVEMENT_GET);
+      var header = {"Authorization": "Bearer $token_value"};
+      var response = await client.get(uri, headers: header);
+      return achievementDataModelFromJson(response.body);
+    } catch (err) {
+      return AchievementDataModel(
+          status: false, message: "Something went wring", data: DataValue());
+    }
   }
 
   Future<void> postData({UserDataModel? model}) async {
