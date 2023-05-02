@@ -22,11 +22,11 @@ Container appNavigationBar(
             padding: EdgeInsets.all(size.width * 0.03),
           ),
           GButton(
-            icon: Icons.wallet_giftcard_outlined,
+            icon: Icons.graphic_eq_rounded,
             padding: EdgeInsets.all(size.width * 0.03),
           ),
           GButton(
-            icon: Icons.graphic_eq_rounded,
+            icon: Icons.wallet_giftcard_outlined,
             padding: EdgeInsets.all(size.width * 0.03),
           ),
           GButton(
