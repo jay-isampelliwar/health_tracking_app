@@ -67,8 +67,15 @@ class ApiProvider {
   }
 
   Future<DataModel> getData() async {
-    try {} catch (err) {}
-    return DataModel(status: false, message: "Something went wrong", data: []);
+    try {
+      var uri = Uri.parse(BASE_URL + USER_DATA_GET);
+      var header = {"Authorization": "Bearer ${box.get("token")}"};
+      var response = await client.get(uri, headers: header);
+      return dataModelFromJson(response.body);
+    } catch (err) {
+      return DataModel(
+          status: false, message: "Something went wrong", data: []);
+    }
   }
 
   Future<AchievementDataModel> getAchievement() async {
@@ -79,7 +86,10 @@ class ApiProvider {
       return achievementDataModelFromJson(response.body);
     } catch (err) {
       return AchievementDataModel(
-          status: false, message: "Something went wring", data: DataValue());
+        status: false,
+        message: "Something went wring",
+        data: null,
+      );
     }
   }
 
