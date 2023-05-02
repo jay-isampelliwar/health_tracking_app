@@ -25,7 +25,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     UserModel userModel = await locator.get<HomeRepo>().postData(UserDataModel(
           calories_burned: localDB.get("calories"),
           walk_distance: localDB.get("distance"),
-          water: localDB.get("glassWater"),
+          water: localDB.get("glassWater") + 0.0,
           points: localDB.get("points"),
           step_count: localDB.get("steps"),
         ));
