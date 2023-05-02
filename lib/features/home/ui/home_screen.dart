@@ -37,9 +37,6 @@ class MainWidget extends StatefulWidget {
 class _MainWidgetState extends State<MainWidget> {
   int selectedIndex = 0;
 
-  AchievementDataModel? achievementDataModel;
-  DataModel? dataModel;
-
   @override
   void initState() {
     super.initState();
@@ -47,9 +44,10 @@ class _MainWidgetState extends State<MainWidget> {
     setup();
   }
 
+  AchievementDataModel? achievementDataModel;
+  DataModel? dataModel;
+
   void setup() async {
-    AchievementDataModel achievementDataModel;
-    DataModel dataModel;
     await Future.wait([
       AchievementRepo().getAchievement(),
       StatsRepo().getData(),
@@ -74,15 +72,9 @@ class _MainWidgetState extends State<MainWidget> {
       body: selectedIndex == 0
           ? const HomePage()
           : selectedIndex == 1
-              ? Stats(
-                  model: dataModel ??
-                      DataModel(status: false, message: "", data: []),
-                )
+              ? Stats(model: dataModel!)
               : selectedIndex == 2
-                  ? Achievement(
-                      model: achievementDataModel ??
-                          AchievementDataModel(
-                              status: false, message: "", data: null))
+                  ? Achievement(model: achievementDataModel!)
                   : selectedIndex == 3
                       ? const Profile()
                       : null,
