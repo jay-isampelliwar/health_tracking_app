@@ -76,7 +76,7 @@ class _MainWidgetState extends State<MainWidget> {
                     model: dataModel!,
                   )
                 : selectedIndex == 2
-                    ? Achievement(model: achievementDataModel)
+                    ? Achievement(model: achievementDataModel!)
                     : selectedIndex == 3
                         ? const Profile()
                         : null);
