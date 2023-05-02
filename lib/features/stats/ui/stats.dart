@@ -47,7 +47,6 @@ class Stats extends StatelessWidget {
                       children: [
                         CustomAppBar(
                           title: "Your Activity",
-                          //!subtitle should change acc to the selected date
                           subtitle: "",
                         ),
                         AppConstSizeBox.constHightSizedBox(size.height * 0.02),
@@ -63,16 +62,17 @@ class Stats extends StatelessWidget {
                                       margin: EdgeInsets.symmetric(
                                           horizontal: size.width * 0.01),
                                       height: size.width * 0.15,
-                                      width: size.width * 0.15,
+                                      width: size.width * 0.25,
                                       decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
+                                          borderRadius: BorderRadius.circular(
+                                              size.width * 0.1),
                                           border: Border.all(
                                               color: AppColors.primaryColor,
                                               width: 1),
                                           color: AppColors.lightSecondaryColor),
                                       child: Align(
                                         child: Text(
-                                          '${currentModel.date!.day}',
+                                          '${Helper.getMonth(currentModel.date!.month)} ${currentModel.date!.day}',
                                           style: AppTextStyles.text26(
                                                   bold: true, size: size)
                                               .copyWith(
@@ -144,9 +144,8 @@ class Stats extends StatelessWidget {
                                 children: [
                                   StatsRowColumn(
                                     title: "Distance",
-                                    value: model
-                                        .data[currentIndex]!.walkDistance
-                                        .toString(),
+                                    value:
+                                        "${model.data[currentIndex]!.walkDistance}km",
                                   ),
                                   StatsRowColumn(
                                     title: "Calories",
