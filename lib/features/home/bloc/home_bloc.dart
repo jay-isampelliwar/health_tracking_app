@@ -6,6 +6,11 @@ import 'package:equatable/equatable.dart';
 import 'package:health_tracking_app/core/helper/helper.dart';
 import 'package:hive/hive.dart';
 
+import '../../achievement/model/achievement_model.dart';
+import '../../achievement/repo/repo.dart';
+import '../../stats/model/stats_data.dart';
+import '../../stats/repo/repo.dart';
+
 part 'home_event.dart';
 part 'home_state.dart';
 
@@ -13,6 +18,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final localDatabase = Hive.box("localData");
 
   HomeBloc() : super(HomeInitial()) {
+    on<HomeLoadingEvent>(homeLoadingEvent);
     on<WaterContainerClickedEvent>(waterContainerClickedEvent);
     on<HomeUpdateEvent>(homeUpdateEvent);
     on<HomeWaterLevelUpdateEvent>(homeWaterLevelUpdateEvent);
@@ -59,4 +65,27 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   FutureOr<void> homeDialogBoxCloseButtonActionEvent(
       HomeDialogBoxCloseButtonActionEvent event, Emitter<HomeState> emit) {}
+
+  FutureOr<void> homeLoadingEvent(
+      HomeLoadingEvent event, Emitter<HomeState> emit) async {
+    emit(HomeLoadingState());
+    AchievementDataModel? achievementDataModel;
+    DataModel? dataModel;
+    await Future.wait(
+            [AchievementRepo().getAchievement(), StatsRepo().getData()])
+        .then((result) {
+      achievementDataModel = result[0] as AchievementDataModel;
+      dataModel = result[1] as DataModel;
+    }).then((result) {
+      if (achievementDataModel!.status && dataModel!.status) {
+        emit(HomeSuccessState(
+            achievementDataModel: achievementDataModel!,
+            dataModel: dataModel!));
+      } else if (!achievementDataModel!.status) {
+        emit(HomeErrorActionState(message: "Unable to fetch Achievement data"));
+      } else if (!dataModel!.status) {
+        emit(HomeErrorActionState(message: "Unable to fetch Stats data"));
+      }
+    });
+  }
 }

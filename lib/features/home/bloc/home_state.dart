@@ -61,3 +61,27 @@ class HomeWaterLevelUpdate extends HomeState {
   @override
   List<Object> get props => [numberOfGlasses];
 }
+
+class HomeLoadingState extends HomeState {}
+
+class HomeErrorActionState extends HomeActionState {
+  String message;
+  HomeErrorActionState({
+    required this.message,
+  });
+
+  @override
+  List<Object> get props => [message];
+}
+
+class HomeSuccessState extends HomeActionState {
+  AchievementDataModel achievementDataModel;
+  DataModel dataModel;
+  HomeSuccessState({
+    required this.achievementDataModel,
+    required this.dataModel,
+  });
+
+  @override
+  List<Object> get props => [achievementDataModel, dataModel];
+}

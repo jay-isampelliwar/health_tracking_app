@@ -49,3 +49,5 @@ class HomeWaterLevelUpdateEvent extends HomeEvent {
 }
 
 class HomeDialogBoxCloseButtonActionEvent extends HomeEvent {}
+
+class HomeLoadingEvent extends HomeEvent {}
