@@ -6,10 +6,8 @@ import 'package:health_tracking_app/core/constants/color_constant.dart';
 import 'package:health_tracking_app/core/constants/text_styles.dart';
 import 'package:health_tracking_app/core/widgets/const_size_box.dart';
 import 'package:health_tracking_app/features/achievement/model/achievement_model.dart';
-import 'package:health_tracking_app/features/achievement/repo/repo.dart';
 import 'package:health_tracking_app/features/home/widgets/app_dialogBox.dart';
 import 'package:health_tracking_app/features/stats/model/stats_data.dart';
-import 'package:health_tracking_app/features/stats/repo/repo.dart';
 import 'package:health_tracking_app/locator.dart';
 import 'package:hive/hive.dart';
 import 'package:pedometer/pedometer.dart';
@@ -19,8 +17,10 @@ import '../../../core/helper/helper.dart';
 import '../../../core/widgets/app_bottom_navbar.dart';
 import '../../../core/widgets/app_custom_app_bar.dart';
 import '../../../core/widgets/app_water_container.dart';
+import '../../achievement/repo/repo.dart';
 import '../../achievement/ui/achievement.dart';
 import '../../profile/ui/profile.dart';
+import '../../stats/repo/repo.dart';
 import '../../stats/ui/stats.dart';
 import '../bloc/home_bloc.dart';
 import '../widgets/container_row.dart';
@@ -43,43 +43,50 @@ class _MainWidgetState extends State<MainWidget> {
   @override
   void initState() {
     super.initState();
-    setupMethod();
+    // locator.get<HomeBloc>().add(HomeLoadingEvent());
+    setup();
   }
 
-  Future setupMethod() async {
-    await Future.wait(
-            [AchievementRepo().getAchievement(), StatsRepo().getData()])
-        .then((result) {
+  void setup() async {
+    AchievementDataModel achievementDataModel;
+    DataModel dataModel;
+    await Future.wait([
+      AchievementRepo().getAchievement(),
+      StatsRepo().getData(),
+    ]).then((result) {
       achievementDataModel = result[0] as AchievementDataModel;
       dataModel = result[1] as DataModel;
-      //! show errors here
     });
-    // .onError((error, stackTrace) => locator.get<HomeBloc>().add(HomeErrorActionState()));
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        bottomNavigationBar: appNavigationBar(
-          size: size,
-          onTabChange: (index) {
-            setState(() {
-              selectedIndex = index;
-            });
-          },
-        ),
-        body: selectedIndex == 0
-            ? const HomePage()
-            : selectedIndex == 1
-                ? Stats(
-                    model: dataModel!,
-                  )
-                : selectedIndex == 2
-                    ? Achievement(model: achievementDataModel!)
-                    : selectedIndex == 3
-                        ? const Profile()
-                        : null);
+      bottomNavigationBar: appNavigationBar(
+        size: size,
+        onTabChange: (index) {
+          setState(() {
+            selectedIndex = index;
+          });
+        },
+      ),
+      body: selectedIndex == 0
+          ? const HomePage()
+          : selectedIndex == 1
+              ? Stats(
+                  model: dataModel ??
+                      DataModel(status: false, message: "", data: []),
+                )
+              : selectedIndex == 2
+                  ? Achievement(
+                      model: achievementDataModel ??
+                          AchievementDataModel(
+                              status: false, message: "", data: null))
+                  : selectedIndex == 3
+                      ? const Profile()
+                      : null,
+    );
   }
 }
 
