@@ -6,6 +6,7 @@ import 'package:health_tracking_app/features/auth/repo/repo.dart';
 
 import 'package:health_tracking_app/features/home/bloc/home_bloc.dart';
 import 'package:health_tracking_app/features/home/repo/repo.dart';
+import 'package:health_tracking_app/features/profile/bloc/profile_bloc.dart';
 import 'package:health_tracking_app/features/stats/bloc/stats_bloc.dart';
 
 import 'features/achievement/repo/repo.dart';
@@ -18,6 +19,7 @@ void setup() {
   locator.registerLazySingleton<SignUpBloc>(() => SignUpBloc());
   locator.registerLazySingleton<AchievementBloc>(() => AchievementBloc());
   locator.registerLazySingleton<StatsBloc>(() => StatsBloc());
+  locator.registerLazySingleton<ProfileBloc>(() => ProfileBloc());
 
   locator.registerLazySingleton<AuthRepo>(() => AuthRepo());
   locator.registerLazySingleton<HomeRepo>(() => HomeRepo());
