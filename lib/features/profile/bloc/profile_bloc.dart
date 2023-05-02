@@ -14,6 +14,7 @@ part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final localDB = Hive.box("localData");
+  final box = Hive.box("stepCounter");
   ProfileBloc() : super(ProfileInitial()) {
     on<ProfilePostLoadingEvent>(profilePostLoadingEvent);
   }
@@ -33,6 +34,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     emit(ProfileInitial());
     if (userModel.status) {
       emit(ProfileSuccessState(message: userModel.message));
+      localDB.put("calories", 0);
+      localDB.put("distance", 0);
+      localDB.put("glassWater", 0);
+      localDB.put("points", 0);
+      localDB.put("steps", 0);
+      box.put("stepValue", -1);
     } else {
       emit(ProfileErrorState(message: userModel.message));
     }
