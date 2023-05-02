@@ -5,7 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_tracking_app/core/constants/color_constant.dart';
 import 'package:health_tracking_app/core/constants/text_styles.dart';
 import 'package:health_tracking_app/core/widgets/const_size_box.dart';
+import 'package:health_tracking_app/features/achievement/model/achievement_model.dart';
+import 'package:health_tracking_app/features/achievement/repo/repo.dart';
 import 'package:health_tracking_app/features/home/widgets/app_dialogBox.dart';
+import 'package:health_tracking_app/features/stats/model/stats_data.dart';
+import 'package:health_tracking_app/features/stats/repo/repo.dart';
 import 'package:health_tracking_app/locator.dart';
 import 'package:hive/hive.dart';
 import 'package:pedometer/pedometer.dart';
@@ -32,34 +36,50 @@ class MainWidget extends StatefulWidget {
 
 class _MainWidgetState extends State<MainWidget> {
   int selectedIndex = 0;
-  List<Widget> widgets = [
-    const HomePage(),
-    const Achievement(),
-    const Stats(),
-    const Profile(),
-  ];
+
+  AchievementDataModel? achievementDataModel;
+  DataModel? dataModel;
 
   @override
   void initState() {
     super.initState();
+    setupMethod();
+  }
 
-    //!call all API here || Achievement || Profile || Stats ||
+  Future setupMethod() async {
+    await Future.wait(
+            [AchievementRepo().getAchievement(), StatsRepo().getData()])
+        .then((result) {
+      achievementDataModel = result[0] as AchievementDataModel;
+      dataModel = result[1] as DataModel;
+      //! show errors here
+    });
+    // .onError((error, stackTrace) => locator.get<HomeBloc>().add(HomeErrorActionState()));
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      bottomNavigationBar: appNavigationBar(
-        size: size,
-        onTabChange: (index) {
-          setState(() {
-            selectedIndex = index;
-          });
-        },
-      ),
-      body: widgets[selectedIndex],
-    );
+        bottomNavigationBar: appNavigationBar(
+          size: size,
+          onTabChange: (index) {
+            setState(() {
+              selectedIndex = index;
+            });
+          },
+        ),
+        body: selectedIndex == 0
+            ? const HomePage()
+            : selectedIndex == 1
+                ? Stats(
+                    model: dataModel!,
+                  )
+                : selectedIndex == 2
+                    ? Achievement(model: achievementDataModel)
+                    : selectedIndex == 3
+                        ? const Profile()
+                        : null);
   }
 }
 
@@ -298,9 +318,9 @@ class _HomePageState extends State<HomePage> {
                               height: size.width * 0.06,
                               color: AppColors.black,
                             ),
-                            subTitle: Helper.getBMIValue(
+                            subTitle: "metric",
+                            value: Helper.getBMIValue(
                                 goal.get("height"), goal.get("weight")),
-                            value: "21.02",
                             borderColor: AppColors.secondaryColor,
                           ),
                         ],
