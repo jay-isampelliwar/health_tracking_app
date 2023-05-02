@@ -20,45 +20,45 @@ class Achievement extends StatelessWidget {
           bottom: size.height * 0.04,
         ),
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              CustomAppBar(title: "Your Achievements", subtitle: ""),
-              AppConstSizeBox.constHightSizedBox(size.height * 0.02),
-              SizedBox(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    AchievementContainer(
-                      title: "Steps",
-                      value: "11027",
-                      date: "12/11/2022",
-                    ),
-                    AchievementContainer(
-                      title: "Calories Burned",
-                      value: "271",
-                      date: "12/11/2022",
-                    ),
-                    AchievementContainer(
-                      title: "Distance",
-                      value: "2428m",
-                      date: "12/11/2022",
-                    ),
-                    AchievementContainer(
-                      title: "Point",
-                      value: "379",
-                      date: "05/12/2022",
-                    ),
-                    AchievementContainer(
-                      title: "Water",
-                      value: "3.44l",
-                      date: "05/12/2022",
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
+            child: Column(
+          children: [
+            CustomAppBar(title: "Your Achievements", subtitle: ""),
+            AppConstSizeBox.constHightSizedBox(size.height * 0.02),
+            SizedBox(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AchievementContainer(
+                    title: "Steps",
+                    value: model!.data.highestStepCount!.value.toString(),
+                    date: model!.data.highestStepCount!.date.toIso8601String(),
+                  ),
+                  AchievementContainer(
+                    title: "Calories Burned",
+                    value: model!.data.highestCalorieBurned!.value.toString(),
+                    date: model!.data.highestCalorieBurned!.date
+                        .toIso8601String(),
+                  ),
+                  AchievementContainer(
+                    title: "Distance",
+                    value: model!.data.highestDistance!.value.toString(),
+                    date: model!.data.highestDistance!.date.toIso8601String(),
+                  ),
+                  AchievementContainer(
+                    title: "Point",
+                    value: model!.data.highestPoint!.value.toString(),
+                    date: model!.data.highestPoint!.date.toIso8601String(),
+                  ),
+                  AchievementContainer(
+                    title: "Water",
+                    value: model!.data.highestWater!.value.toString(),
+                    date: model!.data.highestWater!.date.toIso8601String(),
+                  ),
+                ],
+              ),
+            )
+          ],
+        )),
       ),
     );
   }
