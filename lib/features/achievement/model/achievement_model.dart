@@ -13,7 +13,7 @@ String achievementDataModelToJson(AchievementDataModel data) =>
 class AchievementDataModel {
   bool status;
   String message;
-  Data data;
+  DataValue data;
 
   AchievementDataModel({
     required this.status,
@@ -25,7 +25,7 @@ class AchievementDataModel {
       AchievementDataModel(
         status: json["status"],
         message: json["message"],
-        data: Data.fromJson(json["data"]),
+        data: DataValue.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -35,28 +35,28 @@ class AchievementDataModel {
       };
 }
 
-class Data {
-  Highest highestPoint;
-  Highest highestDistance;
-  Highest highestWater;
-  Highest highestStepCount;
-  Highest highestCalorieBurned;
-  String id;
-  String userId;
-  int v;
+class DataValue {
+  Highest? highestPoint;
+  Highest? highestDistance;
+  Highest? highestWater;
+  Highest? highestStepCount;
+  Highest? highestCalorieBurned;
+  String? id;
+  String? userId;
+  int? v;
 
-  Data({
-    required this.highestPoint,
-    required this.highestDistance,
-    required this.highestWater,
-    required this.highestStepCount,
-    required this.highestCalorieBurned,
-    required this.id,
-    required this.userId,
-    required this.v,
+  DataValue({
+    this.highestPoint,
+    this.highestDistance,
+    this.highestWater,
+    this.highestStepCount,
+    this.highestCalorieBurned,
+    this.id,
+    this.userId,
+    this.v,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory DataValue.fromJson(Map<String, dynamic> json) => DataValue(
         highestPoint: Highest.fromJson(json["highest_point"]),
         highestDistance: Highest.fromJson(json["highest_distance"]),
         highestWater: Highest.fromJson(json["highest_water"]),
@@ -68,11 +68,11 @@ class Data {
       );
 
   Map<String, dynamic> toJson() => {
-        "highest_point": highestPoint.toJson(),
-        "highest_distance": highestDistance.toJson(),
-        "highest_water": highestWater.toJson(),
-        "highest_step_count": highestStepCount.toJson(),
-        "highest_calorie_burned": highestCalorieBurned.toJson(),
+        "highest_point": highestPoint!.toJson(),
+        "highest_distance": highestDistance!.toJson(),
+        "highest_water": highestWater!.toJson(),
+        "highest_step_count": highestStepCount!.toJson(),
+        "highest_calorie_burned": highestCalorieBurned!.toJson(),
         "_id": id,
         "user_id": userId,
         "__v": v,
