@@ -39,6 +39,7 @@ class Stats extends StatelessWidget {
               )
             : SingleChildScrollView(
                 child: BlocBuilder<StatsBloc, StatsState>(
+                  bloc: locator.get<StatsBloc>(),
                   builder: (context, state) {
                     int currentIndex =
                         state is StatsDateChangeState ? state.index : 0;
