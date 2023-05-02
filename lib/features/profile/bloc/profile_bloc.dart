@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -22,12 +23,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     emit(ProfilePostLoadingState());
 
     UserModel userModel = await locator.get<HomeRepo>().postData(UserDataModel(
-        calories_burned: localDB.get("calories"),
-        walk_distance: localDB.get("distance"),
-        water: localDB.get("glassWater"),
-        points: localDB.get("points"),
-        step_count: localDB.get("steps")));
-
+          calories_burned: localDB.get("calories").round(),
+          walk_distance: localDB.get("distance").round(),
+          water: localDB.get("glassWater").round(),
+          points: localDB.get("points").round(),
+          step_count: localDB.get("steps").round(),
+        ));
+    log(userModel.message);
     emit(ProfileInitial());
     if (userModel.status) {
       emit(ProfileSuccessState(message: userModel.message));

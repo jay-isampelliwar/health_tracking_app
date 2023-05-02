@@ -57,6 +57,7 @@ class Profile extends StatelessWidget {
                     ),
                     AppConstSizeBox.constHightSizedBox(size.height * 0.04),
                     Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ProfileOptionContainer(
                           title: "Edit Goals",
@@ -71,8 +72,12 @@ class Profile extends StatelessWidget {
                         ),
                         ProfileOptionContainer(
                           title: "Post Data",
-                          icon: const Icon(Icons.share),
-                          onTap: () {},
+                          icon: const Icon(Icons.upload),
+                          onTap: () {
+                            locator
+                                .get<ProfileBloc>()
+                                .add(ProfilePostLoadingEvent());
+                          },
                         ),
                         ProfileOptionContainer(
                           title: "Theme",
@@ -90,10 +95,9 @@ class Profile extends StatelessWidget {
                                     builder: (context) => ChatBot()));
                           },
                         ),
-                        const Spacer(),
                         ProfileOptionContainer(
-                          title: "Chat Bot",
-                          icon: const Icon(Icons.chat_outlined),
+                          title: "Log out",
+                          icon: const Icon(Icons.logout),
                           onTap: () {
                             box.delete("token");
                             box.delete("email");
