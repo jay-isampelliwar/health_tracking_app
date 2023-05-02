@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:health_tracking_app/features/auth/login/ui/login.dart';
-import 'package:health_tracking_app/features/home/ui/home_screen.dart';
 import 'package:health_tracking_app/locator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+
+import 'features/auth/login/ui/login.dart';
+import 'features/home/ui/home_screen.dart';
 
 void main() async {
   setup();
