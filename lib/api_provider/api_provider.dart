@@ -83,8 +83,26 @@ class ApiProvider {
     }
   }
 
-  Future<void> postData({UserDataModel? model}) async {
-    try {} catch (err) {}
+  Future<UserModel> postData({UserDataModel? model}) async {
+    try {
+      var url = Uri.parse(BASE_URL + USER_DATA_POST);
+      var body = {
+        "step_count": model!.step_count.toString(),
+        "calories_burned": model.calories_burned.toString(),
+        "walk_distance": model.walk_distance.toString(),
+        "water": model.water.toString(),
+        "points": model.points.toString(),
+        "date": DateTime.now().toString(),
+      };
+      var header = {"Authorization": "Bearer $token_value"};
+      var response = await client.post(url, body: body, headers: header);
+      return userModelFromJson(response.body);
+    } catch (err) {
+      return UserModel(
+          status: false,
+          message: "Something went wrong, Please try it again",
+          data: PostDataModel(email: "", name: ""));
+    }
   }
 
   Future<void> postAchievement({AchievementModel? model}) async {
