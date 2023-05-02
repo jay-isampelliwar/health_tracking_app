@@ -1,18 +1,19 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:health_tracking_app/core/constants/token.dart';
 import 'package:health_tracking_app/features/auth/model/auth_model.dart';
 import 'package:health_tracking_app/features/auth/model/user_model.dart';
 import 'package:health_tracking_app/features/auth/repo/repo.dart';
 import 'package:health_tracking_app/locator.dart';
+import 'package:hive/hive.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
+  final box = Hive.box("user");
+
   LoginBloc() : super(LoginInitial()) {
     on<LoginHomeActionEvent>(loginHomeActionEvent);
     on<LoginHidePassword>(loginHidePassword);
@@ -28,8 +29,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(LoginInitial());
       if (authModel.status) {
         emit(LoginSuccessState(message: authModel.message));
-        token_value = authModel.data!.token;
-        log(token_value!);
+        box.put("email", event.model.email);
+        box.put("password", event.model.password);
+        box.put("token", authModel.data!.token);
       } else {
         emit(LoginErrorState(message: authModel.message));
       }
