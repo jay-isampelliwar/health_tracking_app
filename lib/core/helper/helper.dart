@@ -98,6 +98,13 @@ class Helper {
     return numberOfGlasses * val;
   }
 
+  static double getWaterValueOnStats(int numberOfGlasses) {
+    int liters = int.parse(goal.get("water") ?? 0);
+    double val = 0.99 / (liters / 0.25);
+
+    return numberOfGlasses * val;
+  }
+
   static String getBMIValue(String height, String weight) {
     double inMeter = double.parse(height) / 100;
     double bmi = double.parse(weight) / (inMeter * inMeter);
