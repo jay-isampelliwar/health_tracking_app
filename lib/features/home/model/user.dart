@@ -33,21 +33,21 @@ class UserModel {
 }
 
 class PostDataModel {
-  String name;
-  String email;
+  int steps;
+  int water;
 
   PostDataModel({
-    required this.name,
-    required this.email,
+    required this.steps,
+    required this.water,
   });
 
   factory PostDataModel.fromJson(Map<String, dynamic> json) => PostDataModel(
-        name: json["name"],
-        email: json["email"],
+        steps: json["step_count"],
+        water: json["water"],
       );
 
   Map<String, dynamic> toJson() => {
-        "name": name,
-        "email": email,
+        "name": steps,
+        "email": water,
       };
 }
