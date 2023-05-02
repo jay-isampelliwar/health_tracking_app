@@ -8,6 +8,9 @@ import 'package:health_tracking_app/features/home/bloc/home_bloc.dart';
 import 'package:health_tracking_app/features/home/repo/repo.dart';
 import 'package:health_tracking_app/features/stats/bloc/stats_bloc.dart';
 
+import 'features/achievement/repo/repo.dart';
+import 'features/stats/repo/repo.dart';
+
 GetIt locator = GetIt.instance;
 void setup() {
   locator.registerLazySingleton<HomeBloc>(() => HomeBloc());
@@ -18,4 +21,6 @@ void setup() {
 
   locator.registerLazySingleton<AuthRepo>(() => AuthRepo());
   locator.registerLazySingleton<HomeRepo>(() => HomeRepo());
+  locator.registerLazySingleton<AchievementRepo>(() => AchievementRepo());
+  locator.registerLazySingleton<StatsRepo>(() => StatsRepo());
 }
