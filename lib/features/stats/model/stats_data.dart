@@ -11,7 +11,7 @@ String dataModelToJson(DataModel data) => json.encode(data.toJson());
 class DataModel {
   bool status;
   String message;
-  List<Datum> data;
+  List<StatsData> data;
 
   DataModel({
     required this.status,
@@ -22,7 +22,8 @@ class DataModel {
   factory DataModel.fromJson(Map<String, dynamic> json) => DataModel(
         status: json["status"],
         message: json["message"],
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        data: List<StatsData>.from(
+            json["data"].map((x) => StatsData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -32,32 +33,32 @@ class DataModel {
       };
 }
 
-class Datum {
-  String id;
-  String userId;
-  int stepCount;
-  int caloriesBurned;
-  double walkDistance;
-  int heartRate;
-  int water;
-  int points;
-  DateTime date;
-  int v;
+class StatsData {
+  String? id;
+  String? userId;
+  int? stepCount;
+  int? caloriesBurned;
+  double? walkDistance;
+  int? heartRate;
+  int? water;
+  int? points;
+  DateTime? date;
+  int? v;
 
-  Datum({
-    required this.id,
-    required this.userId,
-    required this.stepCount,
-    required this.caloriesBurned,
-    required this.walkDistance,
-    required this.heartRate,
-    required this.water,
-    required this.points,
-    required this.date,
-    required this.v,
+  StatsData({
+    this.id,
+    this.userId,
+    this.stepCount,
+    this.caloriesBurned,
+    this.walkDistance,
+    this.heartRate,
+    this.water,
+    this.points,
+    this.date,
+    this.v,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory StatsData.fromJson(Map<String, dynamic> json) => StatsData(
         id: json["_id"],
         userId: json["user_id"],
         stepCount: json["step_count"],
@@ -80,7 +81,7 @@ class Datum {
         "water": water,
         "points": points,
         "date":
-            "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
+            "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
         "__v": v,
       };
 }
