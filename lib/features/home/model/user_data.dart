@@ -1,9 +1,9 @@
 class UserDataModel {
-  int step_count;
-  int calories_burned;
-  int walk_distance;
-  int water;
-  int points;
+  double step_count;
+  double calories_burned;
+  double walk_distance;
+  double water;
+  double points;
 
   UserDataModel({
     required this.calories_burned,
