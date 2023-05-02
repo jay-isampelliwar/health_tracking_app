@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:health_tracking_app/core/constants/color_constant.dart';
 import 'package:health_tracking_app/core/constants/text_styles.dart';
 import 'package:health_tracking_app/features/chat_bot/ui/chat_bot.dart';
+import 'package:health_tracking_app/features/goal/ui/goal.dart';
 
 import '../../../core/widgets/app_custom_app_bar.dart';
 import '../../../core/widgets/const_size_box.dart';
@@ -32,17 +33,17 @@ class Profile extends StatelessWidget {
               Column(
                 children: [
                   ProfileOptionContainer(
-                    title: "Edit Profile",
-                    icon: const Icon(Icons.edit),
-                    onTap: () {},
-                  ),
-                  ProfileOptionContainer(
                     title: "Edit Goals",
                     icon: const Icon(Icons.edit),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Goal()),
+                      );
+                    },
                   ),
                   ProfileOptionContainer(
-                    title: "Share Data",
+                    title: "Post Data",
                     icon: const Icon(Icons.share),
                     onTap: () {},
                   ),
