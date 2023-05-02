@@ -7,8 +7,8 @@ import '../model/achievement.dart';
 class HomeRepo {
   final ApiProvider _apiProvider = ApiProvider();
 
-  void postData(UserDataModel model) async {
-    await _apiProvider.postData(model: model);
+  Future<UserModel> postData(UserDataModel model) async {
+    return await _apiProvider.postData(model: model);
   }
 
   void postAchievement(AchievementModel model) async {
