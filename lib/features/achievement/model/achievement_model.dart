@@ -13,7 +13,7 @@ String achievementDataModelToJson(AchievementDataModel data) =>
 class AchievementDataModel {
   bool status;
   String message;
-  DataValue data;
+  DataValue? data;
 
   AchievementDataModel({
     required this.status,
@@ -21,17 +21,17 @@ class AchievementDataModel {
     required this.data,
   });
 
-  factory AchievementDataModel.fromJson(Map<String, dynamic> json) =>
-      AchievementDataModel(
-        status: json["status"],
-        message: json["message"],
-        data: DataValue.fromJson(json["data"]),
-      );
-
+  factory AchievementDataModel.fromJson(Map<String, dynamic> json) {
+    return AchievementDataModel(
+      status: json["status"],
+      message: json["message"],
+      data: json["data"] == null ? null : DataValue.fromJson(json["data"]),
+    );
+  }
   Map<String, dynamic> toJson() => {
         "status": status,
         "message": message,
-        "data": data.toJson(),
+        "data": data!.toJson(),
       };
 }
 
@@ -41,9 +41,6 @@ class DataValue {
   Highest? highestWater;
   Highest? highestStepCount;
   Highest? highestCalorieBurned;
-  String? id;
-  String? userId;
-  int? v;
 
   DataValue({
     this.highestPoint,
@@ -51,9 +48,6 @@ class DataValue {
     this.highestWater,
     this.highestStepCount,
     this.highestCalorieBurned,
-    this.id,
-    this.userId,
-    this.v,
   });
 
   factory DataValue.fromJson(Map<String, dynamic> json) => DataValue(
@@ -62,9 +56,6 @@ class DataValue {
         highestWater: Highest.fromJson(json["highest_water"]),
         highestStepCount: Highest.fromJson(json["highest_step_count"]),
         highestCalorieBurned: Highest.fromJson(json["highest_calorie_burned"]),
-        id: json["_id"],
-        userId: json["user_id"],
-        v: json["__v"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -73,9 +64,6 @@ class DataValue {
         "highest_water": highestWater!.toJson(),
         "highest_step_count": highestStepCount!.toJson(),
         "highest_calorie_burned": highestCalorieBurned!.toJson(),
-        "_id": id,
-        "user_id": userId,
-        "__v": v,
       };
 }
 
