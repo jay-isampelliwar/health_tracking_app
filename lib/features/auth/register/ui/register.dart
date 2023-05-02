@@ -1,6 +1,3 @@
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_tracking_app/core/helper/router.dart';
@@ -9,7 +6,6 @@ import 'package:health_tracking_app/features/auth/login/ui/login.dart';
 import 'package:health_tracking_app/features/auth/model/user_model.dart';
 import 'package:health_tracking_app/features/auth/otp/ui/otp.dart';
 import 'package:health_tracking_app/features/auth/register/bloc/sign_up_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/constants/color_constant.dart';
 import '../../../../core/constants/text_styles.dart';
@@ -31,7 +27,7 @@ class _RegistrationState extends State<Registration> {
   TextEditingController nameTextEditingController = TextEditingController();
   TextEditingController passwordTextEditingController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  File? image;
+  // File? image;
   @override
   void dispose() {
     emailTextEditingController.dispose();
@@ -40,18 +36,18 @@ class _RegistrationState extends State<Registration> {
     super.dispose();
   }
 
-  Future pickImage() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (image == null) return;
-      final tempImage = File(image.path);
-      setState(() {
-        this.image = tempImage;
-      });
-    } catch (err) {
-      log(err.toString());
-    }
-  }
+  // Future pickImage() async {
+  //   try {
+  //     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+  //     if (image == null) return;
+  //     final tempImage = File(image.path);
+  //     setState(() {
+  //       this.image = tempImage;
+  //     });
+  //   } catch (err) {
+  //     log(err.toString());
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -100,44 +96,44 @@ class _RegistrationState extends State<Registration> {
                     key: formKey,
                     child: Column(
                       children: [
-                        GestureDetector(
-                          onTap: () {
-                            pickImage();
-                          },
-                          child: Container(
-                              clipBehavior: Clip.hardEdge,
-                              width: size.width * 0.25,
-                              height: size.width * 0.25,
-                              decoration: BoxDecoration(
-                                border: image != null
-                                    ? null
-                                    : Border.all(
-                                        color: AppColors.primaryColor,
-                                        width: 2),
-                                shape: BoxShape.circle,
-                              ),
-                              child: image == null
-                                  ? Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.upload,
-                                          size: size.width * 0.08,
-                                          color: AppColors.primaryColor,
-                                        ),
-                                        Text(
-                                          "Upload Profile",
-                                          style: AppTextStyles.text12(
-                                              bold: false, size: size),
-                                        )
-                                      ],
-                                    )
-                                  : Image.file(
-                                      image!,
-                                      fit: BoxFit.cover,
-                                    )),
-                        ),
+                        // GestureDetector(
+                        //   onTap: () {
+                        //     pickImage();
+                        //   },
+                        //   child: Container(
+                        //       clipBehavior: Clip.hardEdge,
+                        //       width: size.width * 0.25,
+                        //       height: size.width * 0.25,
+                        //       decoration: BoxDecoration(
+                        //         border: image != null
+                        //             ? null
+                        //             : Border.all(
+                        //                 color: AppColors.primaryColor,
+                        //                 width: 2),
+                        //         shape: BoxShape.circle,
+                        //       ),
+                        //       child: image == null
+                        //           ? Column(
+                        //               mainAxisAlignment:
+                        //                   MainAxisAlignment.center,
+                        //               children: [
+                        //                 Icon(
+                        //                   Icons.upload,
+                        //                   size: size.width * 0.08,
+                        //                   color: AppColors.primaryColor,
+                        //                 ),
+                        //                 Text(
+                        //                   "Upload Profile",
+                        //                   style: AppTextStyles.text12(
+                        //                       bold: false, size: size),
+                        //                 )
+                        //               ],
+                        //             )
+                        //           : Image.file(
+                        //               image!,
+                        //               fit: BoxFit.cover,
+                        //             )),
+                        // ),
                         AppConstSizeBox.constHightSizedBox(size.height * 0.01),
                         AppTextField(
                             hintText: "Name",
