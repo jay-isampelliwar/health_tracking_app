@@ -19,46 +19,59 @@ class Achievement extends StatelessWidget {
           top: size.height * 0.06,
           bottom: size.height * 0.04,
         ),
-        child: SingleChildScrollView(
-            child: Column(
-          children: [
-            CustomAppBar(title: "Your Achievements", subtitle: ""),
-            AppConstSizeBox.constHightSizedBox(size.height * 0.02),
-            SizedBox(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: model!.data == null
+            ? Center(
+                child: Text(
+                  "You Don't have data",
+                  style: AppTextStyles.text14(bold: true, size: size),
+                ),
+              )
+            : SingleChildScrollView(
+                child: Column(
                 children: [
-                  AchievementContainer(
-                    title: "Steps",
-                    value: model!.data.highestStepCount!.value.toString(),
-                    date: model!.data.highestStepCount!.date.toIso8601String(),
-                  ),
-                  AchievementContainer(
-                    title: "Calories Burned",
-                    value: model!.data.highestCalorieBurned!.value.toString(),
-                    date: model!.data.highestCalorieBurned!.date
-                        .toIso8601String(),
-                  ),
-                  AchievementContainer(
-                    title: "Distance",
-                    value: model!.data.highestDistance!.value.toString(),
-                    date: model!.data.highestDistance!.date.toIso8601String(),
-                  ),
-                  AchievementContainer(
-                    title: "Point",
-                    value: model!.data.highestPoint!.value.toString(),
-                    date: model!.data.highestPoint!.date.toIso8601String(),
-                  ),
-                  AchievementContainer(
-                    title: "Water",
-                    value: model!.data.highestWater!.value.toString(),
-                    date: model!.data.highestWater!.date.toIso8601String(),
-                  ),
+                  CustomAppBar(title: "Your Achievements", subtitle: ""),
+                  AppConstSizeBox.constHightSizedBox(size.height * 0.02),
+                  SizedBox(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AchievementContainer(
+                          title: "Steps",
+                          value:
+                              model!.data!.highestStepCount!.value.toString(),
+                          date: model!.data!.highestStepCount!.date
+                              .toIso8601String(),
+                        ),
+                        AchievementContainer(
+                          title: "Calories Burned",
+                          value: model!.data!.highestCalorieBurned!.value
+                              .toString(),
+                          date: model!.data!.highestCalorieBurned!.date
+                              .toIso8601String(),
+                        ),
+                        AchievementContainer(
+                          title: "Distance",
+                          value: model!.data!.highestDistance!.value.toString(),
+                          date: model!.data!.highestDistance!.date
+                              .toIso8601String(),
+                        ),
+                        AchievementContainer(
+                          title: "Point",
+                          value: model!.data!.highestPoint!.value.toString(),
+                          date:
+                              model!.data!.highestPoint!.date.toIso8601String(),
+                        ),
+                        AchievementContainer(
+                          title: "Water",
+                          value: model!.data!.highestWater!.value.toString(),
+                          date:
+                              model!.data!.highestWater!.date.toIso8601String(),
+                        ),
+                      ],
+                    ),
+                  )
                 ],
-              ),
-            )
-          ],
-        )),
+              )),
       ),
     );
   }
