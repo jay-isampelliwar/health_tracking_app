@@ -35,7 +35,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       HomeUpdateEvent event, Emitter<HomeState> emit) {
     double calories = Helper.calcCaloriesBurned(event.steps % event.divider);
     double distance = Helper.getDistance(event.steps % event.divider);
-    String points =
+    double points =
         Helper.calculatePoints(event.steps % event.divider, calories);
 
     double steps = event.steps % event.divider;
@@ -46,7 +46,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(HomeUpdateState(
       calories: calories.toStringAsFixed(3),
       distance: distance.toStringAsFixed(3),
-      points: points,
+      points: points.toStringAsFixed(2),
     ));
   }
 
