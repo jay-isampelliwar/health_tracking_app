@@ -6,3 +6,11 @@ abstract class StatsEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class StatsDateChangeEvent extends StatsEvent {
+  int index;
+  StatsDateChangeEvent({required this.index});
+
+  @override
+  List<Object> get props => [index];
+}

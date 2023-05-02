@@ -6,8 +6,8 @@ part 'stats_state.dart';
 
 class StatsBloc extends Bloc<StatsEvent, StatsState> {
   StatsBloc() : super(StatsInitial()) {
-    on<StatsEvent>((event, emit) {
-      // TODO: implement event handler
+    on<StatsDateChangeEvent>((event, emit) {
+      emit(StatsDateChangeState(index: event.index));
     });
   }
 }
