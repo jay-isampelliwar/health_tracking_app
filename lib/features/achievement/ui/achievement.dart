@@ -3,20 +3,11 @@ import 'package:health_tracking_app/core/constants/color_constant.dart';
 import 'package:health_tracking_app/core/constants/text_styles.dart';
 import 'package:health_tracking_app/core/widgets/app_custom_app_bar.dart';
 import 'package:health_tracking_app/core/widgets/const_size_box.dart';
+import 'package:health_tracking_app/features/achievement/model/achievement_model.dart';
 
-class Achievement extends StatefulWidget {
-  const Achievement({Key? key}) : super(key: key);
-
-  @override
-  State<Achievement> createState() => _AchievementState();
-}
-
-class _AchievementState extends State<Achievement> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class Achievement extends StatelessWidget {
+  Achievement({required this.model, super.key});
+  AchievementDataModel? model;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
