@@ -1,11 +1,11 @@
 import 'package:health_tracking_app/core/constants/app_url.dart';
-import 'package:health_tracking_app/core/constants/token.dart';
 import 'package:health_tracking_app/features/achievement/model/achievement_model.dart';
 import 'package:health_tracking_app/features/auth/model/auth_model.dart';
 import 'package:health_tracking_app/features/auth/model/user_model.dart';
 import 'package:health_tracking_app/features/home/model/user.dart';
 import 'package:health_tracking_app/features/home/model/user_data.dart';
 import 'package:health_tracking_app/features/stats/model/stats_data.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
 import '../features/home/model/achievement.dart';
@@ -13,7 +13,7 @@ import '../features/home/model/achievement.dart';
 class ApiProvider {
   static final _client = http.Client();
   http.Client get client => _client;
-
+  final box = Hive.box("user");
   Future<AuthModel> login(User? model) async {
     try {
       var body = {"email": model!.email, "password": model.password};
@@ -56,7 +56,7 @@ class ApiProvider {
   Future<UserModel> userDetails() async {
     try {
       var uri = Uri.parse(BASE_URL);
-      var header = {"Authorization": "Bearer $token_value"};
+      var header = {"Authorization": "Bearer ${box.get("token")}"};
 
       var response = await client.get(uri, headers: header);
 
@@ -74,7 +74,7 @@ class ApiProvider {
   Future<AchievementDataModel> getAchievement() async {
     try {
       var uri = Uri.parse(BASE_URL + USER_ACHIEVEMENT_GET);
-      var header = {"Authorization": "Bearer $token_value"};
+      var header = {"Authorization": "Bearer ${box.get("token")}"};
       var response = await client.get(uri, headers: header);
       return achievementDataModelFromJson(response.body);
     } catch (err) {
@@ -94,7 +94,7 @@ class ApiProvider {
         "points": model.points.toString(),
         "date": DateTime.now().toString(),
       };
-      var header = {"Authorization": "Bearer $token_value"};
+      var header = {"Authorization": "Bearer ${box.get("token")}"};
       var response = await client.post(url, body: body, headers: header);
       return userModelFromJson(response.body);
     } catch (err) {
@@ -106,6 +106,8 @@ class ApiProvider {
   }
 
   Future<void> postAchievement({AchievementModel? model}) async {
-    try {} catch (err) {}
+    try {
+      var header = {"Authorization": "Bearer ${box.get("token")}"};
+    } catch (err) {}
   }
 }
