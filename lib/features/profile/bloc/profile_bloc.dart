@@ -3,6 +3,8 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:health_tracking_app/features/achievement/model/achievement_model.dart';
+import 'package:health_tracking_app/features/home/model/achievement.dart';
 import 'package:health_tracking_app/features/home/model/user.dart';
 import 'package:health_tracking_app/features/home/model/user_data.dart';
 import 'package:health_tracking_app/features/home/repo/repo.dart';
@@ -22,15 +24,31 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   FutureOr<void> profilePostLoadingEvent(
       ProfilePostLoadingEvent event, Emitter<ProfileState> emit) async {
     emit(ProfilePostLoadingState());
+    UserModel? userModel;
+    AchievementDataModel? achievementDataModel;
+    await Future.wait([
+      locator.get<HomeRepo>().postData(UserDataModel(
+            calories_burned: localDB.get("calories") + 0.0,
+            walk_distance: localDB.get("distance") + 0.0,
+            water: localDB.get("glassWater") + 0.0,
+            points: localDB.get("points") + 0.0,
+            step_count: localDB.get("steps") + 0.0,
+          )),
+      locator.get<HomeRepo>().postAchievement(AchievementModel(
+            highestPoint: Metric(
+                date: DateTime.now(), value: localDB.get("points") + 0.0),
+            highestDistance: Metric(
+                date: DateTime.now(), value: localDB.get("distance") + 0.0),
+            highestWater: Metric(
+                date: DateTime.now(), value: localDB.get("glassWater") + 0.0),
+            highestStepCount:
+                Metric(date: DateTime.now(), value: localDB.get("steps") + 0.0),
+            highestCalorieBurned: Metric(
+                date: DateTime.now(), value: localDB.get("calories") + 0.0),
+          )),
+    ]);
 
-    UserModel userModel = await locator.get<HomeRepo>().postData(UserDataModel(
-          calories_burned: localDB.get("calories") + 0.0,
-          walk_distance: localDB.get("distance") + 0.0,
-          water: localDB.get("glassWater") + 0.0,
-          points: localDB.get("points") + 0.0,
-          step_count: localDB.get("steps") + 0.0,
-        ));
-    log(userModel.message);
+    log(userModel!.message);
     emit(ProfileInitial());
     if (userModel.status) {
       emit(ProfileSuccessState(message: userModel.message));
