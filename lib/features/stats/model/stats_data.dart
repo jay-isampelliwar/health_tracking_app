@@ -36,7 +36,7 @@ class DataModel {
 
 class StatsData {
   int? stepCount;
-  int? caloriesBurned;
+  double? caloriesBurned;
   double? walkDistance;
   int? water;
   int? points;
@@ -54,7 +54,7 @@ class StatsData {
   factory StatsData.fromJson(dynamic json) => StatsData(
         stepCount: json["step_count"],
         caloriesBurned: json["calories_burned"],
-        walkDistance: json["walk_distance"]?.toDouble(),
+        walkDistance: json["walk_distance"],
         water: json["water"],
         points: json["points"],
         date: DateTime.parse(json["date"]),

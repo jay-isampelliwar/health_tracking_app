@@ -145,13 +145,13 @@ class Stats extends StatelessWidget {
                                   StatsRowColumn(
                                     title: "Distance",
                                     value:
-                                        "${model.data[currentIndex]!.walkDistance}km",
+                                        "${(model.data[currentIndex]!.walkDistance)!.toStringAsFixed(3)}km",
                                   ),
                                   StatsRowColumn(
                                     title: "Calories",
                                     value: model
-                                        .data[currentIndex]!.caloriesBurned
-                                        .toString(),
+                                        .data[currentIndex]!.caloriesBurned!
+                                        .toStringAsFixed(3),
                                   ),
                                   StatsRowColumn(
                                     title: "Points",
@@ -202,18 +202,21 @@ class Stats extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(
                                         size.width * 0.07),
                                   ),
-                                  child: SquareContainer(
-                                    title: "BMI",
-                                    second: Image.asset(
-                                      "lib/assets/images/bmi.png",
-                                      width: size.width * 0.06,
-                                      height: size.width * 0.06,
-                                      color: AppColors.black,
+                                  child: Expanded(
+                                    child: SquareContainer(
+                                      title: "BMI",
+                                      second: Image.asset(
+                                        "lib/assets/images/bmi.png",
+                                        width: size.width * 0.06,
+                                        height: size.width * 0.06,
+                                        color: AppColors.black,
+                                      ),
+                                      subTitle: "metric",
+                                      value: Helper.getBMIValue(
+                                          goal.get("height"),
+                                          goal.get("weight")),
+                                      borderColor: Colors.transparent,
                                     ),
-                                    subTitle: "metric",
-                                    value: Helper.getBMIValue(
-                                        goal.get("height"), goal.get("weight")),
-                                    borderColor: Colors.transparent,
                                   ),
                                 ),
                               )
