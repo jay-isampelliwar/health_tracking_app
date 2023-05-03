@@ -37,33 +37,36 @@ class Achievement extends StatelessWidget {
                       children: [
                         AchievementContainer(
                           title: "Steps",
-                          value:
-                              model!.data!.highestStepCount!.value.toString(),
+                          value: model!.data!.highestStepCount!.value
+                              .toStringAsFixed(0),
                           date: model!.data!.highestStepCount!.date
                               .toIso8601String(),
                         ),
                         AchievementContainer(
                           title: "Calories Burned",
                           value: model!.data!.highestCalorieBurned!.value
-                              .toString(),
+                              .toStringAsFixed(2),
                           date: model!.data!.highestCalorieBurned!.date
                               .toIso8601String(),
                         ),
                         AchievementContainer(
                           title: "Distance",
-                          value: model!.data!.highestDistance!.value.toString(),
+                          value: model!.data!.highestDistance!.value
+                              .toStringAsFixed(2),
                           date: model!.data!.highestDistance!.date
                               .toIso8601String(),
                         ),
                         AchievementContainer(
                           title: "Point",
-                          value: model!.data!.highestPoint!.value.toString(),
+                          value: model!.data!.highestPoint!.value
+                              .toStringAsFixed(0),
                           date:
                               model!.data!.highestPoint!.date.toIso8601String(),
                         ),
                         AchievementContainer(
                           title: "Water",
-                          value: model!.data!.highestWater!.value.toString(),
+                          value: model!.data!.highestWater!.value
+                              .toStringAsFixed(0),
                           date:
                               model!.data!.highestWater!.date.toIso8601String(),
                         ),
@@ -111,7 +114,8 @@ class AchievementContainer extends StatelessWidget {
             children: [
               Text(title, style: AppTextStyles.text24(bold: true, size: size)),
               AppConstSizeBox.constHightSizedBox(size.height * 0.002),
-              Text(date, style: AppTextStyles.text18(bold: false, size: size)),
+              Text(date.split('T')[0],
+                  style: AppTextStyles.text18(bold: false, size: size)),
             ],
           ),
           const Spacer(),
