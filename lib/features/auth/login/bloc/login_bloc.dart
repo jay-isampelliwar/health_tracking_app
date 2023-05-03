@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -25,7 +26,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       emit(LoginLoadingState());
       AuthModel authModel = await locator.get<AuthRepo>().login(event.model);
-
+      log(authModel.status.toString());
       emit(LoginInitial());
       if (authModel.status) {
         emit(LoginSuccessState(message: authModel.message));

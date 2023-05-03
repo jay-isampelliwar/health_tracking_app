@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_tracking_app/core/constants/color_constant.dart';
@@ -60,6 +62,7 @@ class _LoginState extends State<Login> {
                 ScaffoldMessenger.of(context).showSnackBar(appSnackBar(
                     size: size, message: state.message, color: Colors.red));
               } else if (state is LoginSuccessState) {
+                log(box.get("height"));
                 if (box.get("height") != null && box.get("weight") != null) {
                   routeWithPushReplacement(const MainWidget(), context);
                 } else {

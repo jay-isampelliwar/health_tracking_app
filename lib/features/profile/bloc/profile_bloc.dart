@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -48,6 +47,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           )),
     ]).then((result) {
       userModel = result[0] as UserModel;
+      if (userModel!.status) {
+        emit(ProfileErrorState(message: "Unable to save data try again"));
+        return;
+      }
       achievementDataModel = result[1] as AchievementDataModel;
     });
 
@@ -61,8 +64,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       localDB.put("points", 0);
       localDB.put("steps", 0);
       box.put("stepValue", -1);
+    } else if (userModel!.status) {
+      emit(ProfileErrorState(message: "Unable to save data try again"));
+    } else if (achievementDataModel!.status) {
+      emit(ProfileErrorState(message: "Unable to save achievement try again"));
     } else {
-      emit(ProfileErrorState(message: userModel!.message));
+      emit(ProfileErrorState(message: "Something went wrong"));
     }
   }
 }

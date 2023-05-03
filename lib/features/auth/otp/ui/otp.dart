@@ -77,7 +77,7 @@ class OTPScreen extends StatelessWidget {
                         child: Container(
                           height: 60,
                           decoration: BoxDecoration(
-                            color: Colors.black87,
+                            color: AppColors.primaryColor,
                             borderRadius: BorderRadius.circular(12),
                           ),
 

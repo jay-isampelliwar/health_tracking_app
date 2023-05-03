@@ -6,6 +6,7 @@ import 'features/auth/login/ui/login.dart';
 import 'features/home/ui/home_screen.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   setup();
   await Hive.initFlutter();
   await Hive.openBox("goals");
@@ -17,15 +18,15 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
-
   final box = Hive.box("user");
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: box.get("email") != null &&
-              box.get("password") != null &&
-              box.get("token") != null
+      home: box.containsKey("email") &&
+              box.containsKey("password") &&
+              box.containsKey("token")
           ? const MainWidget()
           : const Login(),
     );
