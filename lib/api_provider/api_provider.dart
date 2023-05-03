@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:health_tracking_app/core/constants/app_url.dart';
 import 'package:health_tracking_app/features/achievement/model/achievement_model.dart';
 import 'package:health_tracking_app/features/auth/model/auth_model.dart';
@@ -119,30 +121,34 @@ class ApiProvider {
       {AchievementModel? model}) async {
     try {
       var url = Uri.parse(BASE_URL + USER_ACHIEVEMENT_POST);
-      var header = {"Authorization": "Bearer ${box.get("token")}"};
+      var header = {
+        "Authorization": "Bearer ${box.get("token")}",
+        'Content-Type': 'application/json',
+      };
       var body = {
         "highest_point": {
-          "value": model!.highestPoint.value.toString(),
-          "date": model.highestPoint.value.toString()
+          "value": model!.highestPoint.value,
+          "date": model.highestPoint.date.toString()
         },
         "highest_distance": {
-          "value": model.highestDistance.value.toString(),
-          "date": model.highestDistance.value.toString()
+          "value": model.highestDistance.value,
+          "date": model.highestDistance.date.toString()
         },
         "highest_water": {
-          "value": model.highestWater.value.toString(),
-          "date": model.highestWater.value.toString()
+          "value": model.highestWater.value,
+          "date": model.highestWater.date.toString()
         },
         "highest_step_count": {
-          "value": model.highestStepCount.value.toString(),
-          "date": model.highestStepCount.value.toString()
+          "value": model.highestStepCount.value,
+          "date": model.highestStepCount.date.toString()
         },
         "highest_calorie_burned": {
-          "value": model.highestCalorieBurned.value.toString(),
-          "date": model.highestCalorieBurned.value.toString()
-        }
+          "value": model.highestCalorieBurned.value,
+          "date": model.highestCalorieBurned.date.toString()
+        },
       };
-      var response = await client.post(url, body: body, headers: header);
+      var response =
+          await client.post(url, body: json.encode(body), headers: header);
       return achievementDataModelFromJson(response.body);
     } catch (err) {
       return AchievementDataModel(
