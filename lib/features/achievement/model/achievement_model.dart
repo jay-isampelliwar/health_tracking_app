@@ -68,7 +68,7 @@ class DataValue {
 }
 
 class Highest {
-  int value;
+  dynamic value;
   DateTime date;
 
   Highest({
