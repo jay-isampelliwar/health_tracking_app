@@ -115,9 +115,38 @@ class ApiProvider {
     }
   }
 
-  Future<void> postAchievement({AchievementModel? model}) async {
+  Future<AchievementDataModel> postAchievement(
+      {AchievementModel? model}) async {
     try {
+      var url = Uri.parse(BASE_URL + USER_ACHIEVEMENT_POST);
       var header = {"Authorization": "Bearer ${box.get("token")}"};
-    } catch (err) {}
+      var body = {
+        "highest_point": {
+          "value": model!.highestPoint.value.toString(),
+          "date": model.highestPoint.value.toString()
+        },
+        "highest_distance": {
+          "value": model.highestDistance.value.toString(),
+          "date": model.highestDistance.value.toString()
+        },
+        "highest_water": {
+          "value": model.highestWater.value.toString(),
+          "date": model.highestWater.value.toString()
+        },
+        "highest_step_count": {
+          "value": model.highestStepCount.value.toString(),
+          "date": model.highestStepCount.value.toString()
+        },
+        "highest_calorie_burned": {
+          "value": model.highestCalorieBurned.value.toString(),
+          "date": model.highestCalorieBurned.value.toString()
+        }
+      };
+      var response = await client.post(url, body: body, headers: header);
+      return achievementDataModelFromJson(response.body);
+    } catch (err) {
+      return AchievementDataModel(
+          status: false, message: "Something went wrong", data: null);
+    }
   }
 }
