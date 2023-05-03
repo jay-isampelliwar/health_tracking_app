@@ -1,5 +1,4 @@
 class AchievementModel {
-  String userId;
   Metric highestPoint;
   Metric highestDistance;
   Metric highestWater;
@@ -7,7 +6,6 @@ class AchievementModel {
   Metric highestCalorieBurned;
 
   AchievementModel({
-    required this.userId,
     required this.highestPoint,
     required this.highestDistance,
     required this.highestWater,
