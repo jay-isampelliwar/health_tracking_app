@@ -46,12 +46,15 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             highestCalorieBurned: Metric(
                 date: DateTime.now(), value: localDB.get("calories") + 0.0),
           )),
-    ]);
+    ]).then((result) {
+      userModel = result[0] as UserModel;
+      achievementDataModel = result[1] as AchievementDataModel;
+    });
 
-    log(userModel!.message);
     emit(ProfileInitial());
-    if (userModel.status) {
-      emit(ProfileSuccessState(message: userModel.message));
+    if (userModel!.status && achievementDataModel!.status) {
+      emit(ProfileSuccessState(
+          message: userModel!.message + achievementDataModel!.message));
       localDB.put("calories", 0);
       localDB.put("distance", 0);
       localDB.put("glassWater", 0);
@@ -59,7 +62,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       localDB.put("steps", 0);
       box.put("stepValue", -1);
     } else {
-      emit(ProfileErrorState(message: userModel.message));
+      emit(ProfileErrorState(message: userModel!.message));
     }
   }
 }
