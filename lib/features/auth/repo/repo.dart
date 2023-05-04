@@ -15,6 +15,6 @@ class AuthRepo {
   }
 
   Future<AuthModel> verifyOtp(User model) {
-    return _apiProvider.verifyOtp();
+    return _apiProvider.verifyOtp(model: model);
   }
 }
