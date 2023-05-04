@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:health_tracking_app/features/auth/model/auth_model.dart';
@@ -10,16 +12,19 @@ part 'otp_state.dart';
 class OtpBloc extends Bloc<OtpEvent, OtpState> {
   final AuthRepo authRepo = AuthRepo();
   OtpBloc() : super(OtpInitial()) {
-    on<OtpButtonClickedEvent>((event, emit) async {
-      emit(OtpLoadingState());
+    on<OtpButtonClickedEvent>(otpButtonClickedEvent);
+  }
 
-      AuthModel authModel = await authRepo.verifyOtp(event.model);
-      emit(OtpInitial());
-      if (authModel.status) {
-        emit(OtpSuccessState(message: authModel.message));
-      } else {
-        emit(OtpErrorState(message: authModel.message));
-      }
-    });
+  FutureOr<void> otpButtonClickedEvent(
+      OtpButtonClickedEvent event, Emitter<OtpState> emit) async {
+    emit(OtpLoadingState());
+
+    AuthModel authModel = await authRepo.verifyOtp(event.model);
+    emit(OtpInitial());
+    if (authModel.status) {
+      emit(OtpSuccessState(message: authModel.message));
+    } else {
+      emit(OtpErrorState(message: authModel.message));
+    }
   }
 }

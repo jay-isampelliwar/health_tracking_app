@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_tracking_app/core/constants/text_styles.dart';
@@ -6,6 +8,7 @@ import 'package:health_tracking_app/core/helper/router.dart';
 import 'package:health_tracking_app/core/widgets/app_snackbar.dart';
 import 'package:health_tracking_app/core/widgets/const_size_box.dart';
 import 'package:health_tracking_app/features/Bmi/ui/bmi.dart';
+import 'package:health_tracking_app/features/auth/model/user_model.dart';
 import 'package:health_tracking_app/locator.dart';
 
 import '../../../../core/constants/color_constant.dart';
@@ -71,8 +74,18 @@ class OTPScreen extends StatelessWidget {
                       AppConstSizeBox.constHightSizedBox(0.06 * size.height),
                       GestureDetector(
                         onTap: () {
+                          log("Print");
                           FocusScope.of(context).unfocus();
-                          if (formKey.currentState!.validate()) {}
+                          if (formKey.currentState!.validate()) {
+                            locator.get<OtpBloc>().add(
+                                  OtpButtonClickedEvent(
+                                    model: User(
+                                      email: email,
+                                      otp: textEditingController.text,
+                                    ),
+                                  ),
+                                );
+                          }
                         },
                         child: Container(
                           height: 60,
@@ -80,8 +93,6 @@ class OTPScreen extends StatelessWidget {
                             color: AppColors.primaryColor,
                             borderRadius: BorderRadius.circular(12),
                           ),
-
-                          // !Login loading button
                           child: Align(
                               child: Visibility(
                             visible: state is! OtpLoadingState,

@@ -46,7 +46,10 @@ class ApiProvider {
 
   Future<AuthModel> verifyOtp({User? model}) async {
     try {
-      var body = {"otp": model!.otp, "email": model.email};
+      var body = {
+        "otp": model!.otp.toString(),
+        "email": model.email.toString()
+      };
       var uri = Uri.parse(BASE_URL + USER_VERIFY_OTP);
       var response = await client.post(uri, body: body);
       return authModelFromJson(response.body);
