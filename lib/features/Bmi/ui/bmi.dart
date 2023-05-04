@@ -19,10 +19,9 @@ class BmiPage extends StatefulWidget {
 
 class _BmiPageState extends State<BmiPage> {
   TextEditingController hightTextEditingController = TextEditingController();
-
   TextEditingController weightTextEditingController = TextEditingController();
 
-  final box = Hive.box("goals");
+  final box = Hive.box("localData");
 
   @override
   void dispose() {
