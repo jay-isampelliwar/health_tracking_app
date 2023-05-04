@@ -19,7 +19,7 @@ class WaterContainer extends StatelessWidget {
 
   double val1;
   double val2;
-  int water;
+  int? water;
   Function()? onTap;
   @override
   Widget build(BuildContext context) {
@@ -69,7 +69,7 @@ class WaterContainer extends StatelessWidget {
                   top: size.height * 0.175, left: size.width * 0.05),
               child: ContainerBottomColumn(
                 title: "liters",
-                value: Helper.getWaterLiter(water),
+                value: Helper.getWaterLiter(water!),
                 color: AppColors.white,
               ),
             ),

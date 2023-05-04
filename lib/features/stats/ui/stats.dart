@@ -187,7 +187,8 @@ class Stats extends StatelessWidget {
                                       Helper.getWaterValueOnStats(
                                           model.data[currentIndex]!.water!) -
                                       0.05),
-                                  water: 16 //! number of glasses,
+                                  water: model.data[currentIndex]!
+                                      .water //! number of glasses,
                                   ),
                               AppConstSizeBox.constWidthSizedBox(
                                   size.width * 0.04),
