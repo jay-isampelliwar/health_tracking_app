@@ -7,7 +7,6 @@ import 'package:health_tracking_app/core/constants/text_styles.dart';
 import 'package:health_tracking_app/core/widgets/const_size_box.dart';
 import 'package:health_tracking_app/features/achievement/model/achievement_model.dart';
 import 'package:health_tracking_app/features/home/widgets/app_dialogBox.dart';
-import 'package:health_tracking_app/features/notification/notification.dart';
 import 'package:health_tracking_app/features/stats/model/stats_data.dart';
 import 'package:health_tracking_app/locator.dart';
 import 'package:hive/hive.dart';
@@ -92,8 +91,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late StreamSubscription<StepCount> _stepCountStreamSubscription;
-  final AppNotificationService _appNotificationService =
-      AppNotificationService();
   double stepCounter = 0;
   int initialSteps = 0;
   final box = Hive.box("stepCounter");
@@ -119,11 +116,6 @@ class _HomePageState extends State<HomePage> {
     locator
         .get<HomeBloc>()
         .add(HomeUpdateEvent(steps: initialSteps, divider: initialSteps + 0.0));
-
-    _appNotificationService.scheduleNotification(
-      "Track your health",
-      "Steps: ${localDatabase.get("steps")} -- Water: ${localDatabase.get("glassWater")} -- Distance: ${localDatabase.get("distance")}",
-    );
   }
 
   @override
