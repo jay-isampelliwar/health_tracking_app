@@ -47,10 +47,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           )),
     ]).then((result) {
       userModel = result[0] as UserModel;
-      if (userModel!.status) {
-        emit(ProfileErrorState(message: "Unable to save data try again"));
-        return;
-      }
       achievementDataModel = result[1] as AchievementDataModel;
     });
 
