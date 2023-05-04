@@ -15,7 +15,7 @@ import '../bloc/stats_bloc.dart';
 
 class Stats extends StatelessWidget {
   Stats({required this.model, super.key});
-  final goal = Hive.box("goals");
+  final goal = Hive.box("localData");
 
   DataModel model;
 

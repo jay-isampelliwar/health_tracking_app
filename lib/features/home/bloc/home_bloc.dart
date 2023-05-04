@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -58,7 +57,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     } else {
       localDatabase.put("glassWater", get - 1);
     }
-    log(localDatabase.get("glassWater").toString());
     emit(HomeWaterLevelUpdate(
         numberOfGlasses: localDatabase.get("glassWater").toString()));
   }
