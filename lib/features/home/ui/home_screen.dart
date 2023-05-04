@@ -7,6 +7,7 @@ import 'package:health_tracking_app/core/constants/text_styles.dart';
 import 'package:health_tracking_app/core/widgets/const_size_box.dart';
 import 'package:health_tracking_app/features/achievement/model/achievement_model.dart';
 import 'package:health_tracking_app/features/home/widgets/app_dialogBox.dart';
+import 'package:health_tracking_app/features/notification/notification.dart';
 import 'package:health_tracking_app/features/stats/model/stats_data.dart';
 import 'package:health_tracking_app/locator.dart';
 import 'package:hive/hive.dart';
@@ -36,12 +37,14 @@ class MainWidget extends StatefulWidget {
 
 class _MainWidgetState extends State<MainWidget> {
   int selectedIndex = 0;
+  final localDatabase = Hive.box("localData");
 
   @override
   void initState() {
     super.initState();
-    // locator.get<HomeBloc>().add(HomeLoadingEvent());
     setup();
+    AppNotificationService.scheduleNotifications("Track Your Health",
+        "Steps: ${localDatabase.get("steps")} - Water: ${localDatabase.get("glassWater")} - Distance: ${localDatabase.get("distance")}");
   }
 
   AchievementDataModel? achievementDataModel;
