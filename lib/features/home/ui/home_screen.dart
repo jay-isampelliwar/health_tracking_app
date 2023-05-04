@@ -319,7 +319,8 @@ class _HomePageState extends State<HomePage> {
                             ),
                             subTitle: "metric",
                             value: Helper.getBMIValue(
-                                goal.get("height"), goal.get("weight")),
+                                localDatabase.get("height"),
+                                localDatabase.get("weight")),
                             borderColor: AppColors.secondaryColor,
                           ),
                         ],

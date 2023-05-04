@@ -81,7 +81,8 @@ class Helper {
   }
 
   static double calcCaloriesBurned(double steps) {
-    double caloriesPerStep = 0.05 * double.parse(goal.get("weight")) / 2000;
+    double caloriesPerStep =
+        0.05 * double.parse(localDatabase.get("weight")) / 2000;
     double caloriesBurned = steps * caloriesPerStep;
     return caloriesBurned;
   }
