@@ -6,6 +6,7 @@ import 'package:health_tracking_app/core/widgets/app_snackbar.dart';
 import 'package:health_tracking_app/features/auth/login/ui/login.dart';
 import 'package:health_tracking_app/features/chat_bot/ui/chat_bot.dart';
 import 'package:health_tracking_app/features/goal/ui/goal.dart';
+import 'package:health_tracking_app/features/home/model/user_details_model.dart';
 import 'package:health_tracking_app/locator.dart';
 import 'package:hive/hive.dart';
 
@@ -14,7 +15,8 @@ import '../../../core/widgets/const_size_box.dart';
 import '../bloc/profile_bloc.dart';
 
 class Profile extends StatelessWidget {
-  const Profile({Key? key}) : super(key: key);
+  UserDetailsModel userDetailsModel;
+  Profile({required this.userDetailsModel, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
