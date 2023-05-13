@@ -33,7 +33,6 @@ class HomeWaterDecreaseState extends HomeState {
   List<Object> get props => [water];
 }
 
-//
 class HomeWaterLevelDecreaseState extends HomeState {
   double val;
   HomeWaterLevelDecreaseState({
@@ -77,9 +76,11 @@ class HomeErrorActionState extends HomeActionState {
 class HomeSuccessState extends HomeActionState {
   AchievementDataModel achievementDataModel;
   DataModel dataModel;
+  UserDetailsModel userDetailsModel;
   HomeSuccessState({
     required this.achievementDataModel,
     required this.dataModel,
+    required this.userDetailsModel,
   });
 
   @override

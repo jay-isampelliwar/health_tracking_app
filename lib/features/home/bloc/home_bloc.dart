@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:health_tracking_app/core/helper/helper.dart';
+import 'package:health_tracking_app/features/home/model/user_details_model.dart';
+import 'package:health_tracking_app/features/home/repo/repo.dart';
 import 'package:hive/hive.dart';
 
 import '../../achievement/model/achievement_model.dart';
@@ -69,20 +71,28 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(HomeLoadingState());
     AchievementDataModel? achievementDataModel;
     DataModel? dataModel;
-    await Future.wait(
-            [AchievementRepo().getAchievement(), StatsRepo().getData()])
-        .then((result) {
+    UserDetailsModel? user;
+    await Future.wait([
+      AchievementRepo().getAchievement(),
+      StatsRepo().getData(),
+      HomeRepo().userDetail()
+    ]).then((result) {
       achievementDataModel = result[0] as AchievementDataModel;
       dataModel = result[1] as DataModel;
+      user = result[2] as UserDetailsModel;
     }).then((result) {
-      if (achievementDataModel!.status && dataModel!.status) {
+      emit(HomeInitial());
+      if (achievementDataModel!.status && dataModel!.status && user!.status) {
         emit(HomeSuccessState(
             achievementDataModel: achievementDataModel!,
-            dataModel: dataModel!));
+            dataModel: dataModel!,
+            userDetailsModel: user!));
       } else if (!achievementDataModel!.status) {
         emit(HomeErrorActionState(message: "Unable to fetch Achievement data"));
       } else if (!dataModel!.status) {
         emit(HomeErrorActionState(message: "Unable to fetch Stats data"));
+      } else if (!user!.status) {
+        emit(HomeErrorActionState(message: "Unable to fetch user details"));
       }
     });
   }
