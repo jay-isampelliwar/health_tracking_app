@@ -54,8 +54,8 @@ class Profile extends StatelessWidget {
                 return Column(
                   children: [
                     CustomAppBar(
-                      title: "Your Profile",
-                      subtitle: "",
+                      title: userDetailsModel.data!.name,
+                      subtitle: userDetailsModel.data!.email,
                     ),
                     AppConstSizeBox.constHightSizedBox(size.height * 0.04),
                     Column(
