@@ -1,4 +1,4 @@
-String BASE_URL = "http://192.168.1.11:3001/user/";
+String BASE_URL = "http://192.168.1.26:3001/user/";
 String USER_LOGIN = "login";
 String USER_REGISTRATION = "registration";
 String USER_VERIFY_OTP = "verify_otp";
