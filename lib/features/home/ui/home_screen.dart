@@ -1,14 +1,15 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_tracking_app/core/constants/color_constant.dart';
 import 'package:health_tracking_app/core/constants/text_styles.dart';
+import 'package:health_tracking_app/core/widgets/app_snackbar.dart';
 import 'package:health_tracking_app/core/widgets/const_size_box.dart';
 import 'package:health_tracking_app/features/achievement/model/achievement_model.dart';
 import 'package:health_tracking_app/features/home/widgets/app_dialogBox.dart';
 import 'package:health_tracking_app/features/notification/notification.dart';
-import 'package:health_tracking_app/features/stats/model/stats_data.dart';
 import 'package:health_tracking_app/locator.dart';
 import 'package:hive/hive.dart';
 import 'package:pedometer/pedometer.dart';
@@ -18,12 +19,12 @@ import '../../../core/helper/helper.dart';
 import '../../../core/widgets/app_bottom_navbar.dart';
 import '../../../core/widgets/app_custom_app_bar.dart';
 import '../../../core/widgets/app_water_container.dart';
-import '../../achievement/repo/repo.dart';
 import '../../achievement/ui/achievement.dart';
 import '../../profile/ui/profile.dart';
-import '../../stats/repo/repo.dart';
+import '../../stats/model/stats_data.dart';
 import '../../stats/ui/stats.dart';
 import '../bloc/home_bloc.dart';
+import '../model/user_details_model.dart';
 import '../widgets/container_row.dart';
 import '../widgets/square_container.dart';
 import '../widgets/step_progress_indicator.dart';
@@ -42,24 +43,26 @@ class _MainWidgetState extends State<MainWidget> {
   @override
   void initState() {
     super.initState();
-    setup();
+    locator.get<HomeBloc>().add(HomeLoadingEvent());
     AppNotificationService.scheduleNotifications("Track Your Health",
         "Steps: ${localDatabase.get("steps")} - Water: ${localDatabase.get("glassWater")} - Distance: ${localDatabase.get("distance")}");
   }
 
+  // AchievementDataModel? achievementDataModel;
+  // DataModel? dataModel;
+
+  // void setup() async {
+  //   await Future.wait([
+  //     AchievementRepo().getAchievement(),
+  //     StatsRepo().getData(),
+  //   ]).then((result) {
+  //     achievementDataModel = result[0] as AchievementDataModel;
+  //     dataModel = result[1] as DataModel;
+  //   });
+  // }
   AchievementDataModel? achievementDataModel;
   DataModel? dataModel;
-
-  void setup() async {
-    await Future.wait([
-      AchievementRepo().getAchievement(),
-      StatsRepo().getData(),
-    ]).then((result) {
-      achievementDataModel = result[0] as AchievementDataModel;
-      dataModel = result[1] as DataModel;
-    });
-  }
-
+  UserDetailsModel? userDetailsModel;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -72,15 +75,42 @@ class _MainWidgetState extends State<MainWidget> {
           });
         },
       ),
-      body: selectedIndex == 0
-          ? const HomePage()
-          : selectedIndex == 1
-              ? Stats(model: dataModel!)
-              : selectedIndex == 2
-                  ? Achievement(model: achievementDataModel!)
-                  : selectedIndex == 3
-                      ? const Profile()
-                      : null,
+      body: BlocConsumer<HomeBloc, HomeState>(
+        bloc: locator.get<HomeBloc>(),
+        listener: (context, state) {
+          if (state is HomeErrorActionState) {
+            ScaffoldMessenger.of(context).showSnackBar(appSnackBar(
+                size: size, message: state.message, color: Colors.red));
+          }
+        },
+        builder: (context, state) {
+          log(state.toString());
+          if (state is HomeLoadingState) {
+            return Center(
+              child: CircularProgressIndicator(color: AppColors.primaryColor),
+            );
+          } else if (state is HomeSuccessState || state is HomeUpdateState) {
+            if (state is HomeSuccessState) {
+              achievementDataModel = state.achievementDataModel;
+              dataModel = state.dataModel;
+              userDetailsModel = state.userDetailsModel;
+            }
+            final homeSuccessState = state;
+            return SizedBox(
+              child: selectedIndex == 0
+                  ? const HomePage()
+                  : selectedIndex == 1
+                      ? Stats(model: dataModel!)
+                      : selectedIndex == 2
+                          ? Achievement(model: achievementDataModel)
+                          : selectedIndex == 3
+                              ? Profile(userDetailsModel: userDetailsModel!)
+                              : null,
+            );
+          }
+          return const SizedBox();
+        },
+      ),
     );
   }
 }
