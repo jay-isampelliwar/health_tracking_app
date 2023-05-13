@@ -6,6 +6,7 @@ import 'package:health_tracking_app/features/auth/model/auth_model.dart';
 import 'package:health_tracking_app/features/auth/model/user_model.dart';
 import 'package:health_tracking_app/features/home/model/user.dart';
 import 'package:health_tracking_app/features/home/model/user_data.dart';
+import 'package:health_tracking_app/features/home/model/user_details_model.dart';
 import 'package:health_tracking_app/features/stats/model/stats_data.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
@@ -58,16 +59,15 @@ class ApiProvider {
     }
   }
 
-  Future<UserModel> userDetails() async {
+  Future<UserDetailsModel> userDetails() async {
     try {
       var uri = Uri.parse(BASE_URL);
       var header = {"Authorization": "Bearer ${box.get("token")}"};
-
       var response = await client.get(uri, headers: header);
-
-      return userModelFromJson(response.body);
+      return userDetailsModelFromJson(response.body);
     } catch (err) {
-      return UserModel(status: false, message: err.toString(), data: null);
+      return UserDetailsModel(
+          status: false, message: err.toString(), data: null);
     }
   }
 
@@ -114,9 +114,10 @@ class ApiProvider {
       return userModelFromJson(response.body);
     } catch (err) {
       return UserModel(
-          status: false,
-          message: "Something went wrong, Please try it again",
-          data: PostDataModel(water: 0, steps: 0));
+        status: false,
+        message: "Something went wrong, Please try it again",
+        data: PostDataModel(water: 0, steps: 0),
+      );
     }
   }
 
