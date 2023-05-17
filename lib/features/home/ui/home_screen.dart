@@ -1,11 +1,9 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_tracking_app/core/constants/color_constant.dart';
 import 'package:health_tracking_app/core/constants/text_styles.dart';
-import 'package:health_tracking_app/core/widgets/app_snackbar.dart';
 import 'package:health_tracking_app/core/widgets/const_size_box.dart';
 import 'package:health_tracking_app/features/achievement/model/achievement_model.dart';
 import 'package:health_tracking_app/features/home/widgets/app_dialogBox.dart';
@@ -18,10 +16,13 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../../core/helper/helper.dart';
 import '../../../core/widgets/app_bottom_navbar.dart';
 import '../../../core/widgets/app_custom_app_bar.dart';
+import '../../../core/widgets/app_snackbar.dart';
 import '../../../core/widgets/app_water_container.dart';
+import '../../achievement/repo/repo.dart';
 import '../../achievement/ui/achievement.dart';
 import '../../profile/ui/profile.dart';
 import '../../stats/model/stats_data.dart';
+import '../../stats/repo/repo.dart';
 import '../../stats/ui/stats.dart';
 import '../bloc/home_bloc.dart';
 import '../model/user_details_model.dart';
@@ -43,6 +44,7 @@ class _MainWidgetState extends State<MainWidget> {
   @override
   void initState() {
     super.initState();
+    // _setup();
     locator.get<HomeBloc>().add(HomeLoadingEvent());
     AppNotificationService.scheduleNotifications("Track Your Health",
         "Steps: ${localDatabase.get("steps")} - Water: ${localDatabase.get("glassWater")} - Distance: ${localDatabase.get("distance")}");
@@ -51,21 +53,51 @@ class _MainWidgetState extends State<MainWidget> {
   // AchievementDataModel? achievementDataModel;
   // DataModel? dataModel;
 
-  // void setup() async {
-  //   await Future.wait([
-  //     AchievementRepo().getAchievement(),
-  //     StatsRepo().getData(),
-  //   ]).then((result) {
-  //     achievementDataModel = result[0] as AchievementDataModel;
-  //     dataModel = result[1] as DataModel;
-  //   });
-  // }
+  void _setup() async {
+    await Future.wait([
+      AchievementRepo().getAchievement(),
+      StatsRepo().getData(),
+    ]).then((result) {
+      achievementDataModel = result[0] as AchievementDataModel;
+      dataModel = result[1] as DataModel;
+    });
+  }
+
   AchievementDataModel? achievementDataModel;
   DataModel? dataModel;
   UserDetailsModel? userDetailsModel;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
+    // return Scaffold(
+    //   bottomNavigationBar: appNavigationBar(
+    //     size: size,
+    //     onTabChange: (index) {
+    //       setState(() {
+    //         selectedIndex = index;
+    //       });
+    //     },
+    //   ),
+    //   body: selectedIndex == 0
+    //       ? const HomePage()
+    //       : selectedIndex == 1
+    //           ? Stats(model: dataModel!)
+    //           : selectedIndex == 2
+    //               ? Achievement(model: achievementDataModel)
+    //               : selectedIndex == 3
+    //                   ? Profile(
+    //                       userDetailsModel: UserDetailsModel(
+    //                       status: true,
+    //                       message: "",
+    //                       data: UserDetailsSubModel(
+    //                         email: "isampelliwarj@gmail.com",
+    //                         name: "Jay Isampelliwar",
+    //                       ),
+    //                     ))
+    //                   : null,
+    // );
+
     return Scaffold(
       bottomNavigationBar: appNavigationBar(
         size: size,
@@ -84,7 +116,6 @@ class _MainWidgetState extends State<MainWidget> {
           }
         },
         builder: (context, state) {
-          log(state.toString());
           if (state is HomeLoadingState) {
             return Center(
               child: CircularProgressIndicator(color: AppColors.primaryColor),
