@@ -72,7 +72,7 @@ class _BmiPageState extends State<BmiPage> {
                   box.put("height", hightTextEditingController.text);
                   box.put("weight", weightTextEditingController.text);
 
-                  routeWithPushReplacement(const Goal(), context);
+                  routeWithPushReplacement(Goal(), context);
                 },
               )
             ],

@@ -11,8 +11,8 @@ import '../../../core/constants/color_constant.dart';
 import '../../../core/widgets/const_size_box.dart';
 
 class Goal extends StatefulWidget {
-  const Goal({super.key});
-
+  Goal({this.isEdit = false, super.key});
+  bool isEdit;
   @override
   State<Goal> createState() => _GoalState();
 }
@@ -22,7 +22,7 @@ class _GoalState extends State<Goal> {
       TextEditingController();
   TextEditingController calTextEditingController = TextEditingController();
   TextEditingController waterEditingController = TextEditingController();
-  // TextEditingController EditingController= TextEditingController();
+
   final box = Hive.box("goals");
   final localDatabase = Hive.box("localData");
 
@@ -49,8 +49,9 @@ class _GoalState extends State<Goal> {
           child: Column(
             children: [
               CustomAppBar(
-                title: "Add Goals",
-                subtitle: "Add the details",
+                title: widget.isEdit ? "Edit Goals" : "Add Goals",
+                subtitle:
+                    widget.isEdit ? "Edit the details" : "Add the details",
                 profile: false,
               ),
               AppConstSizeBox.constHightSizedBox(size.height * 0.02),
@@ -74,7 +75,7 @@ class _GoalState extends State<Goal> {
               AppConstSizeBox.constHightSizedBox(size.height * 0.04),
               AppButton(
                 child: Text(
-                  "Add",
+                  widget.isEdit ? "Edit" : "Add",
                   style: AppTextStyles.text28(bold: true, size: size)
                       .copyWith(color: AppColors.white),
                 ),
@@ -84,6 +85,9 @@ class _GoalState extends State<Goal> {
                   box.put("water", waterEditingController.text);
                   localDatabase.put("glassWater", 0);
                   routeWithPushReplacement(const MainWidget(), context);
+                  stepCountTextEditingController.clear();
+                  calTextEditingController.clear();
+                  waterEditingController.clear();
                 },
               )
             ],

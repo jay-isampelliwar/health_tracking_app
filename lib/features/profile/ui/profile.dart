@@ -68,7 +68,9 @@ class Profile extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const Goal()),
+                                  builder: (context) => Goal(
+                                        isEdit: true,
+                                      )),
                             );
                           },
                         ),
