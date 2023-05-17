@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../constants/app_alignement.dart';
 import '../constants/color_constant.dart';
 
 class AppButton extends StatelessWidget {
   AppButton({
-    required this.title,
+    required this.child,
     required this.onTap,
     Key? key,
   }) : super(key: key);
 
-  String title;
+  Widget child;
   Function()? onTap;
 
   @override
@@ -20,23 +19,13 @@ class AppButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 80,
-        margin: const EdgeInsets.symmetric(horizontal: 20),
+        height: size.height * 0.07,
         decoration: BoxDecoration(
-          color: AppColors.darkBlue,
-          borderRadius: BorderRadius.circular(
-            AppAlignment.borderRadius(size),
-          ),
+          color: AppColors.primaryColor,
+          borderRadius: BorderRadius.circular(size.width * 0.02),
         ),
         child: Align(
-          child: Text(
-            title,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 28,
-              color: Colors.white,
-            ),
-          ),
+          child: child,
         ),
       ),
     );
