@@ -120,7 +120,10 @@ class _MainWidgetState extends State<MainWidget> {
             return Center(
               child: CircularProgressIndicator(color: AppColors.primaryColor),
             );
-          } else if (state is HomeSuccessState || state is HomeUpdateState) {
+          } else if (state is HomeSuccessState ||
+              state is HomeUpdateState ||
+              state is HomeShowWaterDialogBoxState ||
+              state is HomeWaterLevelUpdate) {
             if (state is HomeSuccessState) {
               achievementDataModel = state.achievementDataModel;
               dataModel = state.dataModel;
