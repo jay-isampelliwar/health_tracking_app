@@ -4,7 +4,6 @@ import 'package:health_tracking_app/core/constants/color_constant.dart';
 import 'package:health_tracking_app/core/constants/text_styles.dart';
 import 'package:health_tracking_app/core/widgets/app_snackbar.dart';
 import 'package:health_tracking_app/features/auth/login/ui/login.dart';
-import 'package:health_tracking_app/features/chat_bot/ui/chat_bot.dart';
 import 'package:health_tracking_app/features/goal/ui/goal.dart';
 import 'package:health_tracking_app/features/home/model/user_details_model.dart';
 import 'package:health_tracking_app/locator.dart';
@@ -87,17 +86,6 @@ class Profile extends StatelessWidget {
                           title: "Theme",
                           icon: const Icon(Icons.color_lens),
                           onTap: () {},
-                        ),
-                        ProfileOptionContainer(
-                          title: "Chat Bot",
-                          icon: const Icon(Icons.chat_outlined),
-                          onTap: () {
-                            //! Navigate to Chat Screen
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ChatBot()));
-                          },
                         ),
                         ProfileOptionContainer(
                           title: "Log out",
