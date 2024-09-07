@@ -1,16 +1,18 @@
-# health_tracking_app
+# Activity tracking app
 
-A new Flutter project.
+This project implements a pedometer sensor to accurately track the user's step count, along with calculating the estimated distance traveled and calories burned. Additionally, it provides functionality for manually tracking water intake, with local notifications set as reminders to help users stay hydrated throughout the day.
 
-## Getting Started
+#### Key Features:
+- **Step Count Tracking**: Utilizes the device's pedometer sensor to monitor steps in real-time.
+- **Distance & Calorie Estimation**: Automatically calculates estimated distance traveled and calories burned based on step count.
+- **Water Intake Tracking**: Users can manually log their water intake.
+- **Notification Reminders**: Local notifications serve as hydration reminders at user-defined intervals.
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Screenshots
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Picture4](https://github.com/user-attachments/assets/3fd286f9-5cbf-41f2-a2d4-3018eca59043)
+![Picture3](https://github.com/user-attachments/assets/f1e57ddb-f883-4526-ae40-d62929764da2)
+![Picture2](https://github.com/user-attachments/assets/51680069-c080-4a92-ac37-1568dd550141)
+![Picture1](https://github.com/user-attachments/assets/1e015cdd-59ce-47ea-9784-73f59f30d223)
