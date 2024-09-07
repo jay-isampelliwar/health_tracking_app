@@ -8,7 +8,28 @@ This project implements a pedometer sensor to accurately track the user's step c
 - **Water Intake Tracking**: Users can manually log their water intake.
 - **Notification Reminders**: Local notifications serve as hydration reminders at user-defined intervals.
 
+## Stack of technologies
 
+* [Flutter](https://flutter.dev/)   v3.3.1
+* [Node JS](https://nodejs.org/)   v18.12.1
+* [Express JS](http://expressjs.com/)
+* [Socket_IO](https://socket.io/)
+
+
+# [Express Server](https://github.com/jay-isampelliwar/health_tracking_node)
+
+## Running Locally
+
+Make sure you have [Node.js](http://nodejs.org/) installed.
+
+## Backend
+
+```sh
+$ git clone https://github.com/jay-isampelliwar/health_tracking_node
+$ cd chatting_app_backend
+$ npm install
+$ npm start
+```
 
 ### Screenshots
 
